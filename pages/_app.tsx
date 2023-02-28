@@ -9,17 +9,14 @@ import { publicProvider } from 'wagmi/providers/public';
 
 const { chains, provider, webSocketProvider } = configureChains(
   [
-    mainnet,
-    polygon,
-    optimism,
-    arbitrum,
-    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [goerli] : []),
+    goerli,
+    // ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [goerli] : []),
   ],
   [
     alchemyProvider({
       // This is Alchemy's default API key.
       // You can get your own at https://dashboard.alchemyapi.io
-      apiKey: '-zEb8BZi1vcEYEnyWD5Luk1-AF_BD5d4',
+      apiKey: "IccI4wsgF0qeGPn7IkdedKP8rL6-RWZx",
     }),
     publicProvider(),
   ]

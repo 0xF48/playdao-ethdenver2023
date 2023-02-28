@@ -1,10 +1,17 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import MintDaoButton from 'components/MintDaoButton.tsx'
+
+import { startOrganization } from '../functions/util.tsx'
+
+function MintDaoButton() {
+	return <div onClick={startOrganization}></div>
+}
 
 const Main: NextPage = () => {
 	return (
-		<div className='container p-2'>
+		<div className=' bg-base-900 min-h-screen p-6 w-full text-base-100'>
 			<Head>
 				<title>playdao.ai</title>
 				<meta
