@@ -1,8 +1,4 @@
-# Sample Hardhat Project
-
-## How to deploy
-
-## Contract interface
+## Playdao Protocol Contract interface
 
 ```solidity
 interface IPlayDAO {
