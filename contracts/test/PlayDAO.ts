@@ -3,13 +3,12 @@ import { expect } from "chai";
 import { ethers } from "hardhat";
 
 const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
+const NON_EXIST_ID = 100;
 
 describe("PlayDAO", () => {
   async function deployContracts() {
     const accounts = await ethers.getSigners();
-    const Badge = await (
-      await ethers.getContractFactory("Badge")
-    ).deploy("TestBadge", "TB");
+    const Badge = await (await ethers.getContractFactory("Badge")).deploy();
 
     const PlayDAO = await (await ethers.getContractFactory("PlayDAO")).deploy();
 
@@ -44,12 +43,6 @@ describe("PlayDAO", () => {
       expect(await PlayDAO.totalDAOs()).to.eq(0);
     });
 
-    it("totalBadgeTypes should return zero", async function () {
-      const { PlayDAO } = await loadFixture(deployContracts);
-
-      expect(await PlayDAO.totalBadgeTypes(0)).to.eq(0);
-    });
-
     it("totalQuestTypes should return zero", async function () {
       const { PlayDAO } = await loadFixture(deployContracts);
 
@@ -65,7 +58,7 @@ describe("PlayDAO", () => {
     it("totalClaims should return zero", async function () {
       const { PlayDAO } = await loadFixture(deployContracts);
 
-      expect(await PlayDAO.totalClaims(0, 0)).to.eq(0);
+      expect(await PlayDAO.totalClaims(1, 1)).to.eq(0);
     });
 
     it("totalStaked should return zero", async function () {
@@ -230,7 +223,7 @@ describe("PlayDAO", () => {
       )
         .to.emit(PlayDAO, "DAOCreated")
         .withArgs(
-          0,
+          1,
           daoName,
           daoMetadataURI,
           Badge.address,
@@ -263,7 +256,7 @@ describe("PlayDAO", () => {
       await PlayDAO.pause();
 
       await expect(
-        PlayDAO.createBadgeType(0, badgeTypeName, badgeTypeMetadataURI)
+        PlayDAO.createBadgeType(1, badgeTypeName, badgeTypeMetadataURI)
       ).to.be.revertedWith("Pausable: paused");
     });
 
@@ -272,7 +265,11 @@ describe("PlayDAO", () => {
         await loadFixture(deployContracts);
 
       await expect(
-        PlayDAO.createBadgeType(0, badgeTypeName, badgeTypeMetadataURI)
+        PlayDAO.createBadgeType(
+          NON_EXIST_ID,
+          badgeTypeName,
+          badgeTypeMetadataURI
+        )
       ).to.be.revertedWith("ERR_DAO_NOT_FOUND");
     });
 
@@ -296,7 +293,7 @@ describe("PlayDAO", () => {
 
       await expect(
         PlayDAO.connect(accounts[1]).createBadgeType(
-          0,
+          1,
           badgeTypeName,
           badgeTypeMetadataURI
         )
@@ -322,12 +319,10 @@ describe("PlayDAO", () => {
       );
 
       await expect(
-        PlayDAO.createBadgeType(0, badgeTypeName, badgeTypeMetadataURI)
+        PlayDAO.createBadgeType(1, badgeTypeName, badgeTypeMetadataURI)
       )
         .to.emit(PlayDAO, "BadgeTypeCreated")
-        .withArgs(0, 0, badgeTypeName, badgeTypeMetadataURI);
-
-      expect(await PlayDAO.totalBadgeTypes(0)).to.eq(1);
+        .withArgs(1, 1, badgeTypeName, badgeTypeMetadataURI);
     });
   });
 
@@ -343,15 +338,15 @@ describe("PlayDAO", () => {
       );
 
       await res.PlayDAO.createBadgeType(
-        0,
+        1,
         res.badgeTypeName,
         res.badgeTypeMetadataURI
       );
 
       return {
         ...res,
-        daoID: 0,
-        badgeTypeID: 0,
+        daoID: 1,
+        badgeTypeID: 1,
       };
     }
 
@@ -385,7 +380,7 @@ describe("PlayDAO", () => {
 
       await expect(
         PlayDAO.createQuestType(
-          1,
+          NON_EXIST_ID,
           questTypeName,
           questTypeMetadataURI,
           badgeTypeID,
@@ -491,7 +486,7 @@ describe("PlayDAO", () => {
           questTypeName,
           questTypeMetadataURI,
           badgeTypeID,
-          [0, 1, 2],
+          [1, 1, 2],
           [badgeTypeID],
           [badgeTypeID]
         )
@@ -514,7 +509,7 @@ describe("PlayDAO", () => {
           questTypeMetadataURI,
           badgeTypeID,
           [badgeTypeID],
-          [0, 1, 2],
+          [1, 1, 2],
           [badgeTypeID]
         )
       ).to.be.revertedWith("ERR_BADGE_TYPE_NOT_FOUND");
@@ -537,7 +532,7 @@ describe("PlayDAO", () => {
           badgeTypeID,
           [badgeTypeID],
           [badgeTypeID],
-          [0, 1, 2]
+          [1, 1, 2]
         )
       ).to.be.revertedWith("ERR_BADGE_TYPE_NOT_FOUND");
     });
@@ -565,7 +560,7 @@ describe("PlayDAO", () => {
         .to.emit(PlayDAO, "QuestTypeCreated")
         .withArgs(
           daoID,
-          0,
+          1,
           questTypeName,
           questTypeMetadataURI,
           badgeTypeID,
@@ -590,16 +585,16 @@ describe("PlayDAO", () => {
       );
 
       await res.PlayDAO.createBadgeType(
-        0,
+        1,
         res.badgeTypeName,
         res.badgeTypeMetadataURI
       );
 
       await res.PlayDAO.createQuestType(
-        0,
+        1,
         res.questTypeName,
         res.questTypeMetadataURI,
-        0,
+        1,
         [],
         [],
         []
@@ -607,9 +602,9 @@ describe("PlayDAO", () => {
 
       return {
         ...res,
-        daoID: 0,
-        badgeTypeID: 0,
-        questTypeID: 0,
+        daoID: 1,
+        badgeTypeID: 1,
+        questTypeID: 1,
       };
     }
 
@@ -636,17 +631,31 @@ describe("PlayDAO", () => {
         await loadFixture(setup);
 
       await expect(
-        PlayDAO.startQuest(5, questTypeID, questName, questMetadataURI, 1, 0)
+        PlayDAO.startQuest(
+          NON_EXIST_ID,
+          questTypeID,
+          questName,
+          questMetadataURI,
+          1,
+          1
+        )
       ).to.be.revertedWith("ERR_DAO_NOT_FOUND");
     });
 
-    it("should reject if DAO doesn't exist", async () => {
+    it("should reject if quest type doesn't exist", async () => {
       const { PlayDAO, daoID, questName, questMetadataURI } = await loadFixture(
         setup
       );
 
       await expect(
-        PlayDAO.startQuest(daoID, 2, questName, questMetadataURI, 1, 0)
+        PlayDAO.startQuest(
+          daoID,
+          NON_EXIST_ID,
+          questName,
+          questMetadataURI,
+          1,
+          1
+        )
       ).to.be.revertedWith("ERR_QUEST_TYPE_NOT_FOUND");
     });
 
@@ -677,17 +686,17 @@ describe("PlayDAO", () => {
       } = await loadFixture(setup);
 
       await PlayDAO.createQuestType(
-        0,
+        1,
         questTypeName,
         questTypeMetadataURI,
-        0,
-        [0],
+        1,
+        [1],
         [],
         []
       );
 
       await expect(
-        PlayDAO.startQuest(daoID, 1, questName, questMetadataURI, 1, 0)
+        PlayDAO.startQuest(daoID, 2, questName, questMetadataURI, 1, 1)
       ).to.be.revertedWith("ERR_START_QUEST_NOT_ALLOWED");
     });
 
@@ -711,7 +720,7 @@ describe("PlayDAO", () => {
         .withArgs(
           daoID,
           questTypeID,
-          0,
+          1,
           questName,
           questMetadataURI,
           numContributions,
@@ -734,24 +743,24 @@ describe("PlayDAO", () => {
       );
 
       await res.PlayDAO.createBadgeType(
-        0,
+        1,
         res.badgeTypeName,
         res.badgeTypeMetadataURI
       );
 
       await res.PlayDAO.createQuestType(
-        0,
+        1,
         res.questTypeName,
         res.questTypeMetadataURI,
-        0,
+        1,
         [],
         [],
         []
       );
 
       await res.PlayDAO.startQuest(
-        0,
-        0,
+        1,
+        1,
         res.questName,
         res.questMetadataURI,
         1,
@@ -760,10 +769,10 @@ describe("PlayDAO", () => {
 
       return {
         ...res,
-        daoID: 0,
-        badgeTypeID: 0,
-        questTypeID: 0,
-        questID: 0,
+        daoID: 1,
+        badgeTypeID: 1,
+        questTypeID: 1,
+        questID: 1,
       };
     }
 
@@ -780,20 +789,20 @@ describe("PlayDAO", () => {
     it("should reject if DAO doesn't exist", async () => {
       const { PlayDAO, questID } = await loadFixture(setup);
 
-      await expect(PlayDAO.claimQuest(1, questID)).to.be.revertedWith(
-        "ERR_DAO_NOT_FOUND"
-      );
+      await expect(
+        PlayDAO.claimQuest(NON_EXIST_ID, questID)
+      ).to.be.revertedWith("ERR_DAO_NOT_FOUND");
     });
 
     it("should reject if quest doesn't exist", async () => {
       const { PlayDAO, daoID } = await loadFixture(setup);
 
-      await expect(PlayDAO.claimQuest(daoID, 1)).to.be.revertedWith(
+      await expect(PlayDAO.claimQuest(daoID, NON_EXIST_ID)).to.be.revertedWith(
         "ERR_QUEST_NOT_FOUND"
       );
     });
 
-    it("should reject if quest doesn't exist", async () => {
+    it("should reject if account doesn't have badges to claim", async () => {
       const {
         PlayDAO,
         daoID,
@@ -803,22 +812,22 @@ describe("PlayDAO", () => {
         questMetadataURI,
       } = await loadFixture(setup);
 
-      PlayDAO.createBadgeType(0, "hoge", "fuga");
+      await PlayDAO.createBadgeType(1, "hoge", "fuga");
 
       await PlayDAO.createQuestType(
-        0,
+        1,
         questTypeName,
         questTypeMetadataURI,
-        0,
+        1,
         [],
         // claim deps
-        [0, 1],
+        [1, 2],
         []
       );
 
-      await PlayDAO.startQuest(0, 1, questName, questMetadataURI, 1, 0);
+      await PlayDAO.startQuest(1, 2, questName, questMetadataURI, 1, 1);
 
-      await expect(PlayDAO.claimQuest(daoID, 1)).to.be.revertedWith(
+      await expect(PlayDAO.claimQuest(daoID, 2)).to.be.revertedWith(
         "ERR_CLAIM_NOT_ALLOWED"
       );
     });
@@ -841,7 +850,7 @@ describe("PlayDAO", () => {
         requiredStake
       );
 
-      await expect(PlayDAO.claimQuest(daoID, 1)).to.be.revertedWith(
+      await expect(PlayDAO.claimQuest(daoID, 2)).to.be.revertedWith(
         "ERR_INSUFFICIENT_STAKE"
       );
     });
@@ -872,9 +881,9 @@ describe("PlayDAO", () => {
 
       await expect(PlayDAO.claimQuest(daoID, questID))
         .to.emit(PlayDAO, "QuestClaimed")
-        .withArgs(daoID, questTypeID, questID, 0, accounts[0].address);
+        .withArgs(daoID, questTypeID, questID, 1, accounts[0].address);
 
-      expect(await PlayDAO.totalClaims(0, 0)).to.eq(1);
+      expect(await PlayDAO.totalClaims(1, 1)).to.eq(1);
     });
 
     it("should deposit when claiming", async () => {
@@ -903,7 +912,7 @@ describe("PlayDAO", () => {
       );
 
       await expect(
-        PlayDAO.claimQuest(daoID, 1, { value: newDeposit })
+        PlayDAO.claimQuest(daoID, 2, { value: newDeposit })
       ).changeEtherBalances(
         [accounts[0].address, PlayDAO.address],
         [newDeposit.mul(-1), newDeposit]
@@ -927,39 +936,39 @@ describe("PlayDAO", () => {
       );
 
       await res.PlayDAO.createBadgeType(
-        0,
+        1,
         res.badgeTypeName,
         res.badgeTypeMetadataURI
       );
 
       await res.PlayDAO.createQuestType(
-        0,
+        1,
         res.questTypeName,
         res.questTypeMetadataURI,
-        0,
+        1,
         [],
         [],
         []
       );
 
       await res.PlayDAO.startQuest(
-        0,
-        0,
+        1,
+        1,
         res.questName,
         res.questMetadataURI,
         1,
         0
       );
 
-      await res.PlayDAO.claimQuest(0, 0);
+      await res.PlayDAO.claimQuest(1, 1);
 
       return {
         ...res,
-        daoID: 0,
-        badgeTypeID: 0,
-        questTypeID: 0,
-        questID: 0,
-        claimID: 0,
+        daoID: 1,
+        badgeTypeID: 1,
+        questTypeID: 1,
+        questID: 1,
+        claimID: 1,
       };
     }
 
@@ -976,25 +985,25 @@ describe("PlayDAO", () => {
     it("should reject if DAO doesn't exist", async () => {
       const { PlayDAO, questID, claimID } = await loadFixture(setup);
 
-      await expect(PlayDAO.cancelClaim(1, questID, claimID)).to.be.revertedWith(
-        "ERR_DAO_NOT_FOUND"
-      );
+      await expect(
+        PlayDAO.cancelClaim(NON_EXIST_ID, questID, claimID)
+      ).to.be.revertedWith("ERR_DAO_NOT_FOUND");
     });
 
     it("should reject if quest doesn't exist", async () => {
       const { PlayDAO, daoID, claimID } = await loadFixture(setup);
 
-      await expect(PlayDAO.cancelClaim(daoID, 1, claimID)).to.be.revertedWith(
-        "ERR_QUEST_NOT_FOUND"
-      );
+      await expect(
+        PlayDAO.cancelClaim(daoID, NON_EXIST_ID, claimID)
+      ).to.be.revertedWith("ERR_QUEST_NOT_FOUND");
     });
 
     it("should reject if claim doesn't exist", async () => {
       const { PlayDAO, daoID, questID } = await loadFixture(setup);
 
-      await expect(PlayDAO.cancelClaim(daoID, questID, 1)).to.be.revertedWith(
-        "ERR_CLAIM_NOT_FOUND"
-      );
+      await expect(
+        PlayDAO.cancelClaim(daoID, questID, NON_EXIST_ID)
+      ).to.be.revertedWith("ERR_CLAIM_NOT_FOUND");
     });
 
     it("should reject if account is not claimer nor verifier", async () => {
@@ -1012,18 +1021,18 @@ describe("PlayDAO", () => {
         daoID,
         questTypeName,
         questTypeMetadataURI,
-        0,
+        1,
         [],
         [],
         [0]
       );
 
-      await PlayDAO.startQuest(daoID, 1, questName, questMetadataURI, 1, 0);
+      await PlayDAO.startQuest(daoID, 2, questName, questMetadataURI, 1, 0);
 
-      await PlayDAO.claimQuest(daoID, 1);
+      await PlayDAO.claimQuest(daoID, 2);
 
       await expect(
-        PlayDAO.connect(accounts[1]).cancelClaim(daoID, 1, 0)
+        PlayDAO.connect(accounts[1]).cancelClaim(daoID, 2, 1)
       ).to.be.revertedWith("ERR_CANCEL_CLAIM_NOT_ALLOWED");
     });
 
@@ -1042,7 +1051,7 @@ describe("PlayDAO", () => {
         daoID,
         questTypeName,
         questTypeMetadataURI,
-        0,
+        1,
         [],
         [],
         []
@@ -1053,7 +1062,7 @@ describe("PlayDAO", () => {
 
       await PlayDAO.startQuest(
         daoID,
-        1,
+        2,
         questName,
         questMetadataURI,
         1,
@@ -1062,7 +1071,7 @@ describe("PlayDAO", () => {
 
       await PlayDAO.deposit({ value: deposit });
 
-      await PlayDAO.claimQuest(daoID, 1);
+      await PlayDAO.claimQuest(daoID, 2);
 
       expect(await PlayDAO.totalStaked(daoID)).to.eq(requiredStake);
       expect(await PlayDAO.balanceOf(daoID)).to.eq(0);
@@ -1070,9 +1079,9 @@ describe("PlayDAO", () => {
         deposit.sub(requiredStake)
       );
 
-      await expect(PlayDAO.cancelClaim(daoID, 1, 0))
+      await expect(PlayDAO.cancelClaim(daoID, 2, 1))
         .to.emit(PlayDAO, "QuestCanceled")
-        .withArgs(daoID, 1, 0, accounts[0].address);
+        .withArgs(daoID, 2, 1, accounts[0].address);
 
       expect(await PlayDAO.totalStaked(daoID)).to.eq(0);
       expect(await PlayDAO.balanceOf(daoID)).to.eq(requiredStake); // slashed
@@ -1093,39 +1102,39 @@ describe("PlayDAO", () => {
         );
 
         await res.PlayDAO.createBadgeType(
-          0,
+          1,
           res.badgeTypeName,
           res.badgeTypeMetadataURI
         );
 
         await res.PlayDAO.createQuestType(
-          0,
+          1,
           res.questTypeName,
           res.questTypeMetadataURI,
-          0,
+          1,
           [],
           [],
           []
         );
 
         await res.PlayDAO.startQuest(
-          0,
-          0,
+          1,
+          1,
           res.questName,
           res.questMetadataURI,
           1,
           0
         );
 
-        await res.PlayDAO.claimQuest(0, 0);
+        await res.PlayDAO.claimQuest(1, 1);
 
         return {
           ...res,
-          daoID: 0,
-          badgeTypeID: 0,
-          questTypeID: 0,
-          questID: 0,
-          claimID: 0,
+          daoID: 1,
+          badgeTypeID: 1,
+          questTypeID: 1,
+          questID: 1,
+          claimID: 1,
         };
       }
 
@@ -1151,7 +1160,7 @@ describe("PlayDAO", () => {
 
         await expect(
           PlayDAO.connect(accounts[1]).completeQuest(
-            1,
+            NON_EXIST_ID,
             questID,
             claimID,
             proofMetadataURI
@@ -1166,7 +1175,7 @@ describe("PlayDAO", () => {
         await expect(
           PlayDAO.connect(accounts[1]).completeQuest(
             daoID,
-            1,
+            NON_EXIST_ID,
             claimID,
             proofMetadataURI
           )
@@ -1181,7 +1190,7 @@ describe("PlayDAO", () => {
           PlayDAO.connect(accounts[1]).completeQuest(
             daoID,
             questID,
-            1,
+            NON_EXIST_ID,
             proofMetadataURI
           )
         ).to.be.revertedWith("ERR_CLAIM_NOT_FOUND");
@@ -1219,15 +1228,15 @@ describe("PlayDAO", () => {
           [badgeTypeID]
         );
 
-        await PlayDAO.startQuest(daoID, 1, questName, questMetadataURI, 1, 0);
+        await PlayDAO.startQuest(daoID, 2, questName, questMetadataURI, 1, 0);
 
-        await PlayDAO.claimQuest(daoID, 1);
+        await PlayDAO.claimQuest(daoID, 2);
 
         await expect(
           PlayDAO.connect(accounts[1]).completeQuest(
             daoID,
+            2,
             1,
-            0,
             proofMetadataURI
           )
         ).to.be.revertedWith("ERR_VERIFY_CLAIM_NOT_ALLOWED");
@@ -1250,14 +1259,14 @@ describe("PlayDAO", () => {
 
         await PlayDAO.startQuest(
           daoID,
-          0,
+          1,
           questName,
           questMetadataURI,
           1,
           requiredStake
         );
 
-        await PlayDAO.claimQuest(daoID, 1, { value: deposit });
+        await PlayDAO.claimQuest(daoID, 2, { value: deposit });
 
         expect(await PlayDAO.totalStaked(daoID)).to.eq(requiredStake);
         expect(await PlayDAO.balanceOf(daoID)).to.eq(0);
@@ -1268,59 +1277,13 @@ describe("PlayDAO", () => {
         await expect(
           PlayDAO.connect(accounts[1]).completeQuest(
             daoID,
+            2,
             1,
-            0,
             proofMetadataURI
           )
         )
           .to.emit(PlayDAO, "QuestCompleted")
-          .withArgs(daoID, 1, 0, accounts[1].address, proofMetadataURI)
-          .and.to.emit(Badge, "Mint")
-          .withArgs(
-            PlayDAO.address, // issuer
-            accounts[0].address, // owner
-            ethers.utils.keccak256(
-              ethers.utils.solidityPack(
-                [
-                  "uint256",
-                  "uint256",
-                  "uint256",
-                  "uint256",
-                  "uint256",
-                  "uint8",
-                  "address",
-                ],
-                [daoID, badgeTypeID, 0, 1, 0, 0, accounts[0].address]
-              )
-            ),
-            proofMetadataURI,
-            daoID,
-            badgeTypeID,
-            0 // contributor
-          )
-          .and.to.emit(Badge, "Mint")
-          .withArgs(
-            PlayDAO.address, // issuer
-            accounts[1].address, // owner
-            ethers.utils.keccak256(
-              ethers.utils.solidityPack(
-                [
-                  "uint256",
-                  "uint256",
-                  "uint256",
-                  "uint256",
-                  "uint256",
-                  "uint8",
-                  "address",
-                ],
-                [daoID, badgeTypeID, 0, 1, 0, 1, accounts[1].address]
-              )
-            ),
-            proofMetadataURI,
-            daoID,
-            badgeTypeID,
-            1 // contributor
-          );
+          .withArgs(daoID, 2, 1, accounts[1].address, proofMetadataURI);
 
         // fill-refund
         expect(await PlayDAO.totalStaked(daoID)).to.eq(0);

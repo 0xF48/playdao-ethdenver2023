@@ -3,13 +3,12 @@ pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155URIStorage.sol";
 
-// Simple SBT implementation inheriting ERC721
-// Implements ERC-721 and ERC5114
-contract Badge is AccessControl, ERC721, ERC721URIStorage {
+// Simple SBT implementation based on ERC1155
+contract Badge is AccessControl, ERC1155, ERC1155URIStorage {
     using Counters for Counters.Counter;
 
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
@@ -21,57 +20,36 @@ contract Badge is AccessControl, ERC721, ERC721URIStorage {
     string public constant ERR_MINTER_ROLE_REQUIRED =
         "ERR_MINTER_ROLE_REQUIRED";
 
-    enum ActionType {
-        Contributed,
-        Verified,
-        Grant
-    }
+    Counters.Counter private _badgeIDCounter;
+    mapping(uint256 => string) _badgeNames;
 
-    struct Badge {
-        address issued;
-        ActionType actionType;
-        uint256 badgeTypeID;
-        uint256 daoID;
-        address owner;
-        string proofURI;
-    }
+    event Mint(address issued, address owner, uint256 tokenID, bytes data);
 
-    mapping(uint256 => Badge) _badges;
-
-    event Mint(
-        address issued,
-        address owner,
-        uint256 tokenID,
-        string proofURI,
-        uint256 daoID,
-        uint256 badgeTypeID,
-        ActionType actionType
-    );
-
-    constructor(string memory name, string memory symbol)
-        public
-        ERC721(name, symbol)
-    {
+    constructor() public ERC1155("") {
         _setupRole(ADMIN_ROLE, msg.sender);
         _setupRole(MINTER_ROLE, msg.sender);
+    }
+
+    function uri(uint256 id)
+        public
+        view
+        override(ERC1155, ERC1155URIStorage)
+        returns (string memory)
+    {
+        return super.uri(id);
+    }
+
+    function totalOfBadgeTypes() public view returns (uint256) {
+        return _badgeIDCounter.current();
     }
 
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(AccessControl, ERC721)
+        override(AccessControl, ERC1155)
         returns (bool)
     {
         return super.supportsInterface(interfaceId);
-    }
-
-    function tokenURI(uint256 tokenId)
-        public
-        view
-        override(ERC721, ERC721URIStorage)
-        returns (string memory)
-    {
-        return super.tokenURI(tokenId);
     }
 
     function grantMinterRole(address to) external {
@@ -80,52 +58,48 @@ contract Badge is AccessControl, ERC721, ERC721URIStorage {
         _grantRole(MINTER_ROLE, to);
     }
 
+    function createNewBadgeType(string memory name, string memory badgeTypeURI)
+        external
+        returns (uint256)
+    {
+        _badgeIDCounter.increment();
+        uint256 badgeID = _badgeIDCounter.current();
+
+        _badgeNames[badgeID] = name;
+        _setURI(badgeID, badgeTypeURI);
+
+        return badgeID;
+    }
+
     function mintBadge(
         address owner,
-        uint256 tokenID,
-        string memory proofURI,
-        uint256 daoID,
         uint256 badgeTypeID,
-        ActionType actionType
+        bytes memory data
     ) external {
         require(hasRole(MINTER_ROLE, msg.sender), ERR_MINTER_ROLE_REQUIRED);
 
-        _mint(owner, tokenID);
-        _setTokenURI(tokenID, proofURI);
-        _badges[tokenID] = Badge({
-            issued: msg.sender,
-            actionType: actionType,
-            badgeTypeID: badgeTypeID,
-            daoID: daoID,
-            owner: owner,
-            proofURI: proofURI
-        });
+        _mint(owner, badgeTypeID, 1, data);
 
-        emit Mint(
-            address(msg.sender),
-            owner,
-            tokenID,
-            proofURI,
-            daoID,
-            badgeTypeID,
-            actionType
-        );
+        emit Mint(address(msg.sender), owner, badgeTypeID, data);
     }
 
-    function _burn(uint256 tokenId)
-        internal
-        override(ERC721, ERC721URIStorage)
-    {
+    function _burn(
+        address from,
+        uint256 to,
+        uint256 amount
+    ) internal override {
         revert();
     }
 
     function _beforeTokenTransfer(
+        address operator,
         address from,
         address to,
-        uint256 startIndex,
-        uint256 batchSize
+        uint256[] memory ids,
+        uint256[] memory amounts,
+        bytes memory data
     ) internal override {
         require(from == address(0x0), ERR_TRANSFER_NOT_ALLOWED);
-        super._beforeTokenTransfer(from, to, startIndex, batchSize);
+        super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
     }
 }

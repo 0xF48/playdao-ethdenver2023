@@ -6,9 +6,7 @@ describe("Badge", () => {
   async function deployContracts() {
     const accounts = await ethers.getSigners();
 
-    const Badge = await (
-      await ethers.getContractFactory("Badge")
-    ).deploy("TestBadge", "TB");
+    const Badge = await (await ethers.getContractFactory("Badge")).deploy();
 
     return { Badge, accounts };
   }
@@ -38,10 +36,7 @@ describe("Badge", () => {
         Badge.connect(accounts[1]).mintBadge(
           accounts[2].address,
           0,
-          "",
-          0,
-          0,
-          0
+          ethers.utils.formatBytes32String("minted")
         )
       ).to.be.revertedWith("ERR_MINTER_ROLE_REQUIRED");
     });
@@ -56,10 +51,7 @@ describe("Badge", () => {
         Badge.connect(accounts[1]).mintBadge(
           accounts[2].address, // owner
           0, // tokenID
-          "proof", // proofURI
-          1, // daoID
-          2, // badgeTypeID
-          0 // ActionType
+          ethers.utils.formatBytes32String("minted")
         )
       )
         .to.emit(Badge, "Mint")
@@ -67,10 +59,7 @@ describe("Badge", () => {
           accounts[1].address, // issued
           accounts[2].address, // owner
           0, // tokenID
-          "proof", // proofURI
-          1, // daoID
-          2, // badgeTypeID
-          0 // ActionType
+          ethers.utils.formatBytes32String("minted")
         );
     });
   });
@@ -83,17 +72,16 @@ describe("Badge", () => {
       await Badge.connect(accounts[1]).mintBadge(
         accounts[2].address,
         0,
-        "proof",
-        0,
-        1,
-        2
+        ethers.utils.formatBytes32String("minted")
       );
 
       await expect(
-        Badge.connect(accounts[2]).transferFrom(
+        Badge.connect(accounts[2]).safeTransferFrom(
           accounts[2].address,
           accounts[0].address,
-          0
+          0,
+          1,
+          ethers.utils.formatBytes32String("minted")
         )
       ).to.be.reverted;
     });
