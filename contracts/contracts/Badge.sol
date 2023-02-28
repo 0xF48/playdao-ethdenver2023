@@ -23,7 +23,8 @@ contract Badge is AccessControl, ERC721, ERC721URIStorage {
 
     enum ActionType {
         Contributed,
-        Verified
+        Verified,
+        Grant
     }
 
     struct Badge {
@@ -31,9 +32,6 @@ contract Badge is AccessControl, ERC721, ERC721URIStorage {
         ActionType actionType;
         uint256 badgeTypeID;
         uint256 daoID;
-        uint256 questTypeID;
-        uint256 questID;
-        uint256 claimID;
         address owner;
         string proofURI;
     }
@@ -41,15 +39,13 @@ contract Badge is AccessControl, ERC721, ERC721URIStorage {
     mapping(uint256 => Badge) _badges;
 
     event Mint(
-        ActionType actionType,
         address issued,
-        uint256 badgeTypeID,
-        uint256 daoID,
-        uint256 questTypeID,
-        uint256 questID,
-        uint256 claimID,
         address owner,
-        string proofURI
+        uint256 tokenID,
+        string proofURI,
+        uint256 daoID,
+        uint256 badgeTypeID,
+        ActionType actionType
     );
 
     constructor(string memory name, string memory symbol)
@@ -85,28 +81,14 @@ contract Badge is AccessControl, ERC721, ERC721URIStorage {
     }
 
     function mintBadge(
-        ActionType actionType,
-        uint256 badgeTypeID,
-        uint256 daoID,
-        uint256 questTypeID,
-        uint256 questID,
-        uint256 claimID,
         address owner,
-        string memory proofURI
+        uint256 tokenID,
+        string memory proofURI,
+        uint256 daoID,
+        uint256 badgeTypeID,
+        ActionType actionType
     ) external {
         require(hasRole(MINTER_ROLE, msg.sender), ERR_MINTER_ROLE_REQUIRED);
-
-        uint256 tokenID = uint256(
-            keccak256(
-                abi.encodePacked(
-                    daoID,
-                    badgeTypeID,
-                    questTypeID,
-                    questID,
-                    claimID
-                )
-            )
-        );
 
         _mint(owner, tokenID);
         _setTokenURI(tokenID, proofURI);
@@ -115,23 +97,18 @@ contract Badge is AccessControl, ERC721, ERC721URIStorage {
             actionType: actionType,
             badgeTypeID: badgeTypeID,
             daoID: daoID,
-            questTypeID: questTypeID,
-            questID: questID,
-            claimID: claimID,
             owner: owner,
             proofURI: proofURI
         });
 
         emit Mint(
-            actionType,
             address(msg.sender),
-            badgeTypeID,
-            daoID,
-            questTypeID,
-            questID,
-            claimID,
             owner,
-            proofURI
+            tokenID,
+            proofURI,
+            daoID,
+            badgeTypeID,
+            actionType
         );
     }
 

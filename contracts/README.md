@@ -51,6 +51,22 @@ interface IPlayDAO {
         string memory metadataURI
     ) external;
 
+    // grant a new badge to specific address
+    // (especially for assigning role)
+    function grantBadge(
+        // DAO ID
+        uint256 daoID,
+
+        // Badge Type ID
+        uint256 badgeTypeID,
+
+        // Give to
+        address to,
+
+        // MetadataURI
+        string memory metadataURI
+    )
+
     // create a new quest type in DAO
     function createQuestType(
         // Existing DAO ID
@@ -86,6 +102,12 @@ interface IPlayDAO {
 
         // Existing Quest Type ID
         uint256 questTypeID,
+
+        // quest name
+        string name,
+
+        // URI of metadata describing about Quest
+        string contentURI,
 
         // How many times the quest can be claimed or completed
         // Will reject a new claim if (num of ongoing claims + num of completions) exceeds this value

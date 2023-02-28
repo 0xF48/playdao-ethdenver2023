@@ -7,6 +7,8 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "./Badge.sol";
 
+// TODO: start quest with name & metadata
+
 contract PlayDAO is Ownable, Pausable {
     using SafeMath for uint256;
     using Counters for Counters.Counter;
@@ -43,6 +45,8 @@ contract PlayDAO is Ownable, Pausable {
 
     struct Quest {
         uint256 questTypeID;
+        string name;
+        string metadataURI;
         uint256 limitContributors;
         uint256 numOngoings;
         uint256 numComplted;
@@ -54,52 +58,62 @@ contract PlayDAO is Ownable, Pausable {
         address verifier;
         bool completed;
         bool canceled;
-        string proofContentURI;
+        string proofMetadataURI;
     }
 
     // Errors
+    // Empty Input
     string public constant ERR_EMPTY_DAO_NAME = "ERR_EMPTY_DAO_NAME";
     string public constant ERR_EMPTY_DAO_METADATA_URI =
         "ERR_EMPTY_DAO_METADATA_URI";
-    string public constant ERR_EMPTY_DAO_BADGE_CONTRACT =
-        "ERR_EMPTY_DAO_BADGE_CONTRACT";
     string public constant ERR_EMPTY_DAO_OWNER = "ERR_EMPTY_DAO_OWNER";
-    string public constant ERR_DAO_NOT_FOUND = "ERR_DAO_NOT_FOUND";
-    string public constant ERR_NOT_DAO_OWNER = "ERR_NOT_DAO_OWNER";
     string public constant ERR_EMPTY_BADGE_TYPE_NAME =
         "ERR_EMPTY_BADGE_TYPE_NAME";
     string public constant ERR_EMPTY_BADGE_TYPE_METADATA_URI =
         "ERR_EMPTY_BADGE_TYPE_METADATA_URI";
-    string public constant ERR_BADGE_TYPE_NOT_FOUND =
-        "ERR_BADGE_TYPE_NOT_FOUND";
     string public constant ERR_EMPTY_QUEST_TYPE_NAME =
         "ERR_EMPTY_QUEST_TYPE_NAME";
     string public constant ERR_EMPTY_QUEST_TYPE_METADATA_URI =
         "ERR_EMPTY_QUEST_TYPE_METADATA_URI";
-    string public constant ERR_QUEST_TYPE_NOT_FOUND =
-        "ERR_QUEST_TYPE_NOT_FOUND";
+    string public constant ERR_EMPTY_QUEST_NAME = "ERR_EMPTY_QUEST_NAME";
+    string public constant ERR_EMPTY_QUEST_METADATA_URI =
+        "ERR_EMPTY_QUEST_METADATA_URI";
+    string public constant ERR_EMPTY_DAO_BADGE_CONTRACT =
+        "ERR_EMPTY_DAO_BADGE_CONTRACT";
     string public constant ERR_ZERO_NUM_CONTRIBUTIONS =
         "ERR_ZERO_NUM_CONTRIBUTIONS";
+
+    // Not Found
+    string public constant ERR_DAO_NOT_FOUND = "ERR_DAO_NOT_FOUND";
+    string public constant ERR_NOT_DAO_OWNER = "ERR_NOT_DAO_OWNER";
+    string public constant ERR_BADGE_TYPE_NOT_FOUND =
+        "ERR_BADGE_TYPE_NOT_FOUND";
+    string public constant ERR_QUEST_TYPE_NOT_FOUND =
+        "ERR_QUEST_TYPE_NOT_FOUND";
     string public constant ERR_QUEST_NOT_FOUND = "ERR_QUEST_NOT_FOUND";
+    string public constant ERR_CLAIM_NOT_FOUND = "ERR_CLAIM_NOT_FOUND";
+
+    // Invalid
     string public constant ERR_INSUFFICIENT_STAKE = "ERR_INSUFFICIENT_STAKE";
     string public constant ERR_NO_MORE_CLAIM = "ERR_NO_MORE_CLAIM";
     string public constant ERR_QUEST_CLAIMED_ALREADY =
         "ERR_QUEST_CLAIMED_ALREADY";
-    string public constant ERR_CLAIM_NOT_FOUND = "ERR_CLAIM_NOT_FOUND";
     string public constant ERR_START_QUEST_NOT_ALLOWED =
         "ERR_START_QUEST_NOT_ALLOWED";
     string public constant ERR_CLAIM_NOT_ALLOWED = "ERR_CLAIM_NOT_ALLOWED";
     string public constant ERR_VERIFY_CLAIM_NOT_ALLOWED =
         "ERR_VERIFY_CLAIM_NOT_ALLOWED";
     string public constant ERR_CANCEL_CLAIM_NOT_ALLOWED =
-        "ERR_VERIFY_CLAIM_NOT_ALLOWED";
+        "ERR_CANCEL_CLAIM_NOT_ALLOWED";
+    string public constant ERR_SELF_VERIFICATION = "ERR_SELF_VERIFICATION";
 
     // Events
     event DAOCreated(
         uint256 daoID,
         string name,
         string metadataURI,
-        address badgeContract
+        address badgeContract,
+        address owner
     );
 
     event BadgeTypeCreated(
@@ -115,6 +129,7 @@ contract PlayDAO is Ownable, Pausable {
         string name,
         string metadataURI,
         uint256 badgeTypeID,
+        uint256[] starterDeps,
         uint256[] contributorDeps,
         uint256[] verifierDeps
     );
@@ -123,6 +138,8 @@ contract PlayDAO is Ownable, Pausable {
         uint256 indexed daoID,
         uint256 indexed questTypeID,
         uint256 questID,
+        string name,
+        string metadataURI,
         uint256 numContributions,
         uint256 requiredStake
     );
@@ -147,7 +164,7 @@ contract PlayDAO is Ownable, Pausable {
         uint256 indexed questID,
         uint256 indexed claimID,
         address verifier,
-        string proofContentURI
+        string proofMetadataURI
     );
 
     event Deposited(address indexed account, uint256 amount, uint256 total);
@@ -247,13 +264,12 @@ contract PlayDAO is Ownable, Pausable {
         _deposit(msg.sender, msg.value);
     }
 
-    function withdraw(uint256 amount) external whenNotPaused {
+    function withdraw(uint256 amount) external {
         _withdraw(payable(msg.sender), amount);
     }
 
     function withdrawFromDAO(uint256 daoID, uint256 amount)
         external
-        whenNotPaused
         daoExists(daoID)
         onlyDAOOwner(daoID, msg.sender)
     {
@@ -275,6 +291,21 @@ contract PlayDAO is Ownable, Pausable {
         string memory metadataURI
     ) external whenNotPaused daoExists(daoID) onlyDAOOwner(daoID, msg.sender) {
         _createBadgeType(daoID, name, metadataURI);
+    }
+
+    function grantBadge(
+        uint256 daoID,
+        uint256 badgeTypeID,
+        address to,
+        string memory metadataURI
+    )
+        external
+        whenNotPaused
+        daoExists(daoID)
+        onlyDAOOwner(daoID, msg.sender)
+        badgeTypeExists(daoID, badgeTypeID)
+    {
+        _grantBadge(daoID, badgeTypeID, to, metadataURI);
     }
 
     function createQuestType(
@@ -300,6 +331,8 @@ contract PlayDAO is Ownable, Pausable {
     function startQuest(
         uint256 daoID,
         uint256 questTypeID,
+        string memory name,
+        string memory metadataURI,
         uint256 numContributions,
         uint256 requiredStake
     )
@@ -307,9 +340,15 @@ contract PlayDAO is Ownable, Pausable {
         whenNotPaused
         daoExists(daoID)
         questTypeExists(daoID, questTypeID)
-        onlyDAOOwner(daoID, msg.sender)
     {
-        _startQuest(daoID, questTypeID, numContributions, requiredStake);
+        _startQuest(
+            daoID,
+            questTypeID,
+            name,
+            metadataURI,
+            numContributions,
+            requiredStake
+        );
     }
 
     function claimQuest(uint256 daoID, uint256 questID)
@@ -340,7 +379,7 @@ contract PlayDAO is Ownable, Pausable {
         uint256 daoID,
         uint256 questID,
         uint256 claimID,
-        string memory proofContentURI
+        string memory proofMetadataURI
     )
         external
         whenNotPaused
@@ -348,7 +387,7 @@ contract PlayDAO is Ownable, Pausable {
         questExists(daoID, questID)
         claimExists(daoID, questID, claimID)
     {
-        _completeQuest(daoID, questID, claimID, proofContentURI, msg.sender);
+        _completeQuest(daoID, questID, claimID, proofMetadataURI, msg.sender);
     }
 
     // Public functions
@@ -380,6 +419,14 @@ contract PlayDAO is Ownable, Pausable {
 
     function totalStaked(uint256 daoID) public view returns (uint256) {
         return _DAOs[daoID].totalStaked;
+    }
+
+    function balanceOf(uint256 daoID) public view returns (uint256) {
+        return _DAOs[daoID].balance;
+    }
+
+    function depositedOf(address account) public view returns (uint256) {
+        return _deposited[account];
     }
 
     // Public pure functions
@@ -439,7 +486,13 @@ contract PlayDAO is Ownable, Pausable {
             balance: 0
         });
 
-        emit DAOCreated(daoID, name, metadataURI, badgeContractAddress);
+        emit DAOCreated(
+            daoID,
+            name,
+            metadataURI,
+            badgeContractAddress,
+            daoOwner
+        );
     }
 
     function _createBadgeType(
@@ -462,6 +515,34 @@ contract PlayDAO is Ownable, Pausable {
         });
 
         emit BadgeTypeCreated(daoID, badgeTypeID, name, metadataURI);
+    }
+
+    function _grantBadge(
+        uint256 daoID,
+        uint256 badgeTypeID,
+        address to,
+        string memory metadataURI
+    ) private {
+        Badge(_DAOs[daoID].badgeContract).mintBadge(
+            to,
+            uint256(
+                keccak256(
+                    abi.encodePacked(
+                        daoID,
+                        badgeTypeID,
+                        Badge.ActionType.Grant,
+                        to,
+                        msg.sender
+                    )
+                )
+            ),
+            metadataURI,
+            daoID,
+            badgeTypeID,
+            Badge.ActionType.Grant
+        );
+
+        _badgeTypeOwned[to][daoID][badgeTypeID] = true;
     }
 
     function _createQuestType(
@@ -515,6 +596,7 @@ contract PlayDAO is Ownable, Pausable {
             name,
             metadataURI,
             badgeTypeID,
+            starterDeps,
             contributorDeps,
             verifierDeps
         );
@@ -523,9 +605,13 @@ contract PlayDAO is Ownable, Pausable {
     function _startQuest(
         uint256 daoID,
         uint256 questTypeID,
+        string memory name,
+        string memory metadataURI,
         uint256 numContributions,
         uint256 requiredStake
     ) private {
+        require(_isNonEmptyString(name), ERR_EMPTY_QUEST_TYPE_NAME);
+        require(_isNonEmptyString(metadataURI), ERR_EMPTY_QUEST_METADATA_URI);
         require(numContributions > 0, ERR_ZERO_NUM_CONTRIBUTIONS);
         require(
             _verifyBadgeTypeOwned(
@@ -541,6 +627,8 @@ contract PlayDAO is Ownable, Pausable {
 
         _quests[daoID][questID] = Quest({
             questTypeID: questTypeID,
+            name: name,
+            metadataURI: metadataURI,
             limitContributors: numContributions,
             numOngoings: 0,
             numComplted: 0,
@@ -551,6 +639,8 @@ contract PlayDAO is Ownable, Pausable {
             daoID,
             questTypeID,
             questID,
+            name,
+            metadataURI,
             numContributions,
             requiredStake
         );
@@ -574,7 +664,7 @@ contract PlayDAO is Ownable, Pausable {
         );
 
         require(
-            _userToQuestOngoing[daoID][questID][claimer],
+            !_userToQuestOngoing[daoID][questID][claimer],
             ERR_QUEST_CLAIMED_ALREADY
         );
 
@@ -609,7 +699,7 @@ contract PlayDAO is Ownable, Pausable {
             verifier: address(0x0),
             completed: false,
             canceled: false,
-            proofContentURI: ""
+            proofMetadataURI: ""
         });
 
         emit QuestClaimed(daoID, quest.questTypeID, questID, claimID, claimer);
@@ -645,10 +735,13 @@ contract PlayDAO is Ownable, Pausable {
         uint256 daoID,
         uint256 questID,
         uint256 claimID,
-        string memory proofContentURI,
+        string memory proofMetadataURI,
         address verifier
     ) private {
         Quest storage quest = _quests[daoID][questID];
+        Claim storage claim = _claims[daoID][questID][claimID];
+
+        require(claim.claimer != verifier, ERR_SELF_VERIFICATION);
 
         require(
             _verifyBadgeTypeOwned(
@@ -656,10 +749,9 @@ contract PlayDAO is Ownable, Pausable {
                 _questTypes[daoID][quest.questTypeID].verifierDeps,
                 verifier
             ),
-            ERR_CLAIM_NOT_ALLOWED
+            ERR_VERIFY_CLAIM_NOT_ALLOWED
         );
 
-        Claim storage claim = _claims[daoID][questID][claimID];
         uint256 badgeTypeID = _questTypes[daoID][quest.questTypeID].badgeTypeID;
 
         _unstake(daoID, claim.claimer, quest.requiredStake);
@@ -668,30 +760,56 @@ contract PlayDAO is Ownable, Pausable {
         quest.numOngoings--;
 
         Badge(_DAOs[daoID].badgeContract).mintBadge(
-            Badge.ActionType.Contributed,
-            badgeTypeID,
-            daoID,
-            quest.questTypeID,
-            questID,
-            claimID,
             claim.claimer,
-            proofContentURI
+            uint256(
+                keccak256(
+                    abi.encodePacked(
+                        daoID,
+                        badgeTypeID,
+                        quest.questTypeID,
+                        questID,
+                        claimID,
+                        Badge.ActionType.Contributed,
+                        claim.claimer
+                    )
+                )
+            ),
+            proofMetadataURI,
+            daoID,
+            badgeTypeID,
+            Badge.ActionType.Contributed
         );
 
         _badgeTypeOwned[claim.claimer][daoID][badgeTypeID] = true;
 
         Badge(_DAOs[daoID].badgeContract).mintBadge(
-            Badge.ActionType.Verified,
-            badgeTypeID,
+            verifier,
+            uint256(
+                keccak256(
+                    abi.encodePacked(
+                        daoID,
+                        badgeTypeID,
+                        quest.questTypeID,
+                        questID,
+                        claimID,
+                        Badge.ActionType.Verified,
+                        verifier
+                    )
+                )
+            ),
+            proofMetadataURI,
             daoID,
-            quest.questTypeID,
+            badgeTypeID,
+            Badge.ActionType.Verified
+        );
+
+        emit QuestCompleted(
+            daoID,
             questID,
             claimID,
             verifier,
-            proofContentURI
+            proofMetadataURI
         );
-
-        emit QuestCompleted(daoID, questID, claimID, verifier, proofContentURI);
     }
 
     function _stake(
