@@ -4,7 +4,7 @@
 
 ## Contract interface
 
-```sol
+```solidity
 interface IPlayDAO {
     // normal transfer, deposit user's asset to contract
     receive() external payable;
