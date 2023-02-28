@@ -25,7 +25,6 @@ const Main: NextPage = () => {
 					{/* <ShareOrganizationView /> */}
 					<QuestListView />
 
-
 				</div>
 			</main>
 			<FooterMenu></FooterMenu>
