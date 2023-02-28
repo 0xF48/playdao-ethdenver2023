@@ -182,6 +182,7 @@ contract PlayDAO is Ownable, Pausable {
     event Withdrew(address indexed account, uint256 amount, uint256 remaining);
 
     event WithdrewFromDAO(
+        uint256 indexed daoID,
         address indexed account,
         uint256 amount,
         uint256 remaining
@@ -458,7 +459,7 @@ contract PlayDAO is Ownable, Pausable {
 
         to.transfer(amount);
 
-        emit WithdrewFromDAO(to, amount, _DAOs[daoID].balance);
+        emit WithdrewFromDAO(daoID, to, amount, _DAOs[daoID].balance);
     }
 
     function _createDAO(
