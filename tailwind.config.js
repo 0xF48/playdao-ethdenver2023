@@ -36,5 +36,5 @@ module.exports = {
   plugins: [
     // require('tailwind-scrollbar-hide')
   ],
-  content: ["./pages/**/*.{tsx,ts,html,js,jsx,css}"]
+  content: ["./components/**/*.{tsx,ts,html,js,jsx,css}", "./pages/**/*.{tsx,ts,html,js,jsx,css}"]
 }

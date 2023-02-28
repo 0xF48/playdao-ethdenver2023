@@ -1,17 +1,13 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import MintDaoButton from 'components/MintDaoButton.tsx'
-
-import { startOrganization } from '../functions/util.tsx'
-
-function MintDaoButton() {
-	return <div onClick={startOrganization}></div>
-}
+import FooterMenu from '../components/FooterMenu';
+import ShareOrganizationView from '../components/ShareOrganizationView'
+import QuestListView from '../components/QuestListView'
 
 const Main: NextPage = () => {
 	return (
-		<div className=' bg-base-900 min-h-screen p-6 w-full text-base-100'>
+		<div className=' bg-base-900 min-h-screen p-6 w-full text-base-100 text-xl'>
 			<Head>
 				<title>playdao.ai</title>
 				<meta
@@ -22,9 +18,18 @@ const Main: NextPage = () => {
 			</Head>
 
 			<main>
-				<ConnectButton />
-				<div className='test p-5'>test 123</div>
+				<div className='flex flex-col items-center w-full'>
+					<ConnectButton />
+				</div>
+				<div className='flex flex-col w-full p-4'>
+					{/* <ShareOrganizationView /> */}
+					<QuestListView />
+
+
+				</div>
 			</main>
+			<FooterMenu></FooterMenu>
+
 		</div>
 	);
 };

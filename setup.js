@@ -1,5 +1,8 @@
 
 const WORKOUT_DAO_CONFIG = {
+	dao: {
+		banner: 'https://bafybeidrufwf5ku3don3lxc5xjvdrhsvvzv5z6udppllgzzxtwvtaoksde.ipfs.w3s.link/jclarest_sports_community_colorful_877e4f9f-723d-4e89-a7cc-4273a9a2ec88.jpg'
+	},
 	badges: [
 		{
 			name: 'trainee',
