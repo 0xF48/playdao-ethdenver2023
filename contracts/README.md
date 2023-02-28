@@ -1,10 +1,6 @@
-# Sample Hardhat Project
+## Playdao Protocol Contract interface
 
-## How to deploy
-
-## Contract interface
-
-```sol
+```solidity
 interface IPlayDAO {
     // normal transfer, deposit user's asset to contract
     receive() external payable;
