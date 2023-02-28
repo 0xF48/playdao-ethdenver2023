@@ -33,8 +33,10 @@ contract PlayDAO is Ownable, Pausable {
     struct QuestType {
         string name;
         string metadataURI;
-        // ID of badge to give after quest completion
-        uint256 badgeTypeID;
+        // ID of badge to be given to contributor after quest completion
+        uint256 contributorBadgeTypeID;
+        // ID of badge to be given to verifier after quest completion
+        uint256 verifierBadgeTypeID;
         // IDs of badge which account has to own to start quest
         uint256[] starterDeps;
         // IDs of badge which contributor has to own to claim quest
@@ -50,14 +52,20 @@ contract PlayDAO is Ownable, Pausable {
         uint256 limitContributors;
         uint256 numOngoings;
         uint256 numComplted;
+        uint256 numCanceled;
         uint256 requiredStake;
+    }
+
+    enum ClaimStatus {
+        OnGoing,
+        Completed,
+        Canceled
     }
 
     struct Claim {
         address claimer;
         address verifier;
-        bool completed;
-        bool canceled;
+        ClaimStatus status;
         string proofMetadataURI;
     }
 
@@ -129,7 +137,8 @@ contract PlayDAO is Ownable, Pausable {
         uint256 questTypeID,
         string name,
         string metadataURI,
-        uint256 badgeTypeID,
+        uint256 contributorBadgeTypeID,
+        uint256 verifierBadgeTypeID,
         uint256[] starterDeps,
         uint256[] contributorDeps,
         uint256[] verifierDeps
@@ -306,7 +315,8 @@ contract PlayDAO is Ownable, Pausable {
         uint256 daoID,
         string memory name,
         string memory metadataURI,
-        uint256 badgeTypeID,
+        uint256 contributorBadgeTypeID,
+        uint256 verifierBadgeTypeID,
         uint256[] memory starterDeps,
         uint256[] memory contributorDeps,
         uint256[] memory verifierDeps
@@ -315,7 +325,8 @@ contract PlayDAO is Ownable, Pausable {
             daoID,
             name,
             metadataURI,
-            badgeTypeID,
+            contributorBadgeTypeID,
+            verifierBadgeTypeID,
             starterDeps,
             contributorDeps,
             verifierDeps
@@ -533,7 +544,8 @@ contract PlayDAO is Ownable, Pausable {
         uint256 daoID,
         string memory name,
         string memory metadataURI,
-        uint256 badgeTypeID,
+        uint256 contributorBadgeTypeID,
+        uint256 verifierBadgeTypeID,
         uint256[] memory starterDeps,
         uint256[] memory contributorDeps,
         uint256[] memory verifierDeps
@@ -545,7 +557,14 @@ contract PlayDAO is Ownable, Pausable {
         );
 
         // make sure badge types exist
-        require(_badgeTypeExists(daoID, badgeTypeID), ERR_BADGE_TYPE_NOT_FOUND);
+        require(
+            _badgeTypeExists(daoID, contributorBadgeTypeID),
+            ERR_BADGE_TYPE_NOT_FOUND
+        );
+        require(
+            _badgeTypeExists(daoID, verifierBadgeTypeID),
+            ERR_BADGE_TYPE_NOT_FOUND
+        );
         require(
             _verifyBadgeTypesExist(daoID, starterDeps),
             ERR_BADGE_TYPE_NOT_FOUND
@@ -565,7 +584,8 @@ contract PlayDAO is Ownable, Pausable {
         _questTypes[daoID][questTypeID] = QuestType({
             name: name,
             metadataURI: metadataURI,
-            badgeTypeID: badgeTypeID,
+            contributorBadgeTypeID: contributorBadgeTypeID,
+            verifierBadgeTypeID: verifierBadgeTypeID,
             starterDeps: starterDeps,
             contributorDeps: contributorDeps,
             verifierDeps: verifierDeps
@@ -576,7 +596,8 @@ contract PlayDAO is Ownable, Pausable {
             questTypeID,
             name,
             metadataURI,
-            badgeTypeID,
+            contributorBadgeTypeID,
+            verifierBadgeTypeID,
             starterDeps,
             contributorDeps,
             verifierDeps
@@ -612,6 +633,7 @@ contract PlayDAO is Ownable, Pausable {
             metadataURI: metadataURI,
             limitContributors: numContributions,
             numOngoings: 0,
+            numCanceled: 0,
             numComplted: 0,
             requiredStake: requiredStake
         });
@@ -678,8 +700,7 @@ contract PlayDAO is Ownable, Pausable {
         _claims[daoID][questID][claimID] = Claim({
             claimer: claimer,
             verifier: address(0x0),
-            completed: false,
-            canceled: false,
+            status: ClaimStatus.OnGoing,
             proofMetadataURI: ""
         });
 
@@ -691,6 +712,7 @@ contract PlayDAO is Ownable, Pausable {
         uint256 questID,
         uint256 claimID
     ) private {
+        Quest storage quest = _quests[daoID][questID];
         Claim storage claim = _claims[daoID][questID][claimID];
 
         require(
@@ -705,9 +727,12 @@ contract PlayDAO is Ownable, Pausable {
             ERR_CANCEL_CLAIM_NOT_ALLOWED
         );
 
-        _claims[daoID][questID][claimID].canceled = true;
+        _claims[daoID][questID][claimID].status = ClaimStatus.Canceled;
 
         _slash(daoID, claim.claimer, _quests[daoID][questID].requiredStake);
+
+        quest.numCanceled++;
+        quest.numOngoings--;
 
         emit QuestCanceled(daoID, questID, claimID, msg.sender);
     }
@@ -733,12 +758,12 @@ contract PlayDAO is Ownable, Pausable {
             ERR_VERIFY_CLAIM_NOT_ALLOWED
         );
 
-        uint256 badgeTypeID = _questTypes[daoID][quest.questTypeID].badgeTypeID;
-
         _unstake(daoID, claim.claimer, quest.requiredStake);
 
         quest.numComplted++;
         quest.numOngoings--;
+
+        claim.status = ClaimStatus.Completed;
 
         JsonWriter.Json memory writer1;
         writer1 = writer1.writeStartObject();
@@ -750,7 +775,7 @@ contract PlayDAO is Ownable, Pausable {
 
         Badge(_DAOs[daoID].badgeContract).mintBadge(
             claim.claimer,
-            badgeTypeID,
+            _questTypes[daoID][quest.questTypeID].contributorBadgeTypeID,
             bytes(writer1.value)
         );
 
@@ -764,7 +789,7 @@ contract PlayDAO is Ownable, Pausable {
 
         Badge(_DAOs[daoID].badgeContract).mintBadge(
             verifier,
-            badgeTypeID,
+            _questTypes[daoID][quest.questTypeID].verifierBadgeTypeID,
             bytes(writer2.value)
         );
 

@@ -78,8 +78,11 @@ interface IPlayDAO {
         // URI of metadata describing about QuestType
         string memory metadataURI,
 
-        // ID of Badge to be granted after quest completion
-        uint256 badgeTypeID,
+        // ID of badge to be given to contributor after quest completion
+        uint256 contributorBadgeTypeID,
+
+        // ID of badge to be given to verifier after quest completion
+        uint256 verifierBadgeTypeID;
 
         // IDs of the Badges an account who starts quest has to own
         // (Badge type must be defined before)
@@ -157,3 +160,10 @@ interface IPlayDAO {
     );
 }
 ```
+
+## Deployment
+
+### Mumbai (Deployed 28 Feb 13:40)
+
+Badge: 0xa21e9567055e947e06f04d94CE1289B4d389434E
+PlayDAO: 0x783fb0d5f9B765955f4FeCB6fDaC0607655Cb065

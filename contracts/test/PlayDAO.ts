@@ -367,6 +367,7 @@ describe("PlayDAO", () => {
           questTypeName,
           questTypeMetadataURI,
           badgeTypeID,
+          badgeTypeID,
           [badgeTypeID],
           [badgeTypeID],
           [badgeTypeID]
@@ -383,6 +384,7 @@ describe("PlayDAO", () => {
           NON_EXIST_ID,
           questTypeName,
           questTypeMetadataURI,
+          badgeTypeID,
           badgeTypeID,
           [badgeTypeID],
           [badgeTypeID],
@@ -407,6 +409,7 @@ describe("PlayDAO", () => {
           questTypeName,
           questTypeMetadataURI,
           badgeTypeID,
+          badgeTypeID,
           [badgeTypeID],
           [badgeTypeID],
           [badgeTypeID]
@@ -423,6 +426,7 @@ describe("PlayDAO", () => {
           daoID,
           "",
           questTypeMetadataURI,
+          badgeTypeID,
           badgeTypeID,
           [badgeTypeID],
           [badgeTypeID],
@@ -442,6 +446,7 @@ describe("PlayDAO", () => {
           questTypeName,
           "",
           badgeTypeID,
+          badgeTypeID,
           [badgeTypeID],
           [badgeTypeID],
           [badgeTypeID]
@@ -449,7 +454,7 @@ describe("PlayDAO", () => {
       ).to.be.revertedWith("ERR_EMPTY_QUEST_TYPE_METADATA_URI");
     });
 
-    it("should reject if badgeType does not exist", async () => {
+    it("should reject if contributor badge type id does not exist", async () => {
       const {
         PlayDAO,
         daoID,
@@ -463,7 +468,31 @@ describe("PlayDAO", () => {
           daoID,
           questTypeName,
           questTypeMetadataURI,
-          5,
+          NON_EXIST_ID,
+          badgeTypeID,
+          [badgeTypeID],
+          [badgeTypeID],
+          [badgeTypeID]
+        )
+      ).to.be.revertedWith("ERR_BADGE_TYPE_NOT_FOUND");
+    });
+
+    it("should reject if verifier badge type id does not exist", async () => {
+      const {
+        PlayDAO,
+        daoID,
+        badgeTypeID,
+        questTypeName,
+        questTypeMetadataURI,
+      } = await loadFixture(setup);
+
+      await expect(
+        PlayDAO.createQuestType(
+          daoID,
+          questTypeName,
+          questTypeMetadataURI,
+          badgeTypeID,
+          NON_EXIST_ID,
           [badgeTypeID],
           [badgeTypeID],
           [badgeTypeID]
@@ -486,7 +515,8 @@ describe("PlayDAO", () => {
           questTypeName,
           questTypeMetadataURI,
           badgeTypeID,
-          [1, 1, 2],
+          badgeTypeID,
+          [1, NON_EXIST_ID],
           [badgeTypeID],
           [badgeTypeID]
         )
@@ -508,8 +538,9 @@ describe("PlayDAO", () => {
           questTypeName,
           questTypeMetadataURI,
           badgeTypeID,
+          badgeTypeID,
           [badgeTypeID],
-          [1, 1, 2],
+          [1, NON_EXIST_ID],
           [badgeTypeID]
         )
       ).to.be.revertedWith("ERR_BADGE_TYPE_NOT_FOUND");
@@ -530,9 +561,10 @@ describe("PlayDAO", () => {
           questTypeName,
           questTypeMetadataURI,
           badgeTypeID,
+          badgeTypeID,
           [badgeTypeID],
           [badgeTypeID],
-          [1, 1, 2]
+          [1, NON_EXIST_ID]
         )
       ).to.be.revertedWith("ERR_BADGE_TYPE_NOT_FOUND");
     });
@@ -552,6 +584,7 @@ describe("PlayDAO", () => {
           questTypeName,
           questTypeMetadataURI,
           badgeTypeID,
+          badgeTypeID,
           [badgeTypeID],
           [badgeTypeID],
           [badgeTypeID]
@@ -563,6 +596,7 @@ describe("PlayDAO", () => {
           1,
           questTypeName,
           questTypeMetadataURI,
+          badgeTypeID,
           badgeTypeID,
           [badgeTypeID],
           [badgeTypeID],
@@ -594,6 +628,7 @@ describe("PlayDAO", () => {
         1,
         res.questTypeName,
         res.questTypeMetadataURI,
+        1,
         1,
         [],
         [],
@@ -690,6 +725,7 @@ describe("PlayDAO", () => {
         questTypeName,
         questTypeMetadataURI,
         1,
+        1,
         [1],
         [],
         []
@@ -752,6 +788,7 @@ describe("PlayDAO", () => {
         1,
         res.questTypeName,
         res.questTypeMetadataURI,
+        1,
         1,
         [],
         [],
@@ -818,6 +855,7 @@ describe("PlayDAO", () => {
         1,
         questTypeName,
         questTypeMetadataURI,
+        1,
         1,
         [],
         // claim deps
@@ -946,6 +984,7 @@ describe("PlayDAO", () => {
         res.questTypeName,
         res.questTypeMetadataURI,
         1,
+        1,
         [],
         [],
         []
@@ -1022,6 +1061,7 @@ describe("PlayDAO", () => {
         questTypeName,
         questTypeMetadataURI,
         1,
+        1,
         [],
         [],
         [0]
@@ -1051,6 +1091,7 @@ describe("PlayDAO", () => {
         daoID,
         questTypeName,
         questTypeMetadataURI,
+        1,
         1,
         [],
         [],
@@ -1111,6 +1152,7 @@ describe("PlayDAO", () => {
           1,
           res.questTypeName,
           res.questTypeMetadataURI,
+          1,
           1,
           [],
           [],
@@ -1223,6 +1265,7 @@ describe("PlayDAO", () => {
           questTypeName,
           questTypeMetadataURI,
           badgeTypeID,
+          badgeTypeID,
           [],
           [],
           [badgeTypeID]
@@ -1273,6 +1316,12 @@ describe("PlayDAO", () => {
         expect(await PlayDAO.depositedOf(accounts[0].address)).to.eq(
           deposit.sub(requiredStake)
         );
+        expect(await Badge.balanceOf(accounts[0].address, badgeTypeID)).to.eq(
+          0
+        );
+        expect(await Badge.balanceOf(accounts[1].address, badgeTypeID)).to.eq(
+          0
+        );
 
         await expect(
           PlayDAO.connect(accounts[1]).completeQuest(
@@ -1289,6 +1338,13 @@ describe("PlayDAO", () => {
         expect(await PlayDAO.totalStaked(daoID)).to.eq(0);
         expect(await PlayDAO.balanceOf(daoID)).to.eq(0);
         expect(await PlayDAO.depositedOf(accounts[0].address)).to.eq(deposit);
+
+        expect(await Badge.balanceOf(accounts[0].address, badgeTypeID)).to.eq(
+          1
+        );
+        expect(await Badge.balanceOf(accounts[1].address, badgeTypeID)).to.eq(
+          1
+        );
       });
     });
   });
