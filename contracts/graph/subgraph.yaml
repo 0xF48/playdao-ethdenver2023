@@ -1,0 +1,54 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: PlayDAO
+    network: mumbai
+    source:
+      address: "0x783fb0d5f9B765955f4FeCB6fDaC0607655Cb065"
+      abi: PlayDAO
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - BadgeTypeCreated
+        - DAOCreated
+        - Deposited
+        - OwnershipTransferred
+        - Paused
+        - QuestCanceled
+        - QuestClaimed
+        - QuestCompleted
+        - QuestStarted
+        - QuestTypeCreated
+        - Unpaused
+        - Withdrew
+        - WithdrewFromDAO
+      abis:
+        - name: PlayDAO
+          file: ./abis/PlayDAO.json
+      eventHandlers:
+        - event: BadgeTypeCreated(indexed uint256,uint256,string,string)
+          handler: handleBadgeTypeCreated
+        - event: DAOCreated(uint256,string,string,address,address)
+          handler: handleDAOCreated
+        - event: Deposited(indexed address,uint256,uint256)
+          handler: handleDeposited
+        - event: QuestCanceled(indexed uint256,indexed uint256,indexed uint256,address)
+          handler: handleQuestCanceled
+        - event: QuestClaimed(indexed uint256,indexed uint256,indexed uint256,uint256,address)
+          handler: handleQuestClaimed
+        - event: QuestCompleted(indexed uint256,indexed uint256,indexed uint256,address,string)
+          handler: handleQuestCompleted
+        - event: QuestStarted(indexed uint256,indexed uint256,uint256,string,string,uint256,uint256)
+          handler: handleQuestStarted
+        - event: QuestTypeCreated(indexed uint256,uint256,string,string,uint256,uint256,uint256[],uint256[],uint256[])
+          handler: handleQuestTypeCreated
+        - event: Withdrew(indexed address,uint256,uint256)
+          handler: handleWithdrew
+        - event: WithdrewFromDAO(indexed uint256,indexed address,uint256,uint256)
+          handler: handleWithdrewFromDAO
+      file: ./src/play-dao.ts

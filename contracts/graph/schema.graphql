@@ -1,0 +1,179 @@
+type _Schema_
+  @fulltext(
+    name: "bandSearch"
+    language: en
+    algorithm: rank
+    include: [
+      { entity: "DAO", fields: [{ name: "name" }, { name: "metadataURI" }] }
+      {
+        entity: "BadgeType"
+        fields: [{ name: "name" }, { name: "metadataURI" }]
+      }
+      {
+        entity: "QuestType"
+        fields: [{ name: "name" }, { name: "metadataURI" }]
+      }
+      { entity: "Quest", fields: [{ name: "name" }, { name: "metadataURI" }] }
+    ]
+  )
+
+type DAO @entity {
+  id: Bytes!
+  daoID: BigInt!
+  name: String!
+  metadataURI: String!
+  badgeContract: Bytes!
+  totalStaked: BigInt!
+  balance: BigInt!
+
+  createdBy: Bytes!
+  createdBlock: BigInt!
+  createdBlockHash: Bytes!
+  createdTimestamp: BigInt!
+  createdTransactionHash: Bytes!
+
+  badgeTypes: [BadgeType!]! @derivedFrom(field: "dao")
+  questTypes: [QuestType!]! @derivedFrom(field: "dao")
+  quests: [Quest!]! @derivedFrom(field: "dao")
+  stakes: [UserStake!]! @derivedFrom(field: "dao")
+}
+
+type BadgeType @entity {
+  id: Bytes!
+  daoID: BigInt!
+  badgeTypeID: BigInt!
+  name: String!
+  metadataURI: String!
+
+  createdBy: Bytes!
+  createdBlock: BigInt!
+  createdBlockHash: Bytes!
+  createdTimestamp: BigInt!
+  createdTransactionHash: Bytes!
+
+  dao: DAO!
+}
+
+type QuestType @entity {
+  id: Bytes!
+  daoID: BigInt!
+  questTypeID: BigInt!
+  name: String!
+  metadataURI: String!
+  contributorBadgeTypeID: BigInt!
+  verifierBadgeTypeID: BigInt!
+
+  createdBy: Bytes!
+  createdBlock: BigInt!
+  createdBlockHash: Bytes!
+  createdTimestamp: BigInt!
+  createdTransactionHash: Bytes!
+
+  dao: DAO!
+  contributorBadge: BadgeType!
+  verifierBadge: BadgeType!
+
+  starterDeps: [QuestTypeStarterDep!]! @derivedFrom(field: "questType")
+  contributorDeps: [QuestTypeContributorDep!]! @derivedFrom(field: "questType")
+  verifierDeps: [QuestTypeVerifierDep!]! @derivedFrom(field: "questType")
+}
+
+type QuestTypeStarterDep @entity {
+  id: Bytes! # (DAO_ID)_(QuestTypeID)_(BadgeTypeID)
+  questType: QuestType!
+  badgeType: BadgeType!
+}
+
+type QuestTypeContributorDep @entity {
+  id: Bytes! # (PlayDAOAddress)_(DAO_ID)_(QuestTypeID)_(BadgeTypeID)
+  questType: QuestType!
+  badgeType: BadgeType!
+}
+
+type QuestTypeVerifierDep @entity {
+  id: Bytes! # (PlayDAOAddress)_(DAO_ID)_(QuestTypeID)_(BadgeTypeID)
+  questType: QuestType!
+  badgeType: BadgeType!
+}
+
+type Quest @entity {
+  id: Bytes!
+  daoID: BigInt!
+  questTypeID: BigInt!
+  questID: BigInt!
+  name: String!
+  metadataURI: String!
+  limitContributions: BigInt!
+  numOnGoings: BigInt!
+  numCompleted: BigInt!
+  numCanceled: BigInt!
+  requiredStake: BigInt!
+
+  createdBy: Bytes!
+  createdBlock: BigInt!
+  createdBlockHash: Bytes!
+  createdTimestamp: BigInt!
+  createdTransactionHash: Bytes!
+
+  dao: DAO!
+  questType: QuestType!
+  claims: [Claim!]! @derivedFrom(field: "quest")
+}
+
+enum ClaimStatus {
+  ongoing
+  completed
+  canceled
+}
+
+type Claim @entity {
+  id: Bytes!
+  daoID: BigInt!
+  questTypeID: BigInt!
+  questID: BigInt!
+  claimID: BigInt!
+  claimedTx: Bytes!
+  claimedBy: Bytes!
+  status: ClaimStatus!
+
+  canceledBy: Bytes
+  canceledBlock: BigInt
+  canceledBlockHash: Bytes
+  canceledTimestamp: BigInt
+  canceledTransactionHash: Bytes
+
+  verifiedBy: Bytes
+  completedBlock: BigInt
+  completedBlockHash: Bytes
+  completedTimestamp: BigInt
+  completedTransactionHash: Bytes
+
+  createdBy: Bytes!
+  createdBlock: BigInt!
+  createdBlockHash: Bytes!
+  createdTimestamp: BigInt!
+  createdTransactionHash: Bytes!
+
+  updatedBy: Bytes!
+  updatedBlock: BigInt!
+  updatedBlockHash: Bytes!
+  updatedTimestamp: BigInt!
+  updatedTransactionHash: Bytes!
+
+  quest: Quest!
+}
+
+type UserDeposit @entity {
+  id: Bytes!
+  account: Bytes!
+  amount: BigInt!
+}
+
+type UserStake @entity {
+  id: Bytes!
+  daoID: BigInt!
+  account: Bytes!
+  amount: BigInt!
+
+  dao: DAO!
+}

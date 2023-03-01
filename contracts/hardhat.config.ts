@@ -25,6 +25,10 @@ const config: HardhatUserConfig = {
   },
   networks: {
     hardhat: {},
+    goerli: {
+      url: JSON_RPC_ETHEREUM_GOERLI,
+      accounts: PRIVATE_KEYS,
+    },
     polygon: {
       url: JSON_RPC_POLYGON_MAINNET,
       accounts: PRIVATE_KEYS,
