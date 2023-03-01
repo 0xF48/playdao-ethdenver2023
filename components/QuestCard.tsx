@@ -4,12 +4,13 @@ import ClaimButton from "./ClaimButton"
 import QuestDetails from './QuestDetails'
 import SectionLabel from './SectionLabel'
 
-export default function QuestListCard({
+export default function QuestCard({
 	requiredStakeAmount,
 	requiredStakeToken,
 	details,
-	claimantDependencies,
-	validatorDependencies,
+	onClickClaimButton,
+	claimantDependencies = [],
+	validatorDependencies = [],
 	claimantReward,
 	validatorReward,
 	isLocked,
@@ -56,14 +57,14 @@ export default function QuestListCard({
 			<SectionLabel label='requirements' />
 			{claimant_deps}
 			{validator_deps}
-			<ClaimButton
-				onClick={() => { }}
+			{onClickClaimButton && <ClaimButton
+				onClick={onClickClaimButton}
 				claimAmount={requiredStakeAmount}
 				claimToken={requiredStakeToken}
 				isClaimed={isClaimed}
 				isLocked={isLocked}>
-			</ClaimButton>
-			<SectionLabel label='rewards' />
+			</ClaimButton>}
+			{validator_reward || claimant_reward && <SectionLabel label='rewards' />}
 			{validator_reward}
 			{claimant_reward}
 		</div>

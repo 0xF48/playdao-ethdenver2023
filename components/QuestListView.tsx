@@ -1,4 +1,4 @@
-import QuestListCard from './QuestListCard'
+import QuestCard from './QuestCard'
 import Button from './Button'
 
 export default function () {
@@ -6,7 +6,7 @@ export default function () {
 
 
 	return <div className="flex flex-col items-center w-full justify-center">
-		<QuestListCard
+		<QuestCard
 			details='do 5 pushups'
 			requiredStakeAmount={0.5}
 			requiredStakeToken='ETH'

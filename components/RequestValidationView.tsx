@@ -1,8 +1,8 @@
-import QuestValidationCard from "./QuestValidationCard"
+import QuestCard from "./QuestCard"
 import QR from './QR'
 export default function RequestValidationView() {
 	return <div className="flex flex-col items-center w-full justify-center pt-6">
-		<QuestValidationCard
+		<QuestCard
 			details='do 5 pushups'
 			validatorDependencies={[
 				{

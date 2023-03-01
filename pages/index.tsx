@@ -5,6 +5,8 @@ import FooterMenu from '../components/FooterMenu';
 import ShareOrganizationView from '../components/ShareOrganizationView'
 import QuestListView from '../components/QuestListView'
 import RequestValidationView from '../components/RequestValidationView'
+import ValidationView from '../components/ValidationView'
+import BadgeListView from '../components/BadgeListView'
 
 const Main: NextPage = () => {
 	return (
@@ -26,8 +28,9 @@ const Main: NextPage = () => {
 					{/* <ShareOrganizationView /> */}
 
 					{/* <QuestListView /> */}
-					<RequestValidationView></RequestValidationView>
-
+					{/* <RequestValidationView></RequestValidationView> */}
+					{/* <ValidationView></ValidationView> */}
+					{/* <BadgeListView/> */}
 				</div>
 			</main>
 			<FooterMenu></FooterMenu>
