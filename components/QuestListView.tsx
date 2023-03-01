@@ -1,22 +1,14 @@
 import QuestCard from './QuestCard'
 import Button from './Button'
 import { useQuery } from '@apollo/client'
-
-import { QUESTS_QUERY } from '../queries'
+import { useOrganization } from '../util/hooks'
 
 export default function () {
 
-	const {
-		loading: quests_loading,
-		data,
-		error: query_error,
-	} = useQuery(QUESTS_QUERY, {
-		variables: {
-			first: 500,
-		},
-	});
 
-	console.log(quests_loading, data)
+	let { loading, data, error } = useOrganization()
+	console.log(loading, data, error)
+
 
 	return <div className="flex flex-col items-center w-full justify-center">
 		<div>test</div>
