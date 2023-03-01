@@ -30,7 +30,7 @@ const Main: NextPage = () => {
 					{/* <QuestListView /> */}
 					{/* <RequestValidationView></RequestValidationView> */}
 					{/* <ValidationView></ValidationView> */}
-					{/* <BadgeListView/> */}
+					<BadgeListView />
 				</div>
 			</main>
 			<FooterMenu></FooterMenu>

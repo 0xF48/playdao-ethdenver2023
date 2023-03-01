@@ -6,14 +6,29 @@ export default function BadgeListView() {
 		{
 			name: 'PlayDAO Founder',
 			url: 'https://bafybeiblp4fqe5ctff5766k6uk4hulu2goqofcen2mtcxdb247dtghrvnm.ipfs.w3s.link/trainee.jpg'
+		},
+		{
+			name: 'PlayDAO Founder 2',
+			url: 'https://bafybeiblp4fqe5ctff5766k6uk4hulu2goqofcen2mtcxdb247dtghrvnm.ipfs.w3s.link/trainee.jpg'
+		},
+		{
+			name: 'PlayDAO Founder 3',
+			url: 'https://bafybeiblp4fqe5ctff5766k6uk4hulu2goqofcen2mtcxdb247dtghrvnm.ipfs.w3s.link/trainee.jpg'
 		}
 	]
 
 	let badge_cards = badges.map((badge: any) => {
-		return <BadgeCard key={badge.name} badge_name={badge.name}></BadgeCard>
+		return <div className='col-span-1 p-2 gap-4'>
+			<BadgeCard key={badge.name} badge_name={badge.name}></BadgeCard>
+		</div>
 	})
 
-	return <div className="flex flex-col items-center w-full justify-center">
-		{badge_cards}
+	return <div className='w-full'>
+		<div className='flex flex-row items-center justify-center my-4'>my badges</div>
+		<div className="w-full grid grid-cols-2 col-span-2">
+			{badge_cards}
+		</div>
 	</div>
+
+
 }
