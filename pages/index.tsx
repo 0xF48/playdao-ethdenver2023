@@ -4,6 +4,7 @@ import Head from 'next/head';
 import FooterMenu from '../components/FooterMenu';
 import ShareOrganizationView from '../components/ShareOrganizationView'
 import QuestListView from '../components/QuestListView'
+import RequestValidationView from '../components/RequestValidationView'
 
 const Main: NextPage = () => {
 	return (
@@ -23,7 +24,9 @@ const Main: NextPage = () => {
 				</div>
 				<div className='flex flex-col w-full p-4'>
 					{/* <ShareOrganizationView /> */}
-					<QuestListView />
+
+					{/* <QuestListView /> */}
+					<RequestValidationView></RequestValidationView>
 
 				</div>
 			</main>
