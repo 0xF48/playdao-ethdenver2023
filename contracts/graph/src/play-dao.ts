@@ -26,8 +26,7 @@ import {
 } from "../generated/schema";
 
 export function handleDAOCreated(event: DAOCreatedEvent): void {
-  const daoID = event.params.daoID;
-  const dao = new DAO(Bytes.fromBigInt(daoID) as Bytes);
+  const dao = new DAO(event.params.daoID.toHex());
 
   dao.daoID = event.params.daoID;
   dao.name = event.params.name;
@@ -47,11 +46,7 @@ export function handleDAOCreated(event: DAOCreatedEvent): void {
 
 export function handleBadgeTypeCreated(event: BadgeTypeCreatedEvent): void {
   const badgeType = new BadgeType(
-    crypto.keccak256(
-      Bytes.fromBigInt(event.params.daoID).concat(
-        Bytes.fromBigInt(event.params.badgeTypeID)
-      )
-    ) as Bytes
+    `${event.params.daoID.toHex()}_${event.params.badgeTypeID.toHex()}`
   );
 
   badgeType.daoID = event.params.daoID;
@@ -59,7 +54,7 @@ export function handleBadgeTypeCreated(event: BadgeTypeCreatedEvent): void {
   badgeType.name = event.params.name;
   badgeType.metadataURI = event.params.metadataURI;
 
-  badgeType.dao = Bytes.fromBigInt(event.params.daoID) as Bytes;
+  badgeType.dao = event.params.daoID.toHex()
 
   badgeType.createdBy = event.transaction.from;
   badgeType.createdBlock = event.block.number;
@@ -73,11 +68,7 @@ export function handleBadgeTypeCreated(event: BadgeTypeCreatedEvent): void {
 export function handleQuestTypeCreated(event: QuestTypeCreatedEvent): void {
   // QuestType
   const questType = new QuestType(
-    crypto.keccak256(
-      Bytes.fromBigInt(event.params.daoID).concat(
-        Bytes.fromBigInt(event.params.questTypeID)
-      )
-    ) as Bytes
+    `${ event.params.daoID.toHex()}_${event.params.questTypeID.toHex()}`
   );
 
   questType.daoID = event.params.daoID;
@@ -87,18 +78,9 @@ export function handleQuestTypeCreated(event: QuestTypeCreatedEvent): void {
   questType.contributorBadgeTypeID = event.params.contributorBadgeTypeID;
   questType.verifierBadgeTypeID = event.params.verifierBadgeTypeID;
 
-  questType.dao = Bytes.fromBigInt(event.params.daoID) as Bytes;
-  questType.contributorBadge = crypto.keccak256(
-    Bytes.fromBigInt(event.params.daoID).concat(
-      Bytes.fromBigInt(event.params.contributorBadgeTypeID)
-    )
-  ) as Bytes;
-
-  questType.verifierBadge = crypto.keccak256(
-    Bytes.fromBigInt(event.params.daoID).concat(
-      Bytes.fromBigInt(event.params.verifierBadgeTypeID)
-    )
-  ) as Bytes;
+  questType.dao = event.params.daoID.toHex()
+  questType.contributorBadge = `${event.params.daoID.toHex()}_${event.params.contributorBadgeTypeID.toHex()}`;
+  questType.verifierBadge = `${event.params.daoID.toHex()}_${event.params.verifierBadgeTypeID.toHex()}`;
 
   questType.createdBy = event.transaction.from;
   questType.createdBlock = event.block.number;
@@ -113,19 +95,11 @@ export function handleQuestTypeCreated(event: QuestTypeCreatedEvent): void {
     const depID = event.params.starterDeps[i];
 
     const questTypeStarterDep = new QuestTypeStarterDep(
-      crypto.keccak256(
-        Bytes.fromBigInt(event.params.daoID).concat(
-          Bytes.fromBigInt(event.params.questTypeID).concat(
-            Bytes.fromBigInt(depID)
-          )
-        )
-      ) as Bytes
+      `${event.params.daoID.toHex()}_${event.params.questTypeID.toHex()}_${depID.toHex()}`
     );
 
     questTypeStarterDep.questType = questType.id;
-    questTypeStarterDep.badgeType = crypto.keccak256(
-      Bytes.fromBigInt(event.params.daoID).concat(Bytes.fromBigInt(depID))
-    ) as Bytes;
+    questTypeStarterDep.badgeType = `${event.params.daoID.toHex()}_${depID.toHex()}`
 
     questTypeStarterDep.save();
   }
@@ -135,19 +109,11 @@ export function handleQuestTypeCreated(event: QuestTypeCreatedEvent): void {
     const depID = event.params.contributorDeps[i];
 
     const questTypeStarterDep = new QuestTypeContributorDep(
-      crypto.keccak256(
-        Bytes.fromBigInt(event.params.daoID).concat(
-          Bytes.fromBigInt(event.params.questTypeID).concat(
-            Bytes.fromBigInt(depID)
-          )
-        )
-      ) as Bytes
+      `${event.params.daoID.toHex()}_${event.params.questTypeID.toHex()}_${depID.toHex()}`
     );
 
     questTypeStarterDep.questType = questType.id;
-    questTypeStarterDep.badgeType = crypto.keccak256(
-      Bytes.fromBigInt(event.params.daoID).concat(Bytes.fromBigInt(depID))
-    ) as Bytes;
+    questTypeStarterDep.badgeType = `${event.params.daoID.toHex()}_${depID.toHex()}`
 
     questTypeStarterDep.save();
   }
@@ -157,19 +123,11 @@ export function handleQuestTypeCreated(event: QuestTypeCreatedEvent): void {
     const depID = event.params.verifierDeps[i];
 
     const questTypeStarterDep = new QuestTypeVerifierDep(
-      crypto.keccak256(
-        Bytes.fromBigInt(event.params.daoID).concat(
-          Bytes.fromBigInt(event.params.questTypeID).concat(
-            Bytes.fromBigInt(depID)
-          )
-        )
-      ) as Bytes
+      `${event.params.daoID.toHex()}_${event.params.questTypeID.toHex()}_${depID.toHex()}`
     );
 
     questTypeStarterDep.questType = questType.id;
-    questTypeStarterDep.badgeType = crypto.keccak256(
-      Bytes.fromBigInt(event.params.daoID).concat(Bytes.fromBigInt(depID))
-    ) as Bytes;
+    questTypeStarterDep.badgeType = `${event.params.daoID.toHex()}_${depID.toHex()}`
 
     questTypeStarterDep.save();
   }
@@ -177,13 +135,7 @@ export function handleQuestTypeCreated(event: QuestTypeCreatedEvent): void {
 
 export function handleQuestStarted(event: QuestStartedEvent): void {
   const quest = new Quest(
-    crypto.keccak256(
-      Bytes.fromBigInt(event.params.daoID).concat(
-        Bytes.fromBigInt(event.params.questTypeID).concat(
-          Bytes.fromBigInt(event.params.questID)
-        )
-      )
-    ) as Bytes
+    `${event.params.daoID.toHex()}_${event.params.questTypeID.toHex()}_${event.params.questID.toHex()}`
   );
 
   quest.daoID = event.params.daoID;
@@ -197,12 +149,8 @@ export function handleQuestStarted(event: QuestStartedEvent): void {
   quest.numCanceled = BigInt.zero();
   quest.requiredStake = event.params.requiredStake;
 
-  quest.dao = Bytes.fromBigInt(event.params.daoID) as Bytes;
-  quest.questType = crypto.keccak256(
-    Bytes.fromBigInt(event.params.daoID).concat(
-      Bytes.fromBigInt(event.params.questTypeID)
-    )
-  ) as Bytes;
+  quest.dao = event.params.daoID.toHex()
+  quest.questType = `${event.params.daoID.toHex()}_${event.params.questTypeID.toHex()}`
 
   quest.createdBy = event.transaction.from;
   quest.createdBlock = event.block.number;
@@ -216,30 +164,22 @@ export function handleQuestStarted(event: QuestStartedEvent): void {
 export function handleQuestClaimed(event: QuestClaimedEvent): void {
   // Claim
   const claim = new Claim(
-    crypto.keccak256(
-      Bytes.fromBigInt(event.params.daoID).concat(
-        Bytes.fromBigInt(event.params.questID).concat(
-          Bytes.fromBigInt(event.params.claimID)
-        )
-      )
-    ) as Bytes
+    `${event.params.daoID.toHex()}_${event.params.questID.toHex()}_${event.params.claimID.toHex()}`
   );
 
   claim.daoID = event.params.daoID;
   claim.questTypeID = event.params.questTypeID;
   claim.questID = event.params.questID;
   claim.claimID = event.params.claimID;
-  claim.claimedBy = event.params.claimer;
-  claim.verifiedBy = null;
   claim.status = "ongoing";
 
-  claim.quest = crypto.keccak256(
-    Bytes.fromBigInt(event.params.daoID).concat(
-      Bytes.fromBigInt(event.params.questTypeID).concat(
-        Bytes.fromBigInt(event.params.questID)
-      )
-    )
-  ) as Bytes;
+  claim.claimedBy = event.params.claimer;
+  claim.claimedBlock = event.block.number;
+  claim.claimedBlockHash = event.block.hash;
+  claim.claimedTimestamp = event.block.timestamp;
+  claim.claimedTransactionHash = event.transaction.hash;
+
+  claim.quest = `${event.params.daoID.toHex()}_${event.params.questTypeID.toHex()}_${event.params.questID.toHex()}`
 
   claim.createdBy = event.transaction.from;
   claim.createdBlock = event.block.number;
@@ -271,15 +211,10 @@ function stake(
   account: Address
 ): void {
   // Query Quest
-  const questHashID = crypto.keccak256(
-    Bytes.fromBigInt(daoID).concat(
-      Bytes.fromBigInt(questTypeID).concat(Bytes.fromBigInt(questID))
-    )
-  ) as Bytes;
-
-  const quest = Quest.load(questHashID);
+  const questIdentifer = `${daoID.toHex()}_${questTypeID.toHex()}_${questID.toHex()}`
+  const quest = Quest.load(questIdentifer);
   if (quest == null) {
-    log.warning(`Quest not found`, [questHashID.toHex()]);
+    log.warning(`Quest not found`, [questIdentifer]);
     return;
   }
 
@@ -288,30 +223,34 @@ function stake(
   }
 
   // Update UserDeposit
-  let userDeposit = UserDeposit.load(account);
+  let userDeposit = UserDeposit.load(account.toHex());
   if (userDeposit == null) {
     log.warning(`UserDeposit not found`, [account.toHex()]);
   } else {
+    userDeposit.account = account;
+    // TODO: fix
     userDeposit.amount = userDeposit.amount.minus(quest.requiredStake);
     userDeposit.save();
   }
 
   // Update UserStake
-  const userStakeID = crypto.keccak256(Bytes.fromBigInt(daoID).concat(account));
-  let userStake = UserStake.load(userStakeID as Bytes);
+  const userStakeID = `${daoID.toHex()}_${account.toHex()}`
+  let userStake = UserStake.load(userStakeID);
   if (userStake === null) {
-    userStake = new UserStake(userStakeID as Bytes);
+    userStake = new UserStake(userStakeID);
     userStake.daoID = daoID;
     userStake.account = account;
+    userStake.dao = daoID.toHex()
+    userStake.amount = BigInt.zero();
   }
 
   userStake.amount = userStake.amount.plus(quest.requiredStake);
   userStake.save();
 
   // Update DAO Stake
-  const dao = DAO.load(Bytes.fromBigInt(daoID) as Bytes);
+  const dao = DAO.load(daoID.toHex());
   if (dao == null) {
-    log.warning(`DAO not found`, [questHashID.toHex()]);
+    log.warning(`DAO not found`, [daoID.toHex()]);
   } else {
     dao.totalStaked = dao.totalStaked.plus(quest.requiredStake);
     dao.save();
@@ -319,17 +258,11 @@ function stake(
 }
 
 export function handleQuestCanceled(event: QuestCanceledEvent): void {
-  const claimID = crypto.keccak256(
-    Bytes.fromBigInt(event.params.daoID).concat(
-      Bytes.fromBigInt(event.params.questID).concat(
-        Bytes.fromBigInt(event.params.questID)
-      )
-    )
-  ) as Bytes;
+  const claimID = `${event.params.daoID.toHex()}_${event.params.questID.toHex()}_${event.params.claimID.toHex()}`
   const claim = Claim.load(claimID);
 
   if (!claim) {
-    log.warning(`Claim not found`, [claimID.toHexString()]);
+    log.warning(`Claim not found`, [claimID]);
 
     return;
   }
@@ -358,15 +291,11 @@ function slash(
   account: Bytes
 ): void {
   // Query Quest
-  const questHashID = crypto.keccak256(
-    Bytes.fromBigInt(daoID).concat(
-      Bytes.fromBigInt(questTypeID).concat(Bytes.fromBigInt(questID))
-    )
-  ) as Bytes;
+  const questIdentifier = `${daoID.toHex()}_${questTypeID.toHex()}_${questID.toHex()}`
 
-  const quest = Quest.load(questHashID);
+  const quest = Quest.load(questIdentifier);
   if (quest == null) {
-    log.warning(`Quest not found`, [questHashID.toHex()]);
+    log.warning(`Quest not found`, [questIdentifier]);
     return;
   }
 
@@ -375,19 +304,19 @@ function slash(
   }
 
   // Update UserStake
-  const userStakeID = crypto.keccak256(Bytes.fromBigInt(daoID).concat(account));
-  let userStake = UserStake.load(userStakeID as Bytes);
+  const userStakeID = `${daoID.toHex()}_${account.toHex()}`
+  let userStake = UserStake.load(userStakeID);
   if (userStake === null) {
-    log.warning(`UserStake not found`, [userStakeID.toHex()]);
+    log.warning(`UserStake not found`, [userStakeID]);
   } else {
     userStake.amount = userStake.amount.minus(quest.requiredStake);
     userStake.save();
   }
 
   // Update DAO Stake
-  const dao = DAO.load(Bytes.fromBigInt(daoID) as Bytes);
+  const dao = DAO.load(daoID.toHex());
   if (dao == null) {
-    log.warning(`DAO not found`, [questHashID.toHex()]);
+    log.warning(`DAO not found`, [daoID.toHex()]);
   } else {
     dao.totalStaked = dao.totalStaked.minus(quest.requiredStake);
     dao.balance = dao.balance.plus(quest.requiredStake);
@@ -396,22 +325,19 @@ function slash(
 }
 
 export function handleQuestCompleted(event: QuestCompletedEvent): void {
-  const claimID = crypto.keccak256(
-    Bytes.fromBigInt(event.params.daoID).concat(
-      Bytes.fromBigInt(event.params.questID).concat(
-        Bytes.fromBigInt(event.params.claimID)
-      )
-    )
-  ) as Bytes;
+  const claimID = `${event.params.daoID.toHex()}_${event.params.questID.toHex()}_${event.params.claimID.toHex()}`
   const claim = Claim.load(claimID);
 
   if (!claim) {
-    log.warning(`Claim not found`, [claimID.toHexString()]);
+    log.warning(`Claim not found`, [claimID]);
 
     return;
   }
 
-  claim.status + "completed";
+  claim.status = "completed";
+  claim.verifiedBy = event.transaction.from;
+  claim.proofMetadataURI = event.params.proofMetadataURI
+
   claim.completedBlock = event.block.number;
   claim.completedBlockHash = event.block.hash;
   claim.completedTimestamp = event.block.timestamp;
@@ -435,15 +361,11 @@ function unstake(
   account: Bytes
 ): void {
   // Query Quest
-  const questHashID = crypto.keccak256(
-    Bytes.fromBigInt(daoID).concat(
-      Bytes.fromBigInt(questTypeID).concat(Bytes.fromBigInt(questID))
-    )
-  ) as Bytes;
+  const questHashIdentier = `${daoID.toHex()}_${questTypeID.toHex()}_${questID.toHex()}`
 
-  const quest = Quest.load(questHashID);
+  const quest = Quest.load(questHashIdentier);
   if (quest == null) {
-    log.warning(`Quest not found`, [questHashID.toHex()]);
+    log.warning(`Quest not found`, [questHashIdentier]);
     return;
   }
 
@@ -452,7 +374,7 @@ function unstake(
   }
 
   // Update UserDeposit
-  let userDeposit = UserDeposit.load(account);
+  let userDeposit = UserDeposit.load(account.toHex());
   if (userDeposit == null) {
     log.warning(`UserDeposit not found`, [account.toHex()]);
   } else {
@@ -461,21 +383,19 @@ function unstake(
   }
 
   // Update UserStake
-  const userStakeID = crypto.keccak256(
-    Bytes.fromBigInt(daoID).concat(account) as Bytes
-  );
-  let userStake = UserStake.load(userStakeID as Bytes);
+  const userStakeID = `${daoID.toHex()}_${account.toHex()}`
+  let userStake = UserStake.load(userStakeID);
   if (userStake === null) {
-    log.warning(`UserStake not found`, [userStakeID.toHex()]);
+    log.warning(`UserStake not found`, [userStakeID]);
   } else {
     userStake.amount = userStake.amount.minus(quest.requiredStake);
     userStake.save();
   }
 
   // Update DAO Stake
-  const dao = DAO.load(Bytes.fromBigInt(daoID) as Bytes);
+  const dao = DAO.load(daoID.toHex());
   if (dao == null) {
-    log.warning(`DAO not found`, [questHashID.toHex()]);
+    log.warning(`DAO not found`, [daoID.toHex()]);
   } else {
     dao.totalStaked = dao.totalStaked.minus(quest.requiredStake);
     dao.save();
@@ -483,9 +403,9 @@ function unstake(
 }
 
 export function handleDeposited(event: DepositedEvent): void {
-  let userDeposit = UserDeposit.load(event.params.account);
+  let userDeposit = UserDeposit.load(event.params.account.toHex());
   if (userDeposit == null) {
-    userDeposit = new UserDeposit(event.params.account);
+    userDeposit = new UserDeposit(event.params.account.toHex());
     userDeposit.account = event.params.account;
   }
 
@@ -495,7 +415,7 @@ export function handleDeposited(event: DepositedEvent): void {
 }
 
 export function handleWithdrew(event: WithdrewEvent): void {
-  let userDeposit = UserDeposit.load(event.params.account);
+  let userDeposit = UserDeposit.load(event.params.account.toHex());
   if (userDeposit == null) {
     log.warning(`UserDeposit not found`, [event.params.account.toHex()]);
 
@@ -508,7 +428,7 @@ export function handleWithdrew(event: WithdrewEvent): void {
 }
 
 export function handleWithdrewFromDAO(event: WithdrewFromDAOEvent): void {
-  const dao = DAO.load(Bytes.fromBigInt(event.params.daoID) as Bytes);
+  const dao = DAO.load(event.params.daoID.toHex());
   if (dao == null) {
     log.warning(`DAO not found`, [event.params.daoID.toHex()]);
   } else {

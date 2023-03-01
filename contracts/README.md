@@ -1,4 +1,6 @@
-## Playdao Protocol Contract interface
+## Playdao Contract
+
+### Interface
 
 ```solidity
 interface IPlayDAO {
@@ -157,9 +159,136 @@ interface IPlayDAO {
 }
 ```
 
+## ID
+
+DAO ID: Unique in DAOs of a contract
+Badge Type ID: Unique in Badge Types in a contract
+Quest Type ID: Unique in Quest Types of a DAO of a contract (DAO ID > Quest Type ID)
+Quest ID: Unique in Quests of Quest Types of DAO (DAO ID > Quest Type ID > Quest ID)
+Claim ID: Unique in Claims of Quest of DAO (DAO ID > Quests > Claim ID)
+
+## PlayDAO Graph Query Example
+
+query example
+
+```gql
+{
+  daos {
+    id
+    daoID
+    name
+    metadataURI
+    badgeContract
+    totalStaked
+    balance
+    
+    badgeTypes {
+      id
+      daoID
+      badgeTypeID
+      name
+      metadataURI
+    }
+    
+    questTypes {
+      id
+      daoID
+      questTypeID
+      name
+      metadataURI
+      contributorBadgeTypeID
+      verifierBadgeTypeID
+      
+      contributorBadge {
+        id
+        name
+        metadataURI
+      }
+      
+      verifierBadge {
+        id
+        name
+        metadataURI
+      }
+      
+      starterDeps {
+        id
+        badgeType {
+          id
+          name
+          metadataURI
+        }
+      }
+      
+      contributorDeps {
+        id
+        badgeType {
+          id
+          name
+          metadataURI
+        }
+      }
+      
+    quests {
+      id
+      daoID
+      questTypeID
+      questID
+      name
+      metadataURI
+      limitContributions
+      numOnGoings
+      numCompleted
+      numCanceled
+      requiredStake
+      
+      claims {
+        id
+        daoID
+        questTypeID
+        questID
+        claimID
+        status
+        
+        claimedBy
+        claimedBlock
+        
+        verifiedBy
+        completedBlock
+      }
+    }
+    }
+  }
+  
+  userStakes {
+    daoID
+    account
+    amount
+  }
+  
+  userDeposits {
+    id
+    account
+    amount
+  }
+}
+```
+
+result example
+
+```json
+
+```
+
 ## Deployment
 
-### Mumbai (Deployed 28 Feb 13:40)
+### Mumbai (Deployed 1 Mar 9:00)
 
-Badge: 0xa21e9567055e947e06f04d94CE1289B4d389434E
-PlayDAO: 0x783fb0d5f9B765955f4FeCB6fDaC0607655Cb065
+Badge: 0x841b7A8ED11564E94815E069bA64084bF798C06b
+PlayDAO: 0xD8A2E11a8C3776f1F74Ea898f54bA86Af25c1864
+
+Graph: https://api.thegraph.com/subgraphs/name/kourin1996/playdao_mumbai
+
+## Note
+
+GRAPH_ALLOW_NON_DETERMINISTIC_FULLTEXT_SEARCH=true

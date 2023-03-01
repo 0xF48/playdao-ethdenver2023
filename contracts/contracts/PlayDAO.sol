@@ -115,6 +115,7 @@ contract PlayDAO is Ownable, Pausable {
         "ERR_CANCEL_CLAIM_NOT_ALLOWED";
     string public constant ERR_SELF_VERIFICATION = "ERR_SELF_VERIFICATION";
     string public constant ERR_WRONG_BADGE_TYPE_ID = "ERR_WRONG_BADGE_TYPE_ID";
+    string public constant ERR_QUEST_NOT_ONGOING = "ERR_QUEST_NOT_ONGOING";
 
     // Events
     event DAOCreated(
@@ -562,10 +563,22 @@ contract PlayDAO is Ownable, Pausable {
             _badgeTypeExists(daoID, contributorBadgeTypeID),
             ERR_BADGE_TYPE_NOT_FOUND
         );
+        // DAO can give a badge whose type is created by same DAO
+        require(
+            _badgeTypeIDToDAO[contributorBadgeTypeID] == daoID,
+            ERR_WRONG_BADGE_TYPE_ID
+        );
+
         require(
             _badgeTypeExists(daoID, verifierBadgeTypeID),
             ERR_BADGE_TYPE_NOT_FOUND
         );
+        // DAO can give a badge whose type is created by same DAO
+        require(
+            _badgeTypeIDToDAO[verifierBadgeTypeID] == daoID,
+            ERR_WRONG_BADGE_TYPE_ID
+        );
+
         require(
             _verifyBadgeTypesExist(daoID, starterDeps),
             ERR_BADGE_TYPE_NOT_FOUND
@@ -716,6 +729,7 @@ contract PlayDAO is Ownable, Pausable {
         Quest storage quest = _quests[daoID][questID];
         Claim storage claim = _claims[daoID][questID][claimID];
 
+        require(claim.status == ClaimStatus.OnGoing, ERR_QUEST_NOT_ONGOING);
         require(
             // claimer or verifier
             msg.sender == claim.claimer ||
@@ -748,8 +762,8 @@ contract PlayDAO is Ownable, Pausable {
         Quest storage quest = _quests[daoID][questID];
         Claim storage claim = _claims[daoID][questID][claimID];
 
+        require(claim.status == ClaimStatus.OnGoing, ERR_QUEST_NOT_ONGOING);
         require(claim.claimer != verifier, ERR_SELF_VERIFICATION);
-
         require(
             _verifyBadgeTypeOwned(
                 daoID,

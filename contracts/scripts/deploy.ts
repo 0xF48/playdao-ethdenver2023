@@ -1,15 +1,16 @@
 import { ethers } from "hardhat";
 
 async function main() {
+  const signers = await ethers.getSigners();
+  console.log("Deploying by", signers[0].address);
+
   const BadgeFactory = await ethers.getContractFactory("Badge");
   const badge = await BadgeFactory.deploy();
-
-  await badge.deployed();
+  await badge.deployed()
 
   const PlayDAOFactory = await ethers.getContractFactory("PlayDAO");
   const playDAO = await PlayDAOFactory.deploy();
-
-  await playDAO.deployed();
+  await playDAO.deployed()
 
   console.log("Deployed contracts successfully");
   console.log(`Badge: ${badge.address}`);

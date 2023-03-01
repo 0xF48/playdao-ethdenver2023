@@ -1,8 +1,14 @@
 {
+  "mainnet": {
+    "PlayDAO": {
+      "address": "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
+      "startBlock": 0
+    }
+  },
   "mumbai": {
     "PlayDAO": {
-      "address": "0x783fb0d5f9B765955f4FeCB6fDaC0607655Cb065",
-      "startBlock": 0
+      "address": "0xD8A2E11a8C3776f1F74Ea898f54bA86Af25c1864",
+      "startBlock": 32579638
     }
   }
 }

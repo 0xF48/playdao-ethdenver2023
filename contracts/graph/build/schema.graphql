@@ -18,7 +18,7 @@ type _Schema_
   )
 
 type DAO @entity {
-  id: Bytes!
+  id: ID! # Hex of DAO ID
   daoID: BigInt!
   name: String!
   metadataURI: String!
@@ -39,7 +39,7 @@ type DAO @entity {
 }
 
 type BadgeType @entity {
-  id: Bytes!
+  id: ID!
   daoID: BigInt!
   badgeTypeID: BigInt!
   name: String!
@@ -55,7 +55,7 @@ type BadgeType @entity {
 }
 
 type QuestType @entity {
-  id: Bytes!
+  id: ID!
   daoID: BigInt!
   questTypeID: BigInt!
   name: String!
@@ -76,28 +76,29 @@ type QuestType @entity {
   starterDeps: [QuestTypeStarterDep!]! @derivedFrom(field: "questType")
   contributorDeps: [QuestTypeContributorDep!]! @derivedFrom(field: "questType")
   verifierDeps: [QuestTypeVerifierDep!]! @derivedFrom(field: "questType")
+  quests: [Quest!]! @derivedFrom(field: "questType")
 }
 
 type QuestTypeStarterDep @entity {
-  id: Bytes! # (DAO_ID)_(QuestTypeID)_(BadgeTypeID)
+  id: ID! # (DAO_ID)_(QuestTypeID)_(BadgeTypeID)
   questType: QuestType!
   badgeType: BadgeType!
 }
 
 type QuestTypeContributorDep @entity {
-  id: Bytes! # (PlayDAOAddress)_(DAO_ID)_(QuestTypeID)_(BadgeTypeID)
+  id: ID! # (PlayDAOAddress)_(DAO_ID)_(QuestTypeID)_(BadgeTypeID)
   questType: QuestType!
   badgeType: BadgeType!
 }
 
 type QuestTypeVerifierDep @entity {
-  id: Bytes! # (PlayDAOAddress)_(DAO_ID)_(QuestTypeID)_(BadgeTypeID)
+  id: ID! # (PlayDAOAddress)_(DAO_ID)_(QuestTypeID)_(BadgeTypeID)
   questType: QuestType!
   badgeType: BadgeType!
 }
 
 type Quest @entity {
-  id: Bytes!
+  id: ID!
   daoID: BigInt!
   questTypeID: BigInt!
   questID: BigInt!
@@ -120,21 +121,23 @@ type Quest @entity {
   claims: [Claim!]! @derivedFrom(field: "quest")
 }
 
-enum ClaimStatus {
-  ongoing
-  completed
-  canceled
-}
-
 type Claim @entity {
-  id: Bytes!
+  id: ID!
   daoID: BigInt!
   questTypeID: BigInt!
   questID: BigInt!
   claimID: BigInt!
-  claimedTx: Bytes!
+  status: String!
+
   claimedBy: Bytes!
-  status: ClaimStatus!
+
+  verifiedBy: Bytes
+  proofMetadataURI: String
+
+  claimedBlock: BigInt!
+  claimedBlockHash: Bytes!
+  claimedTimestamp: BigInt!
+  claimedTransactionHash: Bytes!
 
   canceledBy: Bytes
   canceledBlock: BigInt
@@ -142,7 +145,6 @@ type Claim @entity {
   canceledTimestamp: BigInt
   canceledTransactionHash: Bytes
 
-  verifiedBy: Bytes
   completedBlock: BigInt
   completedBlockHash: Bytes
   completedTimestamp: BigInt
@@ -164,13 +166,13 @@ type Claim @entity {
 }
 
 type UserDeposit @entity {
-  id: Bytes!
+  id: ID!
   account: Bytes!
   amount: BigInt!
 }
 
 type UserStake @entity {
-  id: Bytes!
+  id: ID!
   daoID: BigInt!
   account: Bytes!
   amount: BigInt!
