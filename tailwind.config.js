@@ -1,5 +1,4 @@
-const colors = require('tailwindcss/colors')
-
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: 'media', // or 'media' or 'class'
   theme: {
@@ -29,17 +28,6 @@ module.exports = {
           '900': '#151E2D',
           '950': '#0c111a',
           '1000': '#080b10'
-        },
-        'pollen': {
-          100: 'rgb(94,82,250)',
-          200: 'rgb(94,82,250)',
-          300: 'rgb(94,82,250)',
-          400: 'rgb(94,82,250)',
-          500: 'rgb(94,82,250)',
-          600: 'rgb(94,82,250)',
-          700: 'rgb(94,82,250)',
-          800: 'rgb(94,82,250)',
-          900: 'rgb(94,82,250)',
         }
       }
     },
@@ -48,5 +36,5 @@ module.exports = {
   plugins: [
     // require('tailwind-scrollbar-hide')
   ],
-  content: ["./src/**/*.{tsx,ts,html,js,jsx,css}", "./public/index.html"]
+  content: ["./components/**/*.{tsx,ts,html,js,jsx,css}", "./pages/**/*.{tsx,ts,html,js,jsx,css}"]
 }
