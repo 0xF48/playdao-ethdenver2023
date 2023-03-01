@@ -9,9 +9,17 @@ import ValidationView from '../components/ValidationView'
 import BadgeListView from '../components/BadgeListView'
 
 import { redirect } from 'next/navigation';
-export default async function Home({ params }: any) {
-	redirect('/quests');
+import { useQueryClient } from 'wagmi';
+
+
+
+
+
+const Main: NextPage = () => {
+	return <QuestListView/>
 }
+
+export default Main;
 
 // const Main: NextPage = () => {
 // 	return (
