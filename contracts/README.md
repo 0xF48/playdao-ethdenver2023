@@ -78,7 +78,7 @@ interface IPlayDAO {
         uint256 contributorBadgeTypeID,
 
         // ID of badge to be given to verifier after quest completion
-        uint256 verifierBadgeTypeID;
+        uint256 verifierBadgeTypeID,
 
         // IDs of the Badges an account who starts quest has to own
         // (Badge type must be defined before)
