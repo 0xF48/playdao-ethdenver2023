@@ -3,8 +3,6 @@ import Button from './Button'
 
 export default function () {
 
-
-
 	return <div className="flex flex-col items-center w-full justify-center">
 		<QuestCard
 			details='do 5 pushups'
