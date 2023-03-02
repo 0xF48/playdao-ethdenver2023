@@ -3,7 +3,7 @@ import '@rainbow-me/rainbowkit/styles.css';
 import type { AppProps } from 'next/app';
 import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
-import { mainnet, polygon, optimism, arbitrum, goerli } from 'wagmi/chains';
+import { mainnet, polygon, optimism, arbitrum, goerli, polygonMumbai } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import { ApolloProvider, ApolloClient, InMemoryCache, gql } from '@apollo/client';
@@ -14,6 +14,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 const { chains, provider, webSocketProvider } = configureChains(
   [
     goerli,
+    polygonMumbai,
     // ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [goerli] : []),
   ],
   [
@@ -54,7 +55,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <main>
             <div className=' bg-base-900 min-h-screen p-6 w-full text-base-100 text-xl flex flex-row content-center justify-center h-auto'>
               <div className='w-8/12 flex flex-col h-auto'>
-                <div className='flex flex-col items-center w-full'>
+                <div className='flex flex-col items-center w-full mb-12'>
                   <ConnectButton />
                 </div>
                 <Head>

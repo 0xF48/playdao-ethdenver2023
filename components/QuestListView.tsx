@@ -2,42 +2,55 @@ import QuestCard from './QuestCard'
 import Button from './Button'
 import { useQuery } from '@apollo/client'
 import { useOrganization } from '../util/hooks'
+import { useRouter } from 'next/router'
 
 export default function () {
 
+	const router = useRouter();
+	const { dao_id } = router.query;
+	let { loading, data, error } = useOrganization(dao_id)
 
-	let { loading, data, error } = useOrganization()
-	console.log(loading, data, error)
+	if (loading) {
+		return <div>loading...</div>
+	}
+	if (error) {
+		return <div>{error.message}</div>
+	}
 
+	var quests = []
+
+	if (data && data.dao) {
+		let dao = data.dao
+		quests = data.dao.questTypes.map((quest_type: any) => {
+			return <div key={quest_type.id}>
+				{quest_type.quests.map((quest: any) => {
+					let claims_left = Number(quest.limitContributions) - quest.claims.length
+					let is_locked = false
+
+					let claimant_deps: any = []
+					let validator_deps: any = []
+
+					let claim_reward: any = {}
+					let validator_reward: any = {}
+
+					return <QuestCard
+						key={quest.id}
+						requiredStakeAmount={quest.requiredStake}
+						details={quest.name}
+						isClaimed={claims_left > 0}
+						isLocked={is_locked}
+						claimantDependencies={claimant_deps}
+						validatorDependencies={validator_deps}
+						claimantReward={claim_reward}
+						validatorReward={validator_reward}
+					></QuestCard>
+				})}
+			</div>
+		})
+	}
 
 	return <div className="flex flex-col items-center w-full justify-center">
-		<div>test</div>
-		{/* <QuestCard
-			details='do 5 pushups'
-			requiredStakeAmount={0.5}
-			requiredStakeToken='ETH'
-			isLocked={false}
-			isClaimed={true}
-			claimantDependencies={[
-				{
-					badge_url: 'https://bafybeiblp4fqe5ctff5766k6uk4hulu2goqofcen2mtcxdb247dtghrvnm.ipfs.w3s.link/trainee.jpg',
-					badge_name: 'trainee'
-				}
-			]}
-			validatorDependencies={[
-				{
-					badge_url: 'https://bafybeiblp4fqe5ctff5766k6uk4hulu2goqofcen2mtcxdb247dtghrvnm.ipfs.w3s.link/trainee.jpg',
-					badge_name: 'trainee'
-				}
-			]}
-			claimantReward={{
-				badge_url: 'https://bafybeiblp4fqe5ctff5766k6uk4hulu2goqofcen2mtcxdb247dtghrvnm.ipfs.w3s.link/trainee.jpg',
-				badge_name: 'recruiter'
-			}}
-			validatorReward={{
-				badge_url: 'https://bafybeiblp4fqe5ctff5766k6uk4hulu2goqofcen2mtcxdb247dtghrvnm.ipfs.w3s.link/trainee.jpg',
-				badge_name: 'recruiter'
-			}}
-		/> */}
+		<div>available quests...</div>
+		{quests}
 	</div>
 }

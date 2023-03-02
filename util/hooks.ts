@@ -1,7 +1,43 @@
 import { QUERY_DAO } from './queries';
 import { useQuery } from '@apollo/client'
+import { useEffect, useState } from 'react'; ``
 
-export function useOrganization() {
-	const { data, loading, error } = useQuery(QUERY_DAO);
+
+export function useLocalStorage<T>(key: string, fallbackValue: T) {
+	const [value, setValue] = useState(fallbackValue);
+
+	useEffect(() => {
+		localStorage.setItem(key, JSON.stringify(value));
+	}, [key, value]);
+
+	return [value, setValue] as const;
+}
+
+
+export function useOrganization(id?: any) {
+	let [stored_id, setStoredId] = useState("")
+
+	useEffect(() => {
+		var got_id = id
+		if (!got_id) {
+			got_id = window.localStorage.getItem('daoID');
+		} else {
+			localStorage.setItem('daoID', got_id)
+		}
+		setStoredId(String(got_id))
+	}, [id]);
+
+
+
+	const { data, loading, error } = useQuery(QUERY_DAO, {
+		variables: {
+			id: stored_id,
+		},
+	});
+
+	if (!stored_id) {
+		return { data: null, loading: false, error: new Error('scan another persons DAO QR to get started') }
+	}
+
 	return { data, loading, error };
 }

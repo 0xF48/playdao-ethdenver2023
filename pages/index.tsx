@@ -16,7 +16,8 @@ import { useQueryClient } from 'wagmi';
 
 
 const Main: NextPage = () => {
-	return <QuestListView/>
+	return <ShareOrganizationView/>
+	// return <QuestListView/>
 }
 
 export default Main;
