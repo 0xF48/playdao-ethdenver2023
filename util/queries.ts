@@ -29,36 +29,32 @@ query dao($id: String!){
       id
       questTypeID
 	  contributorDeps {
-        id
+		badgeType {
+			badgeTypeID
+        }
       }
       starterDeps {
         badgeType {
-          badgeTypeID
+			badgeTypeID
         }
       }
       verifierDeps {
         badgeType {
-          badgeTypeID
+			badgeTypeID
         }
       }
       verifierBadgeTypeID
       contributorBadge {
-        id
-        createdBlockHash
+        badgeTypeID
         createdBy
         createdTimestamp
         createdTransactionHash
         metadataURI
         name
-        createdBlock
-        badgeTypeID
       }
       quests {
-        createdBlock
-        createdBlockHash
         createdBy
         createdTimestamp
-        createdTransactionHash
         limitContributions
         metadataURI
         name
@@ -66,11 +62,7 @@ query dao($id: String!){
         numCompleted
         numOnGoings
         questID
-        questTypeID
         requiredStake
-        daoID
-        id
-		
         claims {
           claimID
           claimedBlock
