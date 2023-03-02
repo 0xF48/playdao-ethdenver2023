@@ -181,7 +181,7 @@ query example
     badgeContract
     totalStaked
     balance
-    
+
     badgeTypes {
       id
       daoID
@@ -189,7 +189,7 @@ query example
       name
       metadataURI
     }
-    
+
     questTypes {
       id
       daoID
@@ -198,19 +198,19 @@ query example
       metadataURI
       contributorBadgeTypeID
       verifierBadgeTypeID
-      
+
       contributorBadge {
         id
         name
         metadataURI
       }
-      
+
       verifierBadge {
         id
         name
         metadataURI
       }
-      
+
       starterDeps {
         id
         badgeType {
@@ -219,7 +219,7 @@ query example
           metadataURI
         }
       }
-      
+
       contributorDeps {
         id
         badgeType {
@@ -228,44 +228,44 @@ query example
           metadataURI
         }
       }
-      
-    quests {
-      id
-      daoID
-      questTypeID
-      questID
-      name
-      metadataURI
-      limitContributions
-      numOnGoings
-      numCompleted
-      numCanceled
-      requiredStake
-      
-      claims {
+
+      quests {
         id
         daoID
         questTypeID
         questID
-        claimID
-        status
-        
-        claimedBy
-        claimedBlock
-        
-        verifiedBy
-        completedBlock
+        name
+        metadataURI
+        limitContributions
+        numOnGoings
+        numCompleted
+        numCanceled
+        requiredStake
+
+        claims {
+          id
+          daoID
+          questTypeID
+          questID
+          claimID
+          status
+
+          claimedBy
+          claimedBlock
+
+          verifiedBy
+          completedBlock
+        }
       }
     }
-    }
   }
-  
+
   userStakes {
     daoID
     account
     amount
   }
-  
+
   userDeposits {
     id
     account
@@ -282,12 +282,41 @@ result example
 
 ## Deployment
 
-### Mumbai (Deployed 1 Mar 9:00)
+### Mumbai
+
+Graph: https://api.thegraph.com/subgraphs/name/kourin1996/playdao_mumbai_2
+
+#### No.1 (Deployed at 1 Mar 9:00)
 
 Badge: 0x841b7A8ED11564E94815E069bA64084bF798C06b
 PlayDAO: 0xD8A2E11a8C3776f1F74Ea898f54bA86Af25c1864
 
-Graph: https://api.thegraph.com/subgraphs/name/kourin1996/playdao_mumbai
+#### No.2 (Deployed at 1 Mar 13:30)
+
+Badge: 0x59d9969D288e36d2ebd49509461A26c6c048Eb1d
+PlayDAO: 0x74Ea6Beab363C455C83A9cE9c1E30bd7d4480d7c
+
+### Base Testnet
+
+Explorer: https://goerli.basescan.org/
+Graph: https://api.studio.thegraph.com/query/37331/playdao_base_testnet/v0.0.1
+JSON-RPC: https://goerli.base.org
+
+#### No.1 (Deployed at 1 Mar 13:40)
+
+Badge: 0x3F9A49825A0b2E836C071eb72375748aDe309f15
+PlayDAO: 0x10FFB3efA577e5CFB83FA11592984919106CC770
+
+### Optimism Testnet
+
+Explorer: https://goerli-optimism.etherscan.io/
+Graph: https://api.studio.thegraph.com/query/37331/playdao_optimism_testnet/v0.0.5
+JSON-RPC: https://goerli.optimism.io
+
+#### No.1 (Deployed at 1 Mar 18:00)
+
+Badge: 0x121937C2fa989dD99A3097b44496b9Fcd85777Ed
+PlayDAO: 0xb7C26af8b20Cc1017A296DABc0C44B37aD872457
 
 ## Note
 

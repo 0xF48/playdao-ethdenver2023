@@ -10,6 +10,40 @@ import {
   BigInt
 } from "@graphprotocol/graph-ts";
 
+export class BadgeGranted extends ethereum.Event {
+  get params(): BadgeGranted__Params {
+    return new BadgeGranted__Params(this);
+  }
+}
+
+export class BadgeGranted__Params {
+  _event: BadgeGranted;
+
+  constructor(event: BadgeGranted) {
+    this._event = event;
+  }
+
+  get daoID(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get to(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get from(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get badgeID(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
+  }
+
+  get hashKey(): Bytes {
+    return this._event.parameters[4].value.toBytes();
+  }
+}
+
 export class BadgeTypeCreated extends ethereum.Event {
   get params(): BadgeTypeCreated__Params {
     return new BadgeTypeCreated__Params(this);
@@ -235,6 +269,14 @@ export class QuestCompleted__Params {
 
   get proofMetadataURI(): string {
     return this._event.parameters[4].value.toString();
+  }
+
+  get contributorBadgeKey(): Bytes {
+    return this._event.parameters[5].value.toBytes();
+  }
+
+  get verifierBadgeKey(): Bytes {
+    return this._event.parameters[6].value.toBytes();
   }
 }
 
@@ -1044,6 +1086,29 @@ export class PlayDAO extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toString());
   }
 
+  ERR_QUEST_NOT_ONGOING(): string {
+    let result = super.call(
+      "ERR_QUEST_NOT_ONGOING",
+      "ERR_QUEST_NOT_ONGOING():(string)",
+      []
+    );
+
+    return result[0].toString();
+  }
+
+  try_ERR_QUEST_NOT_ONGOING(): ethereum.CallResult<string> {
+    let result = super.tryCall(
+      "ERR_QUEST_NOT_ONGOING",
+      "ERR_QUEST_NOT_ONGOING():(string)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toString());
+  }
+
   ERR_QUEST_TYPE_NOT_FOUND(): string {
     let result = super.call(
       "ERR_QUEST_TYPE_NOT_FOUND",
@@ -1512,6 +1577,10 @@ export class ConstructorCall__Inputs {
 
   constructor(call: ConstructorCall) {
     this._call = call;
+  }
+
+  get opAttestationStation(): Address {
+    return this._call.inputValues[0].value.toAddress();
   }
 }
 

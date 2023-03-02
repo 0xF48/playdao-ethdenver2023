@@ -179,3 +179,24 @@ type UserStake @entity {
 
   dao: DAO!
 }
+
+type BadgeIssueHistory @entity {
+  id: ID!
+  account: Bytes!
+  daoID: BigInt!
+  dao: DAO!
+  hashKey: Bytes!
+
+  type: String!
+  requested: Bytes!
+
+  questID: BigInt
+  claimID: BigInt
+  quest: Quest
+  claim: Claim
+
+  createdBlock: BigInt!
+  createdBlockHash: Bytes!
+  createdTimestamp: BigInt!
+  createdTransactionHash: Bytes!
+}

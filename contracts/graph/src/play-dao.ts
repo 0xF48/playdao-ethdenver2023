@@ -1,6 +1,7 @@
 import { Address, BigInt, crypto, log } from "@graphprotocol/graph-ts";
 import { Bytes } from "@graphprotocol/graph-ts/common/collections";
 import {
+  BadgeGranted as BadgeGrantedEvent,
   BadgeTypeCreated as BadgeTypeCreatedEvent,
   DAOCreated as DAOCreatedEvent,
   Deposited as DepositedEvent,
@@ -23,6 +24,7 @@ import {
   Claim,
   UserDeposit,
   UserStake,
+  BadgeIssueHistory,
 } from "../generated/schema";
 
 export function handleDAOCreated(event: DAOCreatedEvent): void {
@@ -54,7 +56,7 @@ export function handleBadgeTypeCreated(event: BadgeTypeCreatedEvent): void {
   badgeType.name = event.params.name;
   badgeType.metadataURI = event.params.metadataURI;
 
-  badgeType.dao = event.params.daoID.toHex()
+  badgeType.dao = event.params.daoID.toHex();
 
   badgeType.createdBy = event.transaction.from;
   badgeType.createdBlock = event.block.number;
@@ -68,7 +70,7 @@ export function handleBadgeTypeCreated(event: BadgeTypeCreatedEvent): void {
 export function handleQuestTypeCreated(event: QuestTypeCreatedEvent): void {
   // QuestType
   const questType = new QuestType(
-    `${ event.params.daoID.toHex()}_${event.params.questTypeID.toHex()}`
+    `${event.params.daoID.toHex()}_${event.params.questTypeID.toHex()}`
   );
 
   questType.daoID = event.params.daoID;
@@ -78,7 +80,7 @@ export function handleQuestTypeCreated(event: QuestTypeCreatedEvent): void {
   questType.contributorBadgeTypeID = event.params.contributorBadgeTypeID;
   questType.verifierBadgeTypeID = event.params.verifierBadgeTypeID;
 
-  questType.dao = event.params.daoID.toHex()
+  questType.dao = event.params.daoID.toHex();
   questType.contributorBadge = `${event.params.daoID.toHex()}_${event.params.contributorBadgeTypeID.toHex()}`;
   questType.verifierBadge = `${event.params.daoID.toHex()}_${event.params.verifierBadgeTypeID.toHex()}`;
 
@@ -99,7 +101,7 @@ export function handleQuestTypeCreated(event: QuestTypeCreatedEvent): void {
     );
 
     questTypeStarterDep.questType = questType.id;
-    questTypeStarterDep.badgeType = `${event.params.daoID.toHex()}_${depID.toHex()}`
+    questTypeStarterDep.badgeType = `${event.params.daoID.toHex()}_${depID.toHex()}`;
 
     questTypeStarterDep.save();
   }
@@ -113,7 +115,7 @@ export function handleQuestTypeCreated(event: QuestTypeCreatedEvent): void {
     );
 
     questTypeStarterDep.questType = questType.id;
-    questTypeStarterDep.badgeType = `${event.params.daoID.toHex()}_${depID.toHex()}`
+    questTypeStarterDep.badgeType = `${event.params.daoID.toHex()}_${depID.toHex()}`;
 
     questTypeStarterDep.save();
   }
@@ -127,7 +129,7 @@ export function handleQuestTypeCreated(event: QuestTypeCreatedEvent): void {
     );
 
     questTypeStarterDep.questType = questType.id;
-    questTypeStarterDep.badgeType = `${event.params.daoID.toHex()}_${depID.toHex()}`
+    questTypeStarterDep.badgeType = `${event.params.daoID.toHex()}_${depID.toHex()}`;
 
     questTypeStarterDep.save();
   }
@@ -149,8 +151,8 @@ export function handleQuestStarted(event: QuestStartedEvent): void {
   quest.numCanceled = BigInt.zero();
   quest.requiredStake = event.params.requiredStake;
 
-  quest.dao = event.params.daoID.toHex()
-  quest.questType = `${event.params.daoID.toHex()}_${event.params.questTypeID.toHex()}`
+  quest.dao = event.params.daoID.toHex();
+  quest.questType = `${event.params.daoID.toHex()}_${event.params.questTypeID.toHex()}`;
 
   quest.createdBy = event.transaction.from;
   quest.createdBlock = event.block.number;
@@ -179,7 +181,7 @@ export function handleQuestClaimed(event: QuestClaimedEvent): void {
   claim.claimedTimestamp = event.block.timestamp;
   claim.claimedTransactionHash = event.transaction.hash;
 
-  claim.quest = `${event.params.daoID.toHex()}_${event.params.questTypeID.toHex()}_${event.params.questID.toHex()}`
+  claim.quest = `${event.params.daoID.toHex()}_${event.params.questTypeID.toHex()}_${event.params.questID.toHex()}`;
 
   claim.createdBy = event.transaction.from;
   claim.createdBlock = event.block.number;
@@ -211,7 +213,7 @@ function stake(
   account: Address
 ): void {
   // Query Quest
-  const questIdentifer = `${daoID.toHex()}_${questTypeID.toHex()}_${questID.toHex()}`
+  const questIdentifer = `${daoID.toHex()}_${questTypeID.toHex()}_${questID.toHex()}`;
   const quest = Quest.load(questIdentifer);
   if (quest == null) {
     log.warning(`Quest not found`, [questIdentifer]);
@@ -234,13 +236,13 @@ function stake(
   }
 
   // Update UserStake
-  const userStakeID = `${daoID.toHex()}_${account.toHex()}`
+  const userStakeID = `${daoID.toHex()}_${account.toHex()}`;
   let userStake = UserStake.load(userStakeID);
   if (userStake === null) {
     userStake = new UserStake(userStakeID);
     userStake.daoID = daoID;
     userStake.account = account;
-    userStake.dao = daoID.toHex()
+    userStake.dao = daoID.toHex();
     userStake.amount = BigInt.zero();
   }
 
@@ -258,7 +260,7 @@ function stake(
 }
 
 export function handleQuestCanceled(event: QuestCanceledEvent): void {
-  const claimID = `${event.params.daoID.toHex()}_${event.params.questID.toHex()}_${event.params.claimID.toHex()}`
+  const claimID = `${event.params.daoID.toHex()}_${event.params.questID.toHex()}_${event.params.claimID.toHex()}`;
   const claim = Claim.load(claimID);
 
   if (!claim) {
@@ -291,7 +293,7 @@ function slash(
   account: Bytes
 ): void {
   // Query Quest
-  const questIdentifier = `${daoID.toHex()}_${questTypeID.toHex()}_${questID.toHex()}`
+  const questIdentifier = `${daoID.toHex()}_${questTypeID.toHex()}_${questID.toHex()}`;
 
   const quest = Quest.load(questIdentifier);
   if (quest == null) {
@@ -304,7 +306,7 @@ function slash(
   }
 
   // Update UserStake
-  const userStakeID = `${daoID.toHex()}_${account.toHex()}`
+  const userStakeID = `${daoID.toHex()}_${account.toHex()}`;
   let userStake = UserStake.load(userStakeID);
   if (userStake === null) {
     log.warning(`UserStake not found`, [userStakeID]);
@@ -325,7 +327,7 @@ function slash(
 }
 
 export function handleQuestCompleted(event: QuestCompletedEvent): void {
-  const claimID = `${event.params.daoID.toHex()}_${event.params.questID.toHex()}_${event.params.claimID.toHex()}`
+  const claimID = `${event.params.daoID.toHex()}_${event.params.questID.toHex()}_${event.params.claimID.toHex()}`;
   const claim = Claim.load(claimID);
 
   if (!claim) {
@@ -336,7 +338,7 @@ export function handleQuestCompleted(event: QuestCompletedEvent): void {
 
   claim.status = "completed";
   claim.verifiedBy = event.transaction.from;
-  claim.proofMetadataURI = event.params.proofMetadataURI
+  claim.proofMetadataURI = event.params.proofMetadataURI;
 
   claim.completedBlock = event.block.number;
   claim.completedBlockHash = event.block.hash;
@@ -352,6 +354,38 @@ export function handleQuestCompleted(event: QuestCompletedEvent): void {
   claim.save();
 
   unstake(claim.daoID, claim.questTypeID, claim.questID, claim.claimedBy);
+
+  createBadgeIssueHistory(
+    claim.daoID,
+    Address.fromBytes(claim.claimedBy),
+    event.params.verifier,
+    "contributed",
+    event.params.contributorBadgeKey,
+    event.transaction.hash,
+    event.block.number,
+    event.block.hash,
+    event.block.timestamp,
+    event.transaction.hash,
+    claim.questID,
+    claim.questTypeID,
+    claim.claimID
+  );
+
+  createBadgeIssueHistory(
+    claim.daoID,
+    event.params.verifier,
+    event.params.verifier,
+    "verified",
+    event.params.verifierBadgeKey,
+    event.transaction.hash,
+    event.block.number,
+    event.block.hash,
+    event.block.timestamp,
+    event.transaction.hash,
+    claim.questID,
+    claim.questTypeID,
+    claim.claimID
+  );
 }
 
 function unstake(
@@ -361,11 +395,11 @@ function unstake(
   account: Bytes
 ): void {
   // Query Quest
-  const questHashIdentier = `${daoID.toHex()}_${questTypeID.toHex()}_${questID.toHex()}`
+  const questHashIdentifier = `${daoID.toHex()}_${questTypeID.toHex()}_${questID.toHex()}`;
 
-  const quest = Quest.load(questHashIdentier);
+  const quest = Quest.load(questHashIdentifier);
   if (quest == null) {
-    log.warning(`Quest not found`, [questHashIdentier]);
+    log.warning(`Quest not found`, [questHashIdentifier]);
     return;
   }
 
@@ -383,7 +417,7 @@ function unstake(
   }
 
   // Update UserStake
-  const userStakeID = `${daoID.toHex()}_${account.toHex()}`
+  const userStakeID = `${daoID.toHex()}_${account.toHex()}`;
   let userStake = UserStake.load(userStakeID);
   if (userStake === null) {
     log.warning(`UserStake not found`, [userStakeID]);
@@ -400,6 +434,65 @@ function unstake(
     dao.totalStaked = dao.totalStaked.minus(quest.requiredStake);
     dao.save();
   }
+}
+
+function createBadgeIssueHistory(
+  daoID: BigInt,
+  account: Address,
+  requested: Address,
+  type: string,
+  hashKey: Bytes,
+  txHash: Bytes,
+  createdBlock: BigInt,
+  createdBlockHash: Bytes,
+  createdTimestamp: BigInt,
+  createdTransactionHash: Bytes,
+  questID: BigInt | null = null,
+  questTypeID: BigInt | null = null,
+  claimID: BigInt | null = null
+): void {
+  const badge = new BadgeIssueHistory(
+    `${daoID.toHex()}_${account.toHex()}_${type}_${txHash.toHex()}`
+  );
+
+  badge.account = account;
+  badge.daoID = daoID;
+  badge.dao = daoID.toHex();
+  badge.type = type;
+  badge.requested = requested;
+  badge.hashKey = hashKey;
+
+  badge.createdBlock = createdBlock;
+  badge.createdBlockHash = createdBlockHash;
+  badge.createdTimestamp = createdTimestamp;
+  badge.createdTransactionHash = createdTransactionHash;
+
+  if (questID && questTypeID) {
+    badge.questID = questID;
+    badge.quest = `${daoID.toHex()}_${questTypeID.toHex()}_${questID.toHex()}`;
+  }
+
+  if (questID && claimID) {
+    badge.claimID = claimID;
+    badge.claim = `${daoID.toHex()}_${questID.toHex()}_${claimID.toHex()}`;
+  }
+
+  badge.save();
+}
+
+export function handleBadgeGranted(event: BadgeGrantedEvent): void {
+  createBadgeIssueHistory(
+    event.params.daoID,
+    event.params.to,
+    event.params.from,
+    "granted",
+    event.params.hashKey,
+    event.transaction.hash,
+    event.block.number,
+    event.block.hash,
+    event.block.timestamp,
+    event.transaction.hash
+  );
 }
 
 export function handleDeposited(event: DepositedEvent): void {

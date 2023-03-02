@@ -7,13 +7,18 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "solidity-json-writer/contracts/JsonWriter.sol";
 import "./Badge.sol";
+import "./IAttester.sol";
 
 contract PlayDAO is Ownable, Pausable {
     using SafeMath for uint256;
     using Counters for Counters.Counter;
     using JsonWriter for JsonWriter.Json;
 
-    constructor() {}
+    address private _opAttestationStation;
+
+    constructor(address opAttestationStation) {
+        _opAttestationStation = opAttestationStation;
+    }
 
     // Types
     struct DAO {
@@ -175,7 +180,9 @@ contract PlayDAO is Ownable, Pausable {
         uint256 indexed questID,
         uint256 indexed claimID,
         address verifier,
-        string proofMetadataURI
+        string proofMetadataURI,
+        bytes32 contributorBadgeKey,
+        bytes32 verifierBadgeKey
     );
 
     event Deposited(address indexed account, uint256 amount, uint256 total);
@@ -189,7 +196,17 @@ contract PlayDAO is Ownable, Pausable {
         uint256 remaining
     );
 
+    event BadgeGranted(
+        uint256 indexed daoID,
+        address indexed to,
+        address indexed from,
+        uint256 badgeID,
+        bytes32 hashKey
+    );
+
     // Fields
+    Counters.Counter private _nonce;
+
     Counters.Counter private _countDAO;
     mapping(uint256 => DAO) public _DAOs;
 
@@ -533,13 +550,21 @@ contract PlayDAO is Ownable, Pausable {
         writer = writer.writeAddressProperty("Issued", address(this));
         writer = writer.writeUintProperty("DAO", daoID);
         writer = writer.writeAddressProperty("Requested", msg.sender);
+        writer = writer.writeUintProperty("Nonce", _nonce.current());
         writer = writer.writeEndObject();
+
+        bytes32 badgeKey = keccak256(abi.encodePacked(writer.value));
+        _mayPostOPAttestationStation(to, badgeKey, bytes(writer.value));
 
         Badge(_DAOs[daoID].badgeContract).mintBadge(
             to,
             badgeTypeID,
-            bytes(writer.value)
+            abi.encodePacked(badgeKey)
         );
+
+        emit BadgeGranted(daoID, to, msg.sender, badgeTypeID, badgeKey);
+
+        _nonce.increment();
     }
 
     function _createQuestType(
@@ -786,11 +811,20 @@ contract PlayDAO is Ownable, Pausable {
         writer1 = writer1.writeAddressProperty("Issued", address(this));
         writer1 = writer1.writeUintProperty("DAO", daoID);
         writer1 = writer1.writeAddressProperty("Verified", verifier);
+        writer1 = writer1.writeUintProperty("Nonce", _nonce.current());
         writer1 = writer1.writeEndObject();
 
+        bytes32 contributorBadgeKey = keccak256(
+            abi.encodePacked(writer1.value)
+        );
         Badge(_DAOs[daoID].badgeContract).mintBadge(
             claim.claimer,
             _questTypes[daoID][quest.questTypeID].contributorBadgeTypeID,
+            abi.encodePacked(contributorBadgeKey)
+        );
+        _mayPostOPAttestationStation(
+            claim.claimer,
+            contributorBadgeKey,
             bytes(writer1.value)
         );
 
@@ -800,11 +834,18 @@ contract PlayDAO is Ownable, Pausable {
         writer2 = writer2.writeAddressProperty("Issued", address(this));
         writer2 = writer2.writeUintProperty("DAO", daoID);
         writer2 = writer2.writeAddressProperty("Target", claim.claimer);
+        writer2 = writer2.writeUintProperty("Nonce", _nonce.current());
         writer2 = writer2.writeEndObject();
 
+        bytes32 verifierBadgeKey = keccak256(abi.encodePacked(writer2.value));
         Badge(_DAOs[daoID].badgeContract).mintBadge(
             verifier,
             _questTypes[daoID][quest.questTypeID].verifierBadgeTypeID,
+            abi.encodePacked(verifierBadgeKey)
+        );
+        _mayPostOPAttestationStation(
+            verifier,
+            verifierBadgeKey,
             bytes(writer2.value)
         );
 
@@ -813,8 +854,12 @@ contract PlayDAO is Ownable, Pausable {
             questID,
             claimID,
             verifier,
-            proofMetadataURI
+            proofMetadataURI,
+            contributorBadgeKey,
+            verifierBadgeKey
         );
+
+        _nonce.increment();
     }
 
     function _stake(
@@ -881,7 +926,7 @@ contract PlayDAO is Ownable, Pausable {
         uint256 daoID,
         uint256[] memory badgeTypeIDs,
         address acc
-    ) private returns (bool) {
+    ) private view returns (bool) {
         Badge badge = Badge(_DAOs[daoID].badgeContract);
 
         for (uint256 i = 0; i < badgeTypeIDs.length; i++) {
@@ -895,10 +940,30 @@ contract PlayDAO is Ownable, Pausable {
 
     function _badgeTypeExists(uint256 daoID, uint256 badgeTypeID)
         private
+        view
         returns (bool)
     {
         return
             badgeTypeID <=
             Badge(_DAOs[daoID].badgeContract).totalOfBadgeTypes();
+    }
+
+    function _mayPostOPAttestationStation(
+        address to,
+        bytes32 key,
+        bytes memory val
+    ) private returns (bool) {
+        if (_opAttestationStation == address(0x0)) {
+            return false;
+        }
+
+        // AttestationData[] memory attestations = new AttestationData[](1);
+        // attestations[0].about = to;
+        // attestations[0].key = key;
+        // attestations[0].val = val;
+
+        IAttester(_opAttestationStation).attest(to, key, val);
+
+        return true;
     }
 }

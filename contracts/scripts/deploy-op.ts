@@ -11,7 +11,8 @@ async function main() {
 
   const PlayDAOFactory = await ethers.getContractFactory("PlayDAO");
   const playDAO = await PlayDAOFactory.deploy(
-    "0x0000000000000000000000000000000000000000"
+    // Testnet AttestationStation
+    "0xEE36eaaD94d1Cc1d0eccaDb55C38bFfB6Be06C77"
   );
   console.log(`deploying PlayDAO tx: ${playDAO.deployTransaction.hash}`);
   await playDAO.deployed();

@@ -1,0 +1,111 @@
+{
+  daos {
+    id
+    daoID
+    name
+    metadataURI
+    badgeContract
+    totalStaked
+    balance
+
+    badgeTypes {
+      id
+      daoID
+      badgeTypeID
+      name
+      metadataURI
+    }
+
+    questTypes {
+      id
+      daoID
+      questTypeID
+      name
+      metadataURI
+      contributorBadgeTypeID
+      verifierBadgeTypeID
+
+      contributorBadge {
+        id
+        name
+        metadataURI
+      }
+
+      verifierBadge {
+        id
+        name
+        metadataURI
+      }
+
+      starterDeps {
+        id
+        badgeType {
+          id
+          name
+          metadataURI
+        }
+      }
+
+      contributorDeps {
+        id
+        badgeType {
+          id
+          name
+          metadataURI
+        }
+      }
+
+      quests {
+        id
+        daoID
+        questTypeID
+        questID
+        name
+        metadataURI
+        limitContributions
+        numOnGoings
+        numCompleted
+        numCanceled
+        requiredStake
+
+        claims {
+          id
+          daoID
+          questTypeID
+          questID
+          claimID
+          status
+
+          claimedBy
+          claimedBlock
+
+          verifiedBy
+          completedBlock
+        }
+      }
+    }
+  }
+
+  userStakes {
+    daoID
+    account
+    amount
+  }
+
+  userDeposits {
+    id
+    account
+    amount
+  }
+
+  badgeIssueHistories {
+    id
+    account
+    daoID
+    type
+    requested
+    questID
+    claimID
+    hashKey
+  }
+}

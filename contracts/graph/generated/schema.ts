@@ -1372,3 +1372,195 @@ export class UserStake extends Entity {
     this.set("dao", Value.fromString(value));
   }
 }
+
+export class BadgeIssueHistory extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save BadgeIssueHistory entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type BadgeIssueHistory must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("BadgeIssueHistory", id.toString(), this);
+    }
+  }
+
+  static load(id: string): BadgeIssueHistory | null {
+    return changetype<BadgeIssueHistory | null>(
+      store.get("BadgeIssueHistory", id)
+    );
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get account(): Bytes {
+    let value = this.get("account");
+    return value!.toBytes();
+  }
+
+  set account(value: Bytes) {
+    this.set("account", Value.fromBytes(value));
+  }
+
+  get daoID(): BigInt {
+    let value = this.get("daoID");
+    return value!.toBigInt();
+  }
+
+  set daoID(value: BigInt) {
+    this.set("daoID", Value.fromBigInt(value));
+  }
+
+  get dao(): string {
+    let value = this.get("dao");
+    return value!.toString();
+  }
+
+  set dao(value: string) {
+    this.set("dao", Value.fromString(value));
+  }
+
+  get hashKey(): Bytes {
+    let value = this.get("hashKey");
+    return value!.toBytes();
+  }
+
+  set hashKey(value: Bytes) {
+    this.set("hashKey", Value.fromBytes(value));
+  }
+
+  get type(): string {
+    let value = this.get("type");
+    return value!.toString();
+  }
+
+  set type(value: string) {
+    this.set("type", Value.fromString(value));
+  }
+
+  get requested(): Bytes {
+    let value = this.get("requested");
+    return value!.toBytes();
+  }
+
+  set requested(value: Bytes) {
+    this.set("requested", Value.fromBytes(value));
+  }
+
+  get questID(): BigInt | null {
+    let value = this.get("questID");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set questID(value: BigInt | null) {
+    if (!value) {
+      this.unset("questID");
+    } else {
+      this.set("questID", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get claimID(): BigInt | null {
+    let value = this.get("claimID");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set claimID(value: BigInt | null) {
+    if (!value) {
+      this.unset("claimID");
+    } else {
+      this.set("claimID", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get quest(): string | null {
+    let value = this.get("quest");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set quest(value: string | null) {
+    if (!value) {
+      this.unset("quest");
+    } else {
+      this.set("quest", Value.fromString(<string>value));
+    }
+  }
+
+  get claim(): string | null {
+    let value = this.get("claim");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set claim(value: string | null) {
+    if (!value) {
+      this.unset("claim");
+    } else {
+      this.set("claim", Value.fromString(<string>value));
+    }
+  }
+
+  get createdBlock(): BigInt {
+    let value = this.get("createdBlock");
+    return value!.toBigInt();
+  }
+
+  set createdBlock(value: BigInt) {
+    this.set("createdBlock", Value.fromBigInt(value));
+  }
+
+  get createdBlockHash(): Bytes {
+    let value = this.get("createdBlockHash");
+    return value!.toBytes();
+  }
+
+  set createdBlockHash(value: Bytes) {
+    this.set("createdBlockHash", Value.fromBytes(value));
+  }
+
+  get createdTimestamp(): BigInt {
+    let value = this.get("createdTimestamp");
+    return value!.toBigInt();
+  }
+
+  set createdTimestamp(value: BigInt) {
+    this.set("createdTimestamp", Value.fromBigInt(value));
+  }
+
+  get createdTransactionHash(): Bytes {
+    let value = this.get("createdTransactionHash");
+    return value!.toBytes();
+  }
+
+  set createdTransactionHash(value: Bytes) {
+    this.set("createdTransactionHash", Value.fromBytes(value));
+  }
+}

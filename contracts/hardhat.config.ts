@@ -11,6 +11,7 @@ const JSON_RPC_POLYGON_MAINNET =
   process.env.JSON_RPC_POLYGON_MAINNET ?? "https://polygon-rpc.com/";
 const JSON_RPC_POLYGON_MUMBAI =
   process.env.JSON_RPC_POLYGON_MUMBAI ?? "https://rpc-mumbai.maticvigil.com/";
+const JSON_RPC_OPTIMISM_TESTNET = process.env.JSON_RPC_OPTIMISM_TESTNET ?? "";
 
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
@@ -39,6 +40,14 @@ const config: HardhatUserConfig = {
     },
     mumbai: {
       url: JSON_RPC_POLYGON_MUMBAI,
+      accounts: PRIVATE_KEYS,
+    },
+    base_testnet: {
+      url: "https://goerli.base.org",
+      accounts: PRIVATE_KEYS,
+    },
+    optimism_testnet: {
+      url: JSON_RPC_OPTIMISM_TESTNET,
       accounts: PRIVATE_KEYS,
     },
   },
