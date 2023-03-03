@@ -10,6 +10,9 @@ module.exports = {
       'display': ['Montserrat', 'system-ui']
     },
     extend: {
+      scale: {
+        '115': '1.1',
+      },
       dropShadow: {
         'drop': '0 0px 15px rgba(247, 0, 255, 0.709)',
       },
