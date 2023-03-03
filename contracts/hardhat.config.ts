@@ -11,7 +11,7 @@ const JSON_RPC_POLYGON_MAINNET =
   process.env.JSON_RPC_POLYGON_MAINNET ?? "https://polygon-rpc.com/";
 const JSON_RPC_POLYGON_MUMBAI =
   process.env.JSON_RPC_POLYGON_MUMBAI ?? "https://rpc-mumbai.maticvigil.com/";
-const JSON_RPC_OPTIMISM_TESTNET = process.env.JSON_RPC_OPTIMISM_TESTNET ?? "";
+const JSON_RPC_OPTIMISM_GOERLI = process.env.JSON_RPC_OPTIMISM_GOERLI ?? "";
 
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
@@ -46,8 +46,16 @@ const config: HardhatUserConfig = {
       url: "https://goerli.base.org",
       accounts: PRIVATE_KEYS,
     },
-    optimism_testnet: {
-      url: JSON_RPC_OPTIMISM_TESTNET,
+    optimism_goerli: {
+      url: JSON_RPC_OPTIMISM_GOERLI,
+      accounts: PRIVATE_KEYS,
+    },
+    scroll_testnet: {
+      url: "https://alpha-rpc.scroll.io/l2",
+      accounts: PRIVATE_KEYS,
+    },
+    neon_dev: {
+      url: "https://devnet.neonevm.org",
       accounts: PRIVATE_KEYS,
     },
   },
