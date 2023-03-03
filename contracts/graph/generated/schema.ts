@@ -12,9 +12,9 @@ import {
 } from "@graphprotocol/graph-ts";
 
 export class DAO extends Entity {
-  constructor(id: Bytes) {
+  constructor(id: string) {
     super();
-    this.set("id", Value.fromBytes(id));
+    this.set("id", Value.fromString(id));
   }
 
   save(): void {
@@ -22,24 +22,24 @@ export class DAO extends Entity {
     assert(id != null, "Cannot save DAO entity without an ID");
     if (id) {
       assert(
-        id.kind == ValueKind.BYTES,
-        `Entities of type DAO must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        id.kind == ValueKind.STRING,
+        `Entities of type DAO must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("DAO", id.toBytes().toHexString(), this);
+      store.set("DAO", id.toString(), this);
     }
   }
 
-  static load(id: Bytes): DAO | null {
-    return changetype<DAO | null>(store.get("DAO", id.toHexString()));
+  static load(id: string): DAO | null {
+    return changetype<DAO | null>(store.get("DAO", id));
   }
 
-  get id(): Bytes {
+  get id(): string {
     let value = this.get("id");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set id(value: Bytes) {
-    this.set("id", Value.fromBytes(value));
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
   }
 
   get daoID(): BigInt {
@@ -141,47 +141,47 @@ export class DAO extends Entity {
     this.set("createdTransactionHash", Value.fromBytes(value));
   }
 
-  get badgeTypes(): Array<Bytes> {
+  get badgeTypes(): Array<string> {
     let value = this.get("badgeTypes");
-    return value!.toBytesArray();
+    return value!.toStringArray();
   }
 
-  set badgeTypes(value: Array<Bytes>) {
-    this.set("badgeTypes", Value.fromBytesArray(value));
+  set badgeTypes(value: Array<string>) {
+    this.set("badgeTypes", Value.fromStringArray(value));
   }
 
-  get questTypes(): Array<Bytes> {
+  get questTypes(): Array<string> {
     let value = this.get("questTypes");
-    return value!.toBytesArray();
+    return value!.toStringArray();
   }
 
-  set questTypes(value: Array<Bytes>) {
-    this.set("questTypes", Value.fromBytesArray(value));
+  set questTypes(value: Array<string>) {
+    this.set("questTypes", Value.fromStringArray(value));
   }
 
-  get quests(): Array<Bytes> {
+  get quests(): Array<string> {
     let value = this.get("quests");
-    return value!.toBytesArray();
+    return value!.toStringArray();
   }
 
-  set quests(value: Array<Bytes>) {
-    this.set("quests", Value.fromBytesArray(value));
+  set quests(value: Array<string>) {
+    this.set("quests", Value.fromStringArray(value));
   }
 
-  get stakes(): Array<Bytes> {
+  get stakes(): Array<string> {
     let value = this.get("stakes");
-    return value!.toBytesArray();
+    return value!.toStringArray();
   }
 
-  set stakes(value: Array<Bytes>) {
-    this.set("stakes", Value.fromBytesArray(value));
+  set stakes(value: Array<string>) {
+    this.set("stakes", Value.fromStringArray(value));
   }
 }
 
 export class BadgeType extends Entity {
-  constructor(id: Bytes) {
+  constructor(id: string) {
     super();
-    this.set("id", Value.fromBytes(id));
+    this.set("id", Value.fromString(id));
   }
 
   save(): void {
@@ -189,26 +189,24 @@ export class BadgeType extends Entity {
     assert(id != null, "Cannot save BadgeType entity without an ID");
     if (id) {
       assert(
-        id.kind == ValueKind.BYTES,
-        `Entities of type BadgeType must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        id.kind == ValueKind.STRING,
+        `Entities of type BadgeType must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("BadgeType", id.toBytes().toHexString(), this);
+      store.set("BadgeType", id.toString(), this);
     }
   }
 
-  static load(id: Bytes): BadgeType | null {
-    return changetype<BadgeType | null>(
-      store.get("BadgeType", id.toHexString())
-    );
+  static load(id: string): BadgeType | null {
+    return changetype<BadgeType | null>(store.get("BadgeType", id));
   }
 
-  get id(): Bytes {
+  get id(): string {
     let value = this.get("id");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set id(value: Bytes) {
-    this.set("id", Value.fromBytes(value));
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
   }
 
   get daoID(): BigInt {
@@ -292,20 +290,20 @@ export class BadgeType extends Entity {
     this.set("createdTransactionHash", Value.fromBytes(value));
   }
 
-  get dao(): Bytes {
+  get dao(): string {
     let value = this.get("dao");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set dao(value: Bytes) {
-    this.set("dao", Value.fromBytes(value));
+  set dao(value: string) {
+    this.set("dao", Value.fromString(value));
   }
 }
 
 export class QuestType extends Entity {
-  constructor(id: Bytes) {
+  constructor(id: string) {
     super();
-    this.set("id", Value.fromBytes(id));
+    this.set("id", Value.fromString(id));
   }
 
   save(): void {
@@ -313,26 +311,24 @@ export class QuestType extends Entity {
     assert(id != null, "Cannot save QuestType entity without an ID");
     if (id) {
       assert(
-        id.kind == ValueKind.BYTES,
-        `Entities of type QuestType must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        id.kind == ValueKind.STRING,
+        `Entities of type QuestType must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("QuestType", id.toBytes().toHexString(), this);
+      store.set("QuestType", id.toString(), this);
     }
   }
 
-  static load(id: Bytes): QuestType | null {
-    return changetype<QuestType | null>(
-      store.get("QuestType", id.toHexString())
-    );
+  static load(id: string): QuestType | null {
+    return changetype<QuestType | null>(store.get("QuestType", id));
   }
 
-  get id(): Bytes {
+  get id(): string {
     let value = this.get("id");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set id(value: Bytes) {
-    this.set("id", Value.fromBytes(value));
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
   }
 
   get daoID(): BigInt {
@@ -434,65 +430,74 @@ export class QuestType extends Entity {
     this.set("createdTransactionHash", Value.fromBytes(value));
   }
 
-  get dao(): Bytes {
+  get dao(): string {
     let value = this.get("dao");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set dao(value: Bytes) {
-    this.set("dao", Value.fromBytes(value));
+  set dao(value: string) {
+    this.set("dao", Value.fromString(value));
   }
 
-  get contributorBadge(): Bytes {
+  get contributorBadge(): string {
     let value = this.get("contributorBadge");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set contributorBadge(value: Bytes) {
-    this.set("contributorBadge", Value.fromBytes(value));
+  set contributorBadge(value: string) {
+    this.set("contributorBadge", Value.fromString(value));
   }
 
-  get verifierBadge(): Bytes {
+  get verifierBadge(): string {
     let value = this.get("verifierBadge");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set verifierBadge(value: Bytes) {
-    this.set("verifierBadge", Value.fromBytes(value));
+  set verifierBadge(value: string) {
+    this.set("verifierBadge", Value.fromString(value));
   }
 
-  get starterDeps(): Array<Bytes> {
+  get starterDeps(): Array<string> {
     let value = this.get("starterDeps");
-    return value!.toBytesArray();
+    return value!.toStringArray();
   }
 
-  set starterDeps(value: Array<Bytes>) {
-    this.set("starterDeps", Value.fromBytesArray(value));
+  set starterDeps(value: Array<string>) {
+    this.set("starterDeps", Value.fromStringArray(value));
   }
 
-  get contributorDeps(): Array<Bytes> {
+  get contributorDeps(): Array<string> {
     let value = this.get("contributorDeps");
-    return value!.toBytesArray();
+    return value!.toStringArray();
   }
 
-  set contributorDeps(value: Array<Bytes>) {
-    this.set("contributorDeps", Value.fromBytesArray(value));
+  set contributorDeps(value: Array<string>) {
+    this.set("contributorDeps", Value.fromStringArray(value));
   }
 
-  get verifierDeps(): Array<Bytes> {
+  get verifierDeps(): Array<string> {
     let value = this.get("verifierDeps");
-    return value!.toBytesArray();
+    return value!.toStringArray();
   }
 
-  set verifierDeps(value: Array<Bytes>) {
-    this.set("verifierDeps", Value.fromBytesArray(value));
+  set verifierDeps(value: Array<string>) {
+    this.set("verifierDeps", Value.fromStringArray(value));
+  }
+
+  get quests(): Array<string> {
+    let value = this.get("quests");
+    return value!.toStringArray();
+  }
+
+  set quests(value: Array<string>) {
+    this.set("quests", Value.fromStringArray(value));
   }
 }
 
 export class QuestTypeStarterDep extends Entity {
-  constructor(id: Bytes) {
+  constructor(id: string) {
     super();
-    this.set("id", Value.fromBytes(id));
+    this.set("id", Value.fromString(id));
   }
 
   save(): void {
@@ -500,51 +505,51 @@ export class QuestTypeStarterDep extends Entity {
     assert(id != null, "Cannot save QuestTypeStarterDep entity without an ID");
     if (id) {
       assert(
-        id.kind == ValueKind.BYTES,
-        `Entities of type QuestTypeStarterDep must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        id.kind == ValueKind.STRING,
+        `Entities of type QuestTypeStarterDep must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("QuestTypeStarterDep", id.toBytes().toHexString(), this);
+      store.set("QuestTypeStarterDep", id.toString(), this);
     }
   }
 
-  static load(id: Bytes): QuestTypeStarterDep | null {
+  static load(id: string): QuestTypeStarterDep | null {
     return changetype<QuestTypeStarterDep | null>(
-      store.get("QuestTypeStarterDep", id.toHexString())
+      store.get("QuestTypeStarterDep", id)
     );
   }
 
-  get id(): Bytes {
+  get id(): string {
     let value = this.get("id");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set id(value: Bytes) {
-    this.set("id", Value.fromBytes(value));
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
   }
 
-  get questType(): Bytes {
+  get questType(): string {
     let value = this.get("questType");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set questType(value: Bytes) {
-    this.set("questType", Value.fromBytes(value));
+  set questType(value: string) {
+    this.set("questType", Value.fromString(value));
   }
 
-  get badgeType(): Bytes {
+  get badgeType(): string {
     let value = this.get("badgeType");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set badgeType(value: Bytes) {
-    this.set("badgeType", Value.fromBytes(value));
+  set badgeType(value: string) {
+    this.set("badgeType", Value.fromString(value));
   }
 }
 
 export class QuestTypeContributorDep extends Entity {
-  constructor(id: Bytes) {
+  constructor(id: string) {
     super();
-    this.set("id", Value.fromBytes(id));
+    this.set("id", Value.fromString(id));
   }
 
   save(): void {
@@ -555,51 +560,51 @@ export class QuestTypeContributorDep extends Entity {
     );
     if (id) {
       assert(
-        id.kind == ValueKind.BYTES,
-        `Entities of type QuestTypeContributorDep must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        id.kind == ValueKind.STRING,
+        `Entities of type QuestTypeContributorDep must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("QuestTypeContributorDep", id.toBytes().toHexString(), this);
+      store.set("QuestTypeContributorDep", id.toString(), this);
     }
   }
 
-  static load(id: Bytes): QuestTypeContributorDep | null {
+  static load(id: string): QuestTypeContributorDep | null {
     return changetype<QuestTypeContributorDep | null>(
-      store.get("QuestTypeContributorDep", id.toHexString())
+      store.get("QuestTypeContributorDep", id)
     );
   }
 
-  get id(): Bytes {
+  get id(): string {
     let value = this.get("id");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set id(value: Bytes) {
-    this.set("id", Value.fromBytes(value));
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
   }
 
-  get questType(): Bytes {
+  get questType(): string {
     let value = this.get("questType");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set questType(value: Bytes) {
-    this.set("questType", Value.fromBytes(value));
+  set questType(value: string) {
+    this.set("questType", Value.fromString(value));
   }
 
-  get badgeType(): Bytes {
+  get badgeType(): string {
     let value = this.get("badgeType");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set badgeType(value: Bytes) {
-    this.set("badgeType", Value.fromBytes(value));
+  set badgeType(value: string) {
+    this.set("badgeType", Value.fromString(value));
   }
 }
 
 export class QuestTypeVerifierDep extends Entity {
-  constructor(id: Bytes) {
+  constructor(id: string) {
     super();
-    this.set("id", Value.fromBytes(id));
+    this.set("id", Value.fromString(id));
   }
 
   save(): void {
@@ -607,51 +612,51 @@ export class QuestTypeVerifierDep extends Entity {
     assert(id != null, "Cannot save QuestTypeVerifierDep entity without an ID");
     if (id) {
       assert(
-        id.kind == ValueKind.BYTES,
-        `Entities of type QuestTypeVerifierDep must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        id.kind == ValueKind.STRING,
+        `Entities of type QuestTypeVerifierDep must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("QuestTypeVerifierDep", id.toBytes().toHexString(), this);
+      store.set("QuestTypeVerifierDep", id.toString(), this);
     }
   }
 
-  static load(id: Bytes): QuestTypeVerifierDep | null {
+  static load(id: string): QuestTypeVerifierDep | null {
     return changetype<QuestTypeVerifierDep | null>(
-      store.get("QuestTypeVerifierDep", id.toHexString())
+      store.get("QuestTypeVerifierDep", id)
     );
   }
 
-  get id(): Bytes {
+  get id(): string {
     let value = this.get("id");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set id(value: Bytes) {
-    this.set("id", Value.fromBytes(value));
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
   }
 
-  get questType(): Bytes {
+  get questType(): string {
     let value = this.get("questType");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set questType(value: Bytes) {
-    this.set("questType", Value.fromBytes(value));
+  set questType(value: string) {
+    this.set("questType", Value.fromString(value));
   }
 
-  get badgeType(): Bytes {
+  get badgeType(): string {
     let value = this.get("badgeType");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set badgeType(value: Bytes) {
-    this.set("badgeType", Value.fromBytes(value));
+  set badgeType(value: string) {
+    this.set("badgeType", Value.fromString(value));
   }
 }
 
 export class Quest extends Entity {
-  constructor(id: Bytes) {
+  constructor(id: string) {
     super();
-    this.set("id", Value.fromBytes(id));
+    this.set("id", Value.fromString(id));
   }
 
   save(): void {
@@ -659,24 +664,24 @@ export class Quest extends Entity {
     assert(id != null, "Cannot save Quest entity without an ID");
     if (id) {
       assert(
-        id.kind == ValueKind.BYTES,
-        `Entities of type Quest must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        id.kind == ValueKind.STRING,
+        `Entities of type Quest must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("Quest", id.toBytes().toHexString(), this);
+      store.set("Quest", id.toString(), this);
     }
   }
 
-  static load(id: Bytes): Quest | null {
-    return changetype<Quest | null>(store.get("Quest", id.toHexString()));
+  static load(id: string): Quest | null {
+    return changetype<Quest | null>(store.get("Quest", id));
   }
 
-  get id(): Bytes {
+  get id(): string {
     let value = this.get("id");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set id(value: Bytes) {
-    this.set("id", Value.fromBytes(value));
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
   }
 
   get daoID(): BigInt {
@@ -814,38 +819,38 @@ export class Quest extends Entity {
     this.set("createdTransactionHash", Value.fromBytes(value));
   }
 
-  get dao(): Bytes {
+  get dao(): string {
     let value = this.get("dao");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set dao(value: Bytes) {
-    this.set("dao", Value.fromBytes(value));
+  set dao(value: string) {
+    this.set("dao", Value.fromString(value));
   }
 
-  get questType(): Bytes {
+  get questType(): string {
     let value = this.get("questType");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set questType(value: Bytes) {
-    this.set("questType", Value.fromBytes(value));
+  set questType(value: string) {
+    this.set("questType", Value.fromString(value));
   }
 
-  get claims(): Array<Bytes> {
+  get claims(): Array<string> {
     let value = this.get("claims");
-    return value!.toBytesArray();
+    return value!.toStringArray();
   }
 
-  set claims(value: Array<Bytes>) {
-    this.set("claims", Value.fromBytesArray(value));
+  set claims(value: Array<string>) {
+    this.set("claims", Value.fromStringArray(value));
   }
 }
 
 export class Claim extends Entity {
-  constructor(id: Bytes) {
+  constructor(id: string) {
     super();
-    this.set("id", Value.fromBytes(id));
+    this.set("id", Value.fromString(id));
   }
 
   save(): void {
@@ -853,24 +858,24 @@ export class Claim extends Entity {
     assert(id != null, "Cannot save Claim entity without an ID");
     if (id) {
       assert(
-        id.kind == ValueKind.BYTES,
-        `Entities of type Claim must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        id.kind == ValueKind.STRING,
+        `Entities of type Claim must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("Claim", id.toBytes().toHexString(), this);
+      store.set("Claim", id.toString(), this);
     }
   }
 
-  static load(id: Bytes): Claim | null {
-    return changetype<Claim | null>(store.get("Claim", id.toHexString()));
+  static load(id: string): Claim | null {
+    return changetype<Claim | null>(store.get("Claim", id));
   }
 
-  get id(): Bytes {
+  get id(): string {
     let value = this.get("id");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set id(value: Bytes) {
-    this.set("id", Value.fromBytes(value));
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
   }
 
   get daoID(): BigInt {
@@ -909,13 +914,13 @@ export class Claim extends Entity {
     this.set("claimID", Value.fromBigInt(value));
   }
 
-  get claimedTx(): Bytes {
-    let value = this.get("claimedTx");
-    return value!.toBytes();
+  get status(): string {
+    let value = this.get("status");
+    return value!.toString();
   }
 
-  set claimedTx(value: Bytes) {
-    this.set("claimedTx", Value.fromBytes(value));
+  set status(value: string) {
+    this.set("status", Value.fromString(value));
   }
 
   get claimedBy(): Bytes {
@@ -927,13 +932,91 @@ export class Claim extends Entity {
     this.set("claimedBy", Value.fromBytes(value));
   }
 
-  get status(): string {
-    let value = this.get("status");
-    return value!.toString();
+  get verifiedBy(): Bytes | null {
+    let value = this.get("verifiedBy");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
   }
 
-  set status(value: string) {
-    this.set("status", Value.fromString(value));
+  set verifiedBy(value: Bytes | null) {
+    if (!value) {
+      this.unset("verifiedBy");
+    } else {
+      this.set("verifiedBy", Value.fromBytes(<Bytes>value));
+    }
+  }
+
+  get proofMetadataURI(): string | null {
+    let value = this.get("proofMetadataURI");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set proofMetadataURI(value: string | null) {
+    if (!value) {
+      this.unset("proofMetadataURI");
+    } else {
+      this.set("proofMetadataURI", Value.fromString(<string>value));
+    }
+  }
+
+  get score(): string | null {
+    let value = this.get("score");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set score(value: string | null) {
+    if (!value) {
+      this.unset("score");
+    } else {
+      this.set("score", Value.fromString(<string>value));
+    }
+  }
+
+  get claimedBlock(): BigInt {
+    let value = this.get("claimedBlock");
+    return value!.toBigInt();
+  }
+
+  set claimedBlock(value: BigInt) {
+    this.set("claimedBlock", Value.fromBigInt(value));
+  }
+
+  get claimedBlockHash(): Bytes {
+    let value = this.get("claimedBlockHash");
+    return value!.toBytes();
+  }
+
+  set claimedBlockHash(value: Bytes) {
+    this.set("claimedBlockHash", Value.fromBytes(value));
+  }
+
+  get claimedTimestamp(): BigInt {
+    let value = this.get("claimedTimestamp");
+    return value!.toBigInt();
+  }
+
+  set claimedTimestamp(value: BigInt) {
+    this.set("claimedTimestamp", Value.fromBigInt(value));
+  }
+
+  get claimedTransactionHash(): Bytes {
+    let value = this.get("claimedTransactionHash");
+    return value!.toBytes();
+  }
+
+  set claimedTransactionHash(value: Bytes) {
+    this.set("claimedTransactionHash", Value.fromBytes(value));
   }
 
   get canceledBy(): Bytes | null {
@@ -1018,23 +1101,6 @@ export class Claim extends Entity {
       this.unset("canceledTransactionHash");
     } else {
       this.set("canceledTransactionHash", Value.fromBytes(<Bytes>value));
-    }
-  }
-
-  get verifiedBy(): Bytes | null {
-    let value = this.get("verifiedBy");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytes();
-    }
-  }
-
-  set verifiedBy(value: Bytes | null) {
-    if (!value) {
-      this.unset("verifiedBy");
-    } else {
-      this.set("verifiedBy", Value.fromBytes(<Bytes>value));
     }
   }
 
@@ -1196,20 +1262,20 @@ export class Claim extends Entity {
     this.set("updatedTransactionHash", Value.fromBytes(value));
   }
 
-  get quest(): Bytes {
+  get quest(): string {
     let value = this.get("quest");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set quest(value: Bytes) {
-    this.set("quest", Value.fromBytes(value));
+  set quest(value: string) {
+    this.set("quest", Value.fromString(value));
   }
 }
 
 export class UserDeposit extends Entity {
-  constructor(id: Bytes) {
+  constructor(id: string) {
     super();
-    this.set("id", Value.fromBytes(id));
+    this.set("id", Value.fromString(id));
   }
 
   save(): void {
@@ -1217,26 +1283,24 @@ export class UserDeposit extends Entity {
     assert(id != null, "Cannot save UserDeposit entity without an ID");
     if (id) {
       assert(
-        id.kind == ValueKind.BYTES,
-        `Entities of type UserDeposit must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        id.kind == ValueKind.STRING,
+        `Entities of type UserDeposit must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("UserDeposit", id.toBytes().toHexString(), this);
+      store.set("UserDeposit", id.toString(), this);
     }
   }
 
-  static load(id: Bytes): UserDeposit | null {
-    return changetype<UserDeposit | null>(
-      store.get("UserDeposit", id.toHexString())
-    );
+  static load(id: string): UserDeposit | null {
+    return changetype<UserDeposit | null>(store.get("UserDeposit", id));
   }
 
-  get id(): Bytes {
+  get id(): string {
     let value = this.get("id");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set id(value: Bytes) {
-    this.set("id", Value.fromBytes(value));
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
   }
 
   get account(): Bytes {
@@ -1259,9 +1323,9 @@ export class UserDeposit extends Entity {
 }
 
 export class UserStake extends Entity {
-  constructor(id: Bytes) {
+  constructor(id: string) {
     super();
-    this.set("id", Value.fromBytes(id));
+    this.set("id", Value.fromString(id));
   }
 
   save(): void {
@@ -1269,26 +1333,24 @@ export class UserStake extends Entity {
     assert(id != null, "Cannot save UserStake entity without an ID");
     if (id) {
       assert(
-        id.kind == ValueKind.BYTES,
-        `Entities of type UserStake must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        id.kind == ValueKind.STRING,
+        `Entities of type UserStake must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("UserStake", id.toBytes().toHexString(), this);
+      store.set("UserStake", id.toString(), this);
     }
   }
 
-  static load(id: Bytes): UserStake | null {
-    return changetype<UserStake | null>(
-      store.get("UserStake", id.toHexString())
-    );
+  static load(id: string): UserStake | null {
+    return changetype<UserStake | null>(store.get("UserStake", id));
   }
 
-  get id(): Bytes {
+  get id(): string {
     let value = this.get("id");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set id(value: Bytes) {
-    this.set("id", Value.fromBytes(value));
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
   }
 
   get daoID(): BigInt {
@@ -1318,12 +1380,229 @@ export class UserStake extends Entity {
     this.set("amount", Value.fromBigInt(value));
   }
 
-  get dao(): Bytes {
+  get dao(): string {
     let value = this.get("dao");
+    return value!.toString();
+  }
+
+  set dao(value: string) {
+    this.set("dao", Value.fromString(value));
+  }
+}
+
+export class BadgeIssueHistory extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save BadgeIssueHistory entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type BadgeIssueHistory must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("BadgeIssueHistory", id.toString(), this);
+    }
+  }
+
+  static load(id: string): BadgeIssueHistory | null {
+    return changetype<BadgeIssueHistory | null>(
+      store.get("BadgeIssueHistory", id)
+    );
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get account(): Bytes {
+    let value = this.get("account");
     return value!.toBytes();
   }
 
-  set dao(value: Bytes) {
-    this.set("dao", Value.fromBytes(value));
+  set account(value: Bytes) {
+    this.set("account", Value.fromBytes(value));
+  }
+
+  get daoID(): BigInt {
+    let value = this.get("daoID");
+    return value!.toBigInt();
+  }
+
+  set daoID(value: BigInt) {
+    this.set("daoID", Value.fromBigInt(value));
+  }
+
+  get dao(): string {
+    let value = this.get("dao");
+    return value!.toString();
+  }
+
+  set dao(value: string) {
+    this.set("dao", Value.fromString(value));
+  }
+
+  get attestationCreator(): Bytes | null {
+    let value = this.get("attestationCreator");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set attestationCreator(value: Bytes | null) {
+    if (!value) {
+      this.unset("attestationCreator");
+    } else {
+      this.set("attestationCreator", Value.fromBytes(<Bytes>value));
+    }
+  }
+
+  get attestationKey(): Bytes | null {
+    let value = this.get("attestationKey");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set attestationKey(value: Bytes | null) {
+    if (!value) {
+      this.unset("attestationKey");
+    } else {
+      this.set("attestationKey", Value.fromBytes(<Bytes>value));
+    }
+  }
+
+  get type(): string {
+    let value = this.get("type");
+    return value!.toString();
+  }
+
+  set type(value: string) {
+    this.set("type", Value.fromString(value));
+  }
+
+  get requested(): Bytes {
+    let value = this.get("requested");
+    return value!.toBytes();
+  }
+
+  set requested(value: Bytes) {
+    this.set("requested", Value.fromBytes(value));
+  }
+
+  get questID(): BigInt | null {
+    let value = this.get("questID");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set questID(value: BigInt | null) {
+    if (!value) {
+      this.unset("questID");
+    } else {
+      this.set("questID", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get claimID(): BigInt | null {
+    let value = this.get("claimID");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set claimID(value: BigInt | null) {
+    if (!value) {
+      this.unset("claimID");
+    } else {
+      this.set("claimID", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get quest(): string | null {
+    let value = this.get("quest");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set quest(value: string | null) {
+    if (!value) {
+      this.unset("quest");
+    } else {
+      this.set("quest", Value.fromString(<string>value));
+    }
+  }
+
+  get claim(): string | null {
+    let value = this.get("claim");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set claim(value: string | null) {
+    if (!value) {
+      this.unset("claim");
+    } else {
+      this.set("claim", Value.fromString(<string>value));
+    }
+  }
+
+  get createdBlock(): BigInt {
+    let value = this.get("createdBlock");
+    return value!.toBigInt();
+  }
+
+  set createdBlock(value: BigInt) {
+    this.set("createdBlock", Value.fromBigInt(value));
+  }
+
+  get createdBlockHash(): Bytes {
+    let value = this.get("createdBlockHash");
+    return value!.toBytes();
+  }
+
+  set createdBlockHash(value: Bytes) {
+    this.set("createdBlockHash", Value.fromBytes(value));
+  }
+
+  get createdTimestamp(): BigInt {
+    let value = this.get("createdTimestamp");
+    return value!.toBigInt();
+  }
+
+  set createdTimestamp(value: BigInt) {
+    this.set("createdTimestamp", Value.fromBigInt(value));
+  }
+
+  get createdTransactionHash(): Bytes {
+    let value = this.get("createdTransactionHash");
+    return value!.toBytes();
+  }
+
+  set createdTransactionHash(value: Bytes) {
+    this.set("createdTransactionHash", Value.fromBytes(value));
   }
 }

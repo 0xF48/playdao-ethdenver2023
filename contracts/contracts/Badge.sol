@@ -25,7 +25,7 @@ contract Badge is AccessControl, ERC1155, ERC1155URIStorage {
 
     event Mint(address issued, address owner, uint256 tokenID, bytes data);
 
-    constructor() public ERC1155("") {
+    constructor() ERC1155("") {
         _setupRole(ADMIN_ROLE, msg.sender);
         _setupRole(MINTER_ROLE, msg.sender);
     }
@@ -37,6 +37,10 @@ contract Badge is AccessControl, ERC1155, ERC1155URIStorage {
         returns (string memory)
     {
         return super.uri(id);
+    }
+
+    function name(uint256 id) public view returns (string memory) {
+        return _badgeNames[id];
     }
 
     function totalOfBadgeTypes() public view returns (uint256) {

@@ -8,12 +8,14 @@
     "create-local": "graph create --node http://localhost:8020/ playdao",
     "remove-local": "graph remove --node http://localhost:8020/ playdao",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 playdao",
+    "setup-local": "npm run codegen && npm run build && npm run create-local && npm run deploy-local",
     "test": "graph test",
     "sync-abi": "rm ./abis/* && cp ../artifacts/contracts/PlayDAO.sol/PlayDAO.json ./abis/"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.42.3",
-    "@graphprotocol/graph-ts": "0.29.1"
+    "@graphprotocol/graph-ts": "0.29.1",
+    "gluegun": "^5.1.2"
   },
   "devDependencies": {
     "matchstick-as": "0.5.0"
