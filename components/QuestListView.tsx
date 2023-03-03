@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/client'
 import { useOrganization } from '../util/hooks'
 import { useRouter } from 'next/router'
 import _ from 'lodash'
-
+import Link from 'next/link'
 
 export default function () {
 
@@ -32,6 +32,10 @@ export default function () {
 					let claims_left = Number(quest.limitContributions) - quest.claims.length
 
 					let is_locked = false
+
+					let is_claimed = true
+
+
 
 					let claimant_deps: any = quest_type.contributorDeps.map((dep: any) => {
 						// console.log(dep)
@@ -72,27 +76,35 @@ export default function () {
 						}
 					}
 
-					let onClaimCb = () => {
+					let onClickQuestCard = (e: any) => {
+						e.preventDefault()
+						router.push('/claim_quest?quest_id=' + quest.id)
+
 						console.log('claim quest')
 					}
 
-					return <div className='h-auto w-full m-4'>
-						<QuestCard
-							key={quest.id}
-							requiredStakeAmount={quest.requiredStake}
-							details={quest.name}
-							isClaimed={claims_left > 0}
-							isLocked={is_locked}
-							onClickClaimButton={onClaimCb}
-							requiredStakeToken={'ETH'}
-							claimantDependencies={claimant_deps}
-							validatorDependencies={validator_deps}
-							claimantReward={claim_reward}
-							validatorReward={validator_reward}
-						></QuestCard>
+					return <div
+						onClick={onClickQuestCard}
+						className='h-auto w-full m-4'>
+						<Link href={"/claim_quest?quest_id=" + quest.questID}>
+							<QuestCard
+								key={quest.id}
+								requiredStakeAmount={quest.requiredStake}
+								details={quest.name}
+								isClaimed={is_claimed}
+								isLocked={is_locked}
+								// onClickClaimButton={onClaimCb}
+								requiredStakeToken={'ETH'}
+								claimantDependencies={claimant_deps}
+								validatorDependencies={validator_deps}
+								claimantReward={claim_reward}
+								validatorReward={validator_reward}
+							></QuestCard>
+						</Link>
 					</div>
-				})}
-			</div>
+				})
+				}
+			</div >
 		})
 	}
 

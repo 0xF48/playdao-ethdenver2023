@@ -44,7 +44,7 @@ const wagmiClient = createClient({
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  uri: "https://api.thegraph.com/subgraphs/name/kourin1996/playdao_mumbai"
+  uri: "https://api.thegraph.com/subgraphs/name/kourin1996/playdao_mumbai_2"
 });
 
 function MyApp({ Component, pageProps }: AppProps) {

@@ -14,6 +14,21 @@ export function useLocalStorage<T>(key: string, fallbackValue: T) {
 }
 
 
+export function useQuest(quest_id?: any) {
+	let org = useOrganization()
+	console.log('use quest', quest_id, org)
+	let claimQuest = (quest_id: any) => {
+
+	}
+
+	return {
+		loading: false,
+		quest_data: null,
+		error: null,
+		claimQuest
+	};
+}
+
 export function useOrganization(id?: any) {
 	let [stored_id, setStoredId] = useState("")
 

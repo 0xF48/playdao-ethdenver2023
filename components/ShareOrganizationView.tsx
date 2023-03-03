@@ -25,7 +25,7 @@ export default function () {
 		return <div>process.env.NEXT_PUBLIC_HOST not set</div>
 	}
 
-	console.log(data.dao)
+	// console.log(data.dao)
 
 	return <div className="flex flex-col items-center w-full justify-center">
 		<OrganizationCard
