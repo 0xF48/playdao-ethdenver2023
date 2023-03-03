@@ -1191,7 +1191,8 @@ describe("PlayDAO", () => {
             daoID,
             questID,
             claimID,
-            proofMetadataURI
+            proofMetadataURI,
+            "good"
           )
         ).to.be.revertedWith("Pausable: paused");
       });
@@ -1205,7 +1206,8 @@ describe("PlayDAO", () => {
             NON_EXIST_ID,
             questID,
             claimID,
-            proofMetadataURI
+            proofMetadataURI,
+            "good"
           )
         ).to.be.revertedWith("ERR_DAO_NOT_FOUND");
       });
@@ -1219,7 +1221,8 @@ describe("PlayDAO", () => {
             daoID,
             NON_EXIST_ID,
             claimID,
-            proofMetadataURI
+            proofMetadataURI,
+            "good"
           )
         ).to.be.revertedWith("ERR_QUEST_NOT_FOUND");
       });
@@ -1233,7 +1236,8 @@ describe("PlayDAO", () => {
             daoID,
             questID,
             NON_EXIST_ID,
-            proofMetadataURI
+            proofMetadataURI,
+            "good"
           )
         ).to.be.revertedWith("ERR_CLAIM_NOT_FOUND");
       });
@@ -1243,7 +1247,13 @@ describe("PlayDAO", () => {
           await loadFixture(setup);
 
         await expect(
-          PlayDAO.completeQuest(daoID, questID, claimID, proofMetadataURI)
+          PlayDAO.completeQuest(
+            daoID,
+            questID,
+            claimID,
+            proofMetadataURI,
+            "good"
+          )
         ).to.be.revertedWith("ERR_SELF_VERIFICATION");
       });
 
@@ -1280,7 +1290,8 @@ describe("PlayDAO", () => {
             daoID,
             2,
             1,
-            proofMetadataURI
+            proofMetadataURI,
+            "good"
           )
         ).to.be.revertedWith("ERR_VERIFY_CLAIM_NOT_ALLOWED");
       });
@@ -1328,7 +1339,8 @@ describe("PlayDAO", () => {
             daoID,
             2,
             1,
-            proofMetadataURI
+            proofMetadataURI,
+            "good"
           )
         )
           .to.emit(PlayDAO, "QuestCompleted")

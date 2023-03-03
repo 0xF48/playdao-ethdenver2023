@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "compile": "hardhat compile",
-    "test": "hardhat test"
+    "test": "hardhat test",
+    "node": "hardhat node",
+    "deploy-local": "npm run compile && hardhat run scripts/deploy.ts --network hardhat"
   },
   "keywords": [],
   "author": "",

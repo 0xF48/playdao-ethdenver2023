@@ -5,17 +5,18 @@ require("dotenv").config();
 const PRIVATE_KEYS = process.env.PRIVATE_KEYS
   ? process.env.PRIVATE_KEYS.split(",")
   : [];
-const JSON_RPC_ETHEREUM_MAINNET = process.env.JSON_RPC_ETHEREUM_MAINNET!;
-const JSON_RPC_ETHEREUM_GOERLI = process.env.JSON_RPC_ETHEREUM_GOERLI!;
+const JSON_RPC_ETHEREUM_MAINNET = process.env.JSON_RPC_ETHEREUM_MAINNET ?? "";
+const JSON_RPC_ETHEREUM_GOERLI = process.env.JSON_RPC_ETHEREUM_GOERLI ?? "";
 const JSON_RPC_POLYGON_MAINNET =
   process.env.JSON_RPC_POLYGON_MAINNET ?? "https://polygon-rpc.com/";
 const JSON_RPC_POLYGON_MUMBAI =
   process.env.JSON_RPC_POLYGON_MUMBAI ?? "https://rpc-mumbai.maticvigil.com/";
+const JSON_RPC_OPTIMISM_TESTNET = process.env.JSON_RPC_OPTIMISM_TESTNET ?? "";
 
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   solidity: {
-    version: "0.8.19",
+    version: "0.8.17",
     settings: {
       optimizer: {
         enabled: true,
@@ -24,7 +25,11 @@ const config: HardhatUserConfig = {
     },
   },
   networks: {
-    hardhat: {},
+    local: {
+      url: "http://127.0.0.1:8545",
+      accounts: [
+      ]
+    },
     goerli: {
       url: JSON_RPC_ETHEREUM_GOERLI,
       accounts: PRIVATE_KEYS,
@@ -35,6 +40,14 @@ const config: HardhatUserConfig = {
     },
     mumbai: {
       url: JSON_RPC_POLYGON_MUMBAI,
+      accounts: PRIVATE_KEYS,
+    },
+    base_testnet: {
+      url: "https://goerli.base.org",
+      accounts: PRIVATE_KEYS,
+    },
+    optimism_testnet: {
+      url: JSON_RPC_OPTIMISM_TESTNET,
       accounts: PRIVATE_KEYS,
     },
   },

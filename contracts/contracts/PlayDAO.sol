@@ -5,15 +5,19 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "solidity-json-writer/contracts/JsonWriter.sol";
+import "./AttestationPublisher.sol";
 import "./Badge.sol";
+import "./AttestationPublisher.sol";
 
 contract PlayDAO is Ownable, Pausable {
     using SafeMath for uint256;
     using Counters for Counters.Counter;
-    using JsonWriter for JsonWriter.Json;
 
-    constructor() {}
+    address private _attestationPublisher;
+
+    constructor(address attestationPublisher) {
+        _attestationPublisher = attestationPublisher;
+    }
 
     // Types
     struct DAO {
@@ -115,6 +119,7 @@ contract PlayDAO is Ownable, Pausable {
         "ERR_CANCEL_CLAIM_NOT_ALLOWED";
     string public constant ERR_SELF_VERIFICATION = "ERR_SELF_VERIFICATION";
     string public constant ERR_WRONG_BADGE_TYPE_ID = "ERR_WRONG_BADGE_TYPE_ID";
+    string public constant ERR_QUEST_NOT_ONGOING = "ERR_QUEST_NOT_ONGOING";
 
     // Events
     event DAOCreated(
@@ -174,7 +179,11 @@ contract PlayDAO is Ownable, Pausable {
         uint256 indexed questID,
         uint256 indexed claimID,
         address verifier,
-        string proofMetadataURI
+        string proofMetadataURI,
+        string score,
+        address attestationCreator,
+        bytes32 contributorAttestationKey,
+        bytes32 verifierAttestationKey
     );
 
     event Deposited(address indexed account, uint256 amount, uint256 total);
@@ -188,7 +197,18 @@ contract PlayDAO is Ownable, Pausable {
         uint256 remaining
     );
 
+    event BadgeGranted(
+        uint256 indexed daoID,
+        address indexed to,
+        address indexed from,
+        uint256 badgeID,
+        address attestationCreator,
+        bytes32 attestationKey
+    );
+
     // Fields
+    Counters.Counter private _nonce;
+
     Counters.Counter private _countDAO;
     mapping(uint256 => DAO) public _DAOs;
 
@@ -385,7 +405,8 @@ contract PlayDAO is Ownable, Pausable {
         uint256 daoID,
         uint256 questID,
         uint256 claimID,
-        string memory proofMetadataURI
+        string memory proofMetadataURI,
+        string memory score
     )
         external
         whenNotPaused
@@ -393,7 +414,14 @@ contract PlayDAO is Ownable, Pausable {
         questExists(daoID, questID)
         claimExists(daoID, questID, claimID)
     {
-        _completeQuest(daoID, questID, claimID, proofMetadataURI, msg.sender);
+        _completeQuest(
+            daoID,
+            questID,
+            claimID,
+            proofMetadataURI,
+            score,
+            msg.sender
+        );
     }
 
     // Public functions
@@ -526,18 +554,42 @@ contract PlayDAO is Ownable, Pausable {
             ERR_WRONG_BADGE_TYPE_ID
         );
 
-        JsonWriter.Json memory writer;
-        writer = writer.writeStartObject();
-        writer = writer.writeStringProperty("Type", "Grant");
-        writer = writer.writeAddressProperty("Issued", address(this));
-        writer = writer.writeUintProperty("DAO", daoID);
-        writer = writer.writeAddressProperty("Requested", msg.sender);
-        writer = writer.writeEndObject();
+        bytes32 badgeKey = bytes32("");
+        if (_attestationPublisher != address(0x0)) {
+            badgeKey = AttestationPublisher(_attestationPublisher)
+                .publishGrantedAttestation(
+                    abi.encodePacked(
+                        "playdao.",
+                        daoID,
+                        ".badge.",
+                        badgeTypeID,
+                        ".grant"
+                        ".nonce.",
+                        _nonce.current()
+                    ),
+                    to,
+                    msg.sender,
+                    _nonce.current(),
+                    daoID,
+                    badgeTypeID
+                );
+        }
+
+        _nonce.increment();
 
         Badge(_DAOs[daoID].badgeContract).mintBadge(
             to,
             badgeTypeID,
-            bytes(writer.value)
+            abi.encodePacked(badgeKey)
+        );
+
+        emit BadgeGranted(
+            daoID,
+            to,
+            msg.sender,
+            badgeTypeID,
+            _attestationPublisher,
+            badgeKey
         );
     }
 
@@ -562,10 +614,22 @@ contract PlayDAO is Ownable, Pausable {
             _badgeTypeExists(daoID, contributorBadgeTypeID),
             ERR_BADGE_TYPE_NOT_FOUND
         );
+        // DAO can give a badge whose type is created by same DAO
+        require(
+            _badgeTypeIDToDAO[contributorBadgeTypeID] == daoID,
+            ERR_WRONG_BADGE_TYPE_ID
+        );
+
         require(
             _badgeTypeExists(daoID, verifierBadgeTypeID),
             ERR_BADGE_TYPE_NOT_FOUND
         );
+        // DAO can give a badge whose type is created by same DAO
+        require(
+            _badgeTypeIDToDAO[verifierBadgeTypeID] == daoID,
+            ERR_WRONG_BADGE_TYPE_ID
+        );
+
         require(
             _verifyBadgeTypesExist(daoID, starterDeps),
             ERR_BADGE_TYPE_NOT_FOUND
@@ -716,6 +780,7 @@ contract PlayDAO is Ownable, Pausable {
         Quest storage quest = _quests[daoID][questID];
         Claim storage claim = _claims[daoID][questID][claimID];
 
+        require(claim.status == ClaimStatus.OnGoing, ERR_QUEST_NOT_ONGOING);
         require(
             // claimer or verifier
             msg.sender == claim.claimer ||
@@ -743,63 +808,52 @@ contract PlayDAO is Ownable, Pausable {
         uint256 questID,
         uint256 claimID,
         string memory proofMetadataURI,
+        string memory score,
         address verifier
-    ) private {
+    ) internal {
         Quest storage quest = _quests[daoID][questID];
+        QuestType memory questType = _questTypes[daoID][quest.questTypeID];
         Claim storage claim = _claims[daoID][questID][claimID];
+        uint256 daoID_ = daoID;
 
+        require(claim.status == ClaimStatus.OnGoing, ERR_QUEST_NOT_ONGOING);
         require(claim.claimer != verifier, ERR_SELF_VERIFICATION);
-
         require(
-            _verifyBadgeTypeOwned(
-                daoID,
-                _questTypes[daoID][quest.questTypeID].verifierDeps,
-                verifier
-            ),
+            _verifyBadgeTypeOwned(daoID_, questType.verifierDeps, verifier),
             ERR_VERIFY_CLAIM_NOT_ALLOWED
         );
 
-        _unstake(daoID, claim.claimer, quest.requiredStake);
+        _unstake(daoID_, claim.claimer, quest.requiredStake);
 
         quest.numComplted++;
         quest.numOngoings--;
 
         claim.status = ClaimStatus.Completed;
 
-        JsonWriter.Json memory writer1;
-        writer1 = writer1.writeStartObject();
-        writer1 = writer1.writeStringProperty("Type", "Contributed");
-        writer1 = writer1.writeAddressProperty("Issued", address(this));
-        writer1 = writer1.writeUintProperty("DAO", daoID);
-        writer1 = writer1.writeAddressProperty("Verified", verifier);
-        writer1 = writer1.writeEndObject();
+        GrantDTO memory grantDTO = GrantDTO({
+            daoID: daoID,
+            questTypeID: quest.questTypeID,
+            questID: questID,
+            claimID: claimID,
+            score: score,
+            verifier: verifier
+        });
 
-        Badge(_DAOs[daoID].badgeContract).mintBadge(
-            claim.claimer,
-            _questTypes[daoID][quest.questTypeID].contributorBadgeTypeID,
-            bytes(writer1.value)
-        );
+        bytes32 contributorBadgeKey = _grantedContributed(grantDTO);
+        bytes32 verifierBadgeKey = _grantedVerified(grantDTO);
 
-        JsonWriter.Json memory writer2;
-        writer2 = writer2.writeStartObject();
-        writer2 = writer2.writeStringProperty("Type", "Verified");
-        writer2 = writer2.writeAddressProperty("Issued", address(this));
-        writer2 = writer2.writeUintProperty("DAO", daoID);
-        writer2 = writer2.writeAddressProperty("Target", claim.claimer);
-        writer2 = writer2.writeEndObject();
-
-        Badge(_DAOs[daoID].badgeContract).mintBadge(
-            verifier,
-            _questTypes[daoID][quest.questTypeID].verifierBadgeTypeID,
-            bytes(writer2.value)
-        );
+        _nonce.increment();
 
         emit QuestCompleted(
-            daoID,
+            daoID_,
             questID,
             claimID,
             verifier,
-            proofMetadataURI
+            proofMetadataURI,
+            score,
+            _attestationPublisher,
+            contributorBadgeKey,
+            verifierBadgeKey
         );
     }
 
@@ -850,7 +904,7 @@ contract PlayDAO is Ownable, Pausable {
     function _verifyBadgeTypesExist(
         uint256 daoID,
         uint256[] memory badgeTypeIDs
-    ) private returns (bool) {
+    ) private view returns (bool) {
         uint256 upperBound = Badge(_DAOs[daoID].badgeContract)
             .totalOfBadgeTypes();
 
@@ -867,11 +921,11 @@ contract PlayDAO is Ownable, Pausable {
         uint256 daoID,
         uint256[] memory badgeTypeIDs,
         address acc
-    ) private returns (bool) {
+    ) private view returns (bool) {
         Badge badge = Badge(_DAOs[daoID].badgeContract);
 
         for (uint256 i = 0; i < badgeTypeIDs.length; i++) {
-            if (badge.balanceOf(acc, badgeTypeIDs[0]) == 0) {
+            if (badge.balanceOf(acc, badgeTypeIDs[i]) == 0) {
                 return false;
             }
         }
@@ -881,10 +935,112 @@ contract PlayDAO is Ownable, Pausable {
 
     function _badgeTypeExists(uint256 daoID, uint256 badgeTypeID)
         private
+        view
         returns (bool)
     {
         return
             badgeTypeID <=
             Badge(_DAOs[daoID].badgeContract).totalOfBadgeTypes();
+    }
+
+    struct GrantDTO {
+        uint256 daoID;
+        uint256 questTypeID;
+        uint256 questID;
+        uint256 claimID;
+        string score;
+        address verifier;
+    }
+
+    function _grantedContributed(GrantDTO memory dto)
+        internal
+        returns (bytes32)
+    {
+        DAO memory dao = _DAOs[dto.daoID];
+        QuestType memory questType = _questTypes[dto.daoID][dto.questTypeID];
+        Claim memory claim = _claims[dto.daoID][dto.questID][dto.claimID];
+        Badge badge = Badge(dao.badgeContract);
+
+        bytes32 contributorBadgeKey = bytes32("");
+        uint256 contributorBadgeTypeID = questType.contributorBadgeTypeID;
+
+        if (_attestationPublisher != address(0x0)) {
+            contributorBadgeKey = AttestationPublisher(_attestationPublisher)
+                .publishContrbutedAttestation(
+                    AttestationPublisher.PublishContributedDTO({
+                        rawKey: abi.encodePacked(
+                            "playdao.",
+                            dto.daoID,
+                            ".badge.",
+                            contributorBadgeTypeID,
+                            ".contributed"
+                            ".nonce.",
+                            _nonce.current()
+                        ),
+                        to: claim.claimer,
+                        verifier: dto.verifier,
+                        score: dto.score,
+                        nonce: _nonce.current(),
+                        daoID: dto.daoID,
+                        badgeTypeID: contributorBadgeTypeID,
+                        questTypeID: dto.questTypeID,
+                        questID: dto.questID,
+                        claimID: dto.claimID
+                    })
+                );
+        }
+
+        badge.mintBadge(
+            claim.claimer,
+            contributorBadgeTypeID,
+            abi.encodePacked(contributorBadgeKey)
+        );
+
+        return contributorBadgeKey;
+    }
+
+    function _grantedVerified(GrantDTO memory dto) internal returns (bytes32) {
+        uint256 questTypeID = dto.questTypeID;
+
+        DAO memory dao = _DAOs[dto.daoID];
+        QuestType memory questType = _questTypes[dto.daoID][questTypeID];
+        Claim storage claim = _claims[dto.daoID][dto.questID][dto.claimID];
+        Badge badge = Badge(dao.badgeContract);
+
+        bytes32 verifierBadgeKey = bytes32("");
+        uint256 verifierBadgeTypeID = questType.verifierBadgeTypeID;
+        if (_attestationPublisher != address(0x0)) {
+            verifierBadgeKey = AttestationPublisher(_attestationPublisher)
+                .publishVerifiedAttestation(
+                    AttestationPublisher.PublishVerifiedDTO({
+                        rawKey: abi.encodePacked(
+                            "playdao.",
+                            dto.daoID,
+                            ".badge.",
+                            verifierBadgeTypeID,
+                            ".verified"
+                            ".nonce.",
+                            _nonce.current()
+                        ),
+                        to: dto.verifier,
+                        contributor: claim.claimer,
+                        score: dto.score,
+                        nonce: _nonce.current(),
+                        daoID: dto.daoID,
+                        badgeTypeID: verifierBadgeTypeID,
+                        questTypeID: dto.questTypeID,
+                        questID: dto.questID,
+                        claimID: dto.claimID
+                    })
+                );
+        }
+
+        badge.mintBadge(
+            dto.verifier,
+            verifierBadgeTypeID,
+            abi.encodePacked(verifierBadgeKey)
+        );
+
+        return verifierBadgeKey;
     }
 }

@@ -1,8 +1,57 @@
 [
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "attestationPublisher",
+        "type": "address"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "daoID",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "badgeID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "attestationCreator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "attestationKey",
+        "type": "bytes32"
+      }
+    ],
+    "name": "BadgeGranted",
+    "type": "event"
   },
   {
     "anonymous": false,
@@ -229,6 +278,30 @@
         "internalType": "string",
         "name": "proofMetadataURI",
         "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "score",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "attestationCreator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "contributorAttestationKey",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "verifierAttestationKey",
+        "type": "bytes32"
       }
     ],
     "name": "QuestCompleted",
@@ -675,6 +748,19 @@
   },
   {
     "inputs": [],
+    "name": "ERR_QUEST_NOT_ONGOING",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "ERR_QUEST_TYPE_NOT_FOUND",
     "outputs": [
       {
@@ -973,6 +1059,11 @@
       {
         "internalType": "string",
         "name": "proofMetadataURI",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "score",
         "type": "string"
       }
     ],
