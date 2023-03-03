@@ -59,10 +59,7 @@ interface IPlayDAO {
         uint256 badgeTypeID,
 
         // Give to
-        address to,
-
-        // MetadataURI
-        string memory metadataURI
+        address to
     )
 
     // create a new quest type in DAO
@@ -154,7 +151,10 @@ interface IPlayDAO {
         uint256 claimID,
 
         // URI of metadata indicating about proof of completion
-        string memory proofContentURI
+        string memory proofMetadataURI,
+
+        // Arbitrary text for short score
+        string memory score
     );
 }
 ```
@@ -550,6 +550,13 @@ PlayDAO: 0xb7C26af8b20Cc1017A296DABc0C44B37aD872457
 Badge: 0xF7f39710DA63fefc0d496038CeeeeCAF5E3e4F1d
 AttestationPublisher: 0x9a061a52B92cAb2DA7313FB03Dc7e1cE7320CF40
 PlayDAO: 0xD0C10B97a85F65B08c6F584e8B024371AC786b84
+
+### Scroll Testnet
+
+#### No.1 (Deployed at 2 Mar 21:00)
+
+Badge: 0x3F9A49825A0b2E836C071eb72375748aDe309f15
+PlayDAO: 0x10FFB3efA577e5CFB83FA11592984919106CC770
 
 ## Note
 
