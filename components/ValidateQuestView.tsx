@@ -17,7 +17,7 @@ function EmojiButtonComponent({ symbol, select, onSelect }: any) {
 }
 
 
-export default function ValidationView() {
+export default function ValidateQuestView() {
 
 	const [metaSymbol, setMetaSymbol] = useState('')
 

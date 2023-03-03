@@ -9,6 +9,8 @@ export default function QuestCard({
 	requiredStakeToken,
 	details,
 	onClickClaimButton,
+	claimCount,
+	availCount,
 	claimantDependencies = [],
 	validatorDependencies = [],
 	claimantReward,
@@ -37,6 +39,8 @@ export default function QuestCard({
 		/>
 	})
 
+	let no_deps = claimantDependencies.length == 0 && validatorDependencies.length == 0
+
 	let validator_reward = validatorReward && <BadgeMiniComponent
 		prefix='validator gains:'
 		bar_class='bg-red-500'
@@ -54,19 +58,15 @@ export default function QuestCard({
 	return <Card>
 		<div className="flex flex-col items-center">
 			<QuestDetails colorClass='bg-red-500' details={details} />
-			<SectionLabel label='requirements' />
+			{!no_deps && <SectionLabel label='dependencies' />}
 			{claimant_deps}
 			{validator_deps}
-			{onClickClaimButton && <ClaimButton
-				onClick={onClickClaimButton}
-				claimAmount={requiredStakeAmount}
-				claimToken={requiredStakeToken}
-				isClaimed={isClaimed}
-				isLocked={isLocked}>
-			</ClaimButton>}
-			{validator_reward || claimant_reward && <SectionLabel label='rewards' />}
+			{(validator_reward || claimant_reward) && <SectionLabel label='rewards' />}
 			{validator_reward}
 			{claimant_reward}
+			<div className="mt-3 text-md text-base-500">
+				{claimCount} / {availCount} claimed
+			</div>
 		</div>
 	</Card>
 }
