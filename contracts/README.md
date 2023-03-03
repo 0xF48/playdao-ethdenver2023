@@ -59,10 +59,7 @@ interface IPlayDAO {
         uint256 badgeTypeID,
 
         // Give to
-        address to,
-
-        // MetadataURI
-        string memory metadataURI
+        address to
     )
 
     // create a new quest type in DAO
@@ -154,7 +151,10 @@ interface IPlayDAO {
         uint256 claimID,
 
         // URI of metadata indicating about proof of completion
-        string memory proofContentURI
+        string memory proofMetadataURI,
+
+        // Arbitrary text for short score
+        string memory score
     );
 }
 ```
