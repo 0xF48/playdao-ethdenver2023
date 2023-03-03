@@ -101,7 +101,7 @@ async function main() {
 
   const tx6 = await playDAO
     .connect(account1)
-    .completeQuest(daoID, questID, claimID, "ipfs:proof");
+    .completeQuest(daoID, questID, claimID, "ipfs:proof", "👍");
   const res6 = await tx6.wait();
   console.log("Completed Claim 1");
 
@@ -137,7 +137,8 @@ async function main() {
     daoID,
     questID2,
     claimID2,
-    "ipfs:proof"
+    "ipfs:proof",
+    "👍"
   );
   const res10 = await tx10.wait();
   console.log("Completed Quest 2", 1);

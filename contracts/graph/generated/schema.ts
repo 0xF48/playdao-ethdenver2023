@@ -966,6 +966,23 @@ export class Claim extends Entity {
     }
   }
 
+  get score(): string | null {
+    let value = this.get("score");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set score(value: string | null) {
+    if (!value) {
+      this.unset("score");
+    } else {
+      this.set("score", Value.fromString(<string>value));
+    }
+  }
+
   get claimedBlock(): BigInt {
     let value = this.get("claimedBlock");
     return value!.toBigInt();
@@ -1433,13 +1450,38 @@ export class BadgeIssueHistory extends Entity {
     this.set("dao", Value.fromString(value));
   }
 
-  get hashKey(): Bytes {
-    let value = this.get("hashKey");
-    return value!.toBytes();
+  get attestationCreator(): Bytes | null {
+    let value = this.get("attestationCreator");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
   }
 
-  set hashKey(value: Bytes) {
-    this.set("hashKey", Value.fromBytes(value));
+  set attestationCreator(value: Bytes | null) {
+    if (!value) {
+      this.unset("attestationCreator");
+    } else {
+      this.set("attestationCreator", Value.fromBytes(<Bytes>value));
+    }
+  }
+
+  get attestationKey(): Bytes | null {
+    let value = this.get("attestationKey");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set attestationKey(value: Bytes | null) {
+    if (!value) {
+      this.unset("attestationKey");
+    } else {
+      this.set("attestationKey", Value.fromBytes(<Bytes>value));
+    }
   }
 
   get type(): string {

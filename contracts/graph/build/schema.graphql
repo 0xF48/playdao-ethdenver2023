@@ -133,6 +133,7 @@ type Claim @entity {
 
   verifiedBy: Bytes
   proofMetadataURI: String
+  score: String
 
   claimedBlock: BigInt!
   claimedBlockHash: Bytes!
@@ -185,7 +186,8 @@ type BadgeIssueHistory @entity {
   account: Bytes!
   daoID: BigInt!
   dao: DAO!
-  hashKey: Bytes!
+  attestationCreator: Bytes
+  attestationKey: Bytes
 
   type: String!
   requested: Bytes!

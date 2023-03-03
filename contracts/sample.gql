@@ -106,6 +106,7 @@
     requested
     questID
     claimID
-    hashKey
+    attestationKey
+    attestationCreator
   }
 }

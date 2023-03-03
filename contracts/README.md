@@ -271,20 +271,237 @@ query example
     account
     amount
   }
+
+  badgeIssueHistories {
+    id
+    account
+    daoID
+    type
+    requested
+    questID
+    claimID
+    attestationKey
+    attestationCreator
+  }
 }
 ```
 
 result example
 
 ```json
-
+{
+  "data": {
+    "daos": [
+      {
+        "id": "0x1",
+        "daoID": "1",
+        "name": "Test DAO1",
+        "metadataURI": "ipfs:DAO1",
+        "badgeContract": "0xf7f39710da63fefc0d496038ceeeecaf5e3e4f1d",
+        "totalStaked": "0",
+        "balance": "0",
+        "badgeTypes": [
+          {
+            "id": "0x1_0x1",
+            "daoID": "1",
+            "badgeTypeID": "1",
+            "name": "BadgeType1",
+            "metadataURI": "ipfs:BadgeType1"
+          }
+        ],
+        "questTypes": [
+          {
+            "id": "0x1_0x1",
+            "daoID": "1",
+            "questTypeID": "1",
+            "name": "QuestType1",
+            "metadataURI": "ipfs:QuestType1",
+            "contributorBadgeTypeID": "1",
+            "verifierBadgeTypeID": "1",
+            "contributorBadge": {
+              "id": "0x1_0x1",
+              "name": "BadgeType1",
+              "metadataURI": "ipfs:BadgeType1"
+            },
+            "verifierBadge": {
+              "id": "0x1_0x1",
+              "name": "BadgeType1",
+              "metadataURI": "ipfs:BadgeType1"
+            },
+            "starterDeps": [],
+            "contributorDeps": [],
+            "quests": [
+              {
+                "id": "0x1_0x1_0x1",
+                "daoID": "1",
+                "questTypeID": "1",
+                "questID": "1",
+                "name": "Quest1",
+                "metadataURI": "ipfs:Quest1",
+                "limitContributions": "1",
+                "numOnGoings": "0",
+                "numCompleted": "0",
+                "numCanceled": "0",
+                "requiredStake": "0",
+                "claims": [
+                  {
+                    "id": "0x1_0x1_0x1",
+                    "daoID": "1",
+                    "questTypeID": "1",
+                    "questID": "1",
+                    "claimID": "1",
+                    "status": "completed",
+                    "claimedBy": "0x68e7bd8736ded1df80cbe5fd74a50e904f6c6f3f",
+                    "claimedBlock": "6188617",
+                    "verifiedBy": "0x65d4ec89ce26763b4bea27692e5981d8cd3a58c7",
+                    "completedBlock": "6188620"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "0x1_0x2",
+            "daoID": "1",
+            "questTypeID": "2",
+            "name": "QuestType2",
+            "metadataURI": "ipfs:QuestType2",
+            "contributorBadgeTypeID": "1",
+            "verifierBadgeTypeID": "1",
+            "contributorBadge": {
+              "id": "0x1_0x1",
+              "name": "BadgeType1",
+              "metadataURI": "ipfs:BadgeType1"
+            },
+            "verifierBadge": {
+              "id": "0x1_0x1",
+              "name": "BadgeType1",
+              "metadataURI": "ipfs:BadgeType1"
+            },
+            "starterDeps": [
+              {
+                "id": "0x1_0x2_0x1",
+                "badgeType": {
+                  "id": "0x1_0x1",
+                  "name": "BadgeType1",
+                  "metadataURI": "ipfs:BadgeType1"
+                }
+              }
+            ],
+            "contributorDeps": [
+              {
+                "id": "0x1_0x2_0x1",
+                "badgeType": {
+                  "id": "0x1_0x1",
+                  "name": "BadgeType1",
+                  "metadataURI": "ipfs:BadgeType1"
+                }
+              }
+            ],
+            "quests": [
+              {
+                "id": "0x1_0x2_0x2",
+                "daoID": "1",
+                "questTypeID": "2",
+                "questID": "2",
+                "name": "Quest2",
+                "metadataURI": "ipfs:Quest2",
+                "limitContributions": "1",
+                "numOnGoings": "0",
+                "numCompleted": "0",
+                "numCanceled": "0",
+                "requiredStake": "1",
+                "claims": [
+                  {
+                    "id": "0x1_0x2_0x1",
+                    "daoID": "1",
+                    "questTypeID": "2",
+                    "questID": "2",
+                    "claimID": "1",
+                    "status": "completed",
+                    "claimedBy": "0x65d4ec89ce26763b4bea27692e5981d8cd3a58c7",
+                    "claimedBlock": "6188629",
+                    "verifiedBy": "0x68e7bd8736ded1df80cbe5fd74a50e904f6c6f3f",
+                    "completedBlock": "6188631"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "userStakes": [
+      {
+        "daoID": "1",
+        "account": "0x65d4ec89ce26763b4bea27692e5981d8cd3a58c7",
+        "amount": "0"
+      }
+    ],
+    "userDeposits": [
+      {
+        "id": "0x65d4ec89ce26763b4bea27692e5981d8cd3a58c7",
+        "account": "0x65d4ec89ce26763b4bea27692e5981d8cd3a58c7",
+        "amount": "1"
+      }
+    ],
+    "badgeIssueHistories": [
+      {
+        "id": "0x1_0x65d4ec89ce26763b4bea27692e5981d8cd3a58c7_contributed_0x023374f247721f45b2e87d716f0bb4b81b1666306616fd59fce3926a23b9eb7d",
+        "account": "0x65d4ec89ce26763b4bea27692e5981d8cd3a58c7",
+        "daoID": "1",
+        "type": "contributed",
+        "requested": "0x68e7bd8736ded1df80cbe5fd74a50e904f6c6f3f",
+        "questID": "2",
+        "claimID": "1",
+        "attestationKey": "0x20058adf598beb7f40a34290eb5a0e8bc8ac649e43802e05d3a684bd560ba5ff",
+        "attestationCreator": "0x9a061a52b92cab2da7313fb03dc7e1ce7320cf40"
+      },
+      {
+        "id": "0x1_0x65d4ec89ce26763b4bea27692e5981d8cd3a58c7_verified_0x896875d2dd64bd04365e89c76b3583c8363763b672e57d8f34afc830081f455b",
+        "account": "0x65d4ec89ce26763b4bea27692e5981d8cd3a58c7",
+        "daoID": "1",
+        "type": "verified",
+        "requested": "0x65d4ec89ce26763b4bea27692e5981d8cd3a58c7",
+        "questID": "1",
+        "claimID": "1",
+        "attestationKey": "0x20f326294ba18feec77c022ac91c140cc1329aa1c48553674df009d4bc6748ff",
+        "attestationCreator": "0x9a061a52b92cab2da7313fb03dc7e1ce7320cf40"
+      },
+      {
+        "id": "0x1_0x68e7bd8736ded1df80cbe5fd74a50e904f6c6f3f_contributed_0x896875d2dd64bd04365e89c76b3583c8363763b672e57d8f34afc830081f455b",
+        "account": "0x68e7bd8736ded1df80cbe5fd74a50e904f6c6f3f",
+        "daoID": "1",
+        "type": "contributed",
+        "requested": "0x65d4ec89ce26763b4bea27692e5981d8cd3a58c7",
+        "questID": "1",
+        "claimID": "1",
+        "attestationKey": "0x205bbbd89351c71060a4dc84397e3ec27a532ff9e36171aa191f7a7ad005deff",
+        "attestationCreator": "0x9a061a52b92cab2da7313fb03dc7e1ce7320cf40"
+      },
+      {
+        "id": "0x1_0x68e7bd8736ded1df80cbe5fd74a50e904f6c6f3f_verified_0x023374f247721f45b2e87d716f0bb4b81b1666306616fd59fce3926a23b9eb7d",
+        "account": "0x68e7bd8736ded1df80cbe5fd74a50e904f6c6f3f",
+        "daoID": "1",
+        "type": "verified",
+        "requested": "0x68e7bd8736ded1df80cbe5fd74a50e904f6c6f3f",
+        "questID": "2",
+        "claimID": "1",
+        "attestationKey": "0x203bc6420ef9353f449287467ee629ec4ab1b7286fabe829195505034e5138ff",
+        "attestationCreator": "0x9a061a52b92cab2da7313fb03dc7e1ce7320cf40"
+      }
+    ]
+  }
+}
 ```
 
 ## Deployment
 
 ### Mumbai
 
+Explorer: https://mumbai.polygonscan.com/
 Graph: https://api.thegraph.com/subgraphs/name/kourin1996/playdao_mumbai_2
+JSON-RPC: https://rpc-mumbai.maticvigil.com/
 
 #### No.1 (Deployed at 1 Mar 9:00)
 
@@ -296,10 +513,15 @@ PlayDAO: 0xD8A2E11a8C3776f1F74Ea898f54bA86Af25c1864
 Badge: 0x59d9969D288e36d2ebd49509461A26c6c048Eb1d
 PlayDAO: 0x74Ea6Beab363C455C83A9cE9c1E30bd7d4480d7c
 
+#### No.3 (Deployed at 2 Mar 18:00)
+
+Badge: 0x6aB69558530D0F57B592303fa4E8771D5C0520D5
+PlayDAO: 0x9300aD663d441452cD12210991eF170324ECa40C
+
 ### Base Testnet
 
 Explorer: https://goerli.basescan.org/
-Graph: https://api.studio.thegraph.com/query/37331/playdao_base_testnet/v0.0.1
+Graph: https://api.studio.thegraph.com/query/37331/playdao_base_testnet/v0.0.3
 JSON-RPC: https://goerli.base.org
 
 #### No.1 (Deployed at 1 Mar 13:40)
@@ -307,16 +529,27 @@ JSON-RPC: https://goerli.base.org
 Badge: 0x3F9A49825A0b2E836C071eb72375748aDe309f15
 PlayDAO: 0x10FFB3efA577e5CFB83FA11592984919106CC770
 
+#### No.2 (Deployed at 2 Mar 18:00)
+
+Badge: 0x8368dB6344f72d6aCaD928B21f095976833d036F
+PlayDAO: 0x4405e42b71245482FAbCf3A161f8CdeCb10dbE92
+
 ### Optimism Testnet
 
 Explorer: https://goerli-optimism.etherscan.io/
-Graph: https://api.studio.thegraph.com/query/37331/playdao_optimism_testnet/v0.0.5
+Graph: https://api.studio.thegraph.com/query/37331/playdao_optimism_testnet/v0.1.3
 JSON-RPC: https://goerli.optimism.io
 
 #### No.1 (Deployed at 1 Mar 18:00)
 
 Badge: 0x121937C2fa989dD99A3097b44496b9Fcd85777Ed
 PlayDAO: 0xb7C26af8b20Cc1017A296DABc0C44B37aD872457
+
+#### No.2 (Deployed at 2 Mar 18:00)
+
+Badge: 0xF7f39710DA63fefc0d496038CeeeeCAF5E3e4F1d
+AttestationPublisher: 0x9a061a52B92cAb2DA7313FB03Dc7e1cE7320CF40
+PlayDAO: 0xD0C10B97a85F65B08c6F584e8B024371AC786b84
 
 ## Note
 

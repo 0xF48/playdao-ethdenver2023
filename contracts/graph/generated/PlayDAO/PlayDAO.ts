@@ -39,8 +39,12 @@ export class BadgeGranted__Params {
     return this._event.parameters[3].value.toBigInt();
   }
 
-  get hashKey(): Bytes {
-    return this._event.parameters[4].value.toBytes();
+  get attestationCreator(): Address {
+    return this._event.parameters[4].value.toAddress();
+  }
+
+  get attestationKey(): Bytes {
+    return this._event.parameters[5].value.toBytes();
   }
 }
 
@@ -271,12 +275,20 @@ export class QuestCompleted__Params {
     return this._event.parameters[4].value.toString();
   }
 
-  get contributorBadgeKey(): Bytes {
-    return this._event.parameters[5].value.toBytes();
+  get score(): string {
+    return this._event.parameters[5].value.toString();
   }
 
-  get verifierBadgeKey(): Bytes {
-    return this._event.parameters[6].value.toBytes();
+  get attestationCreator(): Address {
+    return this._event.parameters[6].value.toAddress();
+  }
+
+  get contributorAttestationKey(): Bytes {
+    return this._event.parameters[7].value.toBytes();
+  }
+
+  get verifierAttestationKey(): Bytes {
+    return this._event.parameters[8].value.toBytes();
   }
 }
 
@@ -1579,7 +1591,7 @@ export class ConstructorCall__Inputs {
     this._call = call;
   }
 
-  get opAttestationStation(): Address {
+  get attestationPublisher(): Address {
     return this._call.inputValues[0].value.toAddress();
   }
 }
@@ -1695,6 +1707,10 @@ export class CompleteQuestCall__Inputs {
 
   get proofMetadataURI(): string {
     return this._call.inputValues[3].value.toString();
+  }
+
+  get score(): string {
+    return this._call.inputValues[4].value.toString();
   }
 }
 

@@ -6,11 +6,11 @@ features:
 dataSources:
   - kind: ethereum
     name: PlayDAO
-    network: optimism-goerli
+    network: mumbai
     source:
       abi: PlayDAO
-      address: "0xb7C26af8b20Cc1017A296DABc0C44B37aD872457"
-      startBlock: 6139700
+      address: "0x9300aD663d441452cD12210991eF170324ECa40C"
+      startBlock: 32587168
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -43,7 +43,7 @@ dataSources:
             uint256,uint256,address)
           handler: handleQuestClaimed
         - event: QuestCompleted(indexed uint256,indexed uint256,indexed
-            uint256,address,string,bytes32,bytes32)
+            uint256,address,string,string,address,bytes32,bytes32)
           handler: handleQuestCompleted
         - event: QuestStarted(indexed uint256,indexed
             uint256,uint256,string,string,uint256,uint256)
@@ -56,6 +56,6 @@ dataSources:
         - event: WithdrewFromDAO(indexed uint256,indexed address,uint256,uint256)
           handler: handleWithdrewFromDAO
         - event: BadgeGranted(indexed uint256,indexed address,indexed
-            address,uint256,bytes32)
+            address,uint256,address,bytes32)
           handler: handleBadgeGranted
       file: ./src/play-dao.ts

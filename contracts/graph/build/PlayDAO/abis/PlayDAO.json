@@ -3,7 +3,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "opAttestationStation",
+        "name": "attestationPublisher",
         "type": "address"
       }
     ],
@@ -39,8 +39,14 @@
       },
       {
         "indexed": false,
+        "internalType": "address",
+        "name": "attestationCreator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
         "internalType": "bytes32",
-        "name": "hashKey",
+        "name": "attestationKey",
         "type": "bytes32"
       }
     ],
@@ -275,14 +281,26 @@
       },
       {
         "indexed": false,
+        "internalType": "string",
+        "name": "score",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "attestationCreator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
         "internalType": "bytes32",
-        "name": "contributorBadgeKey",
+        "name": "contributorAttestationKey",
         "type": "bytes32"
       },
       {
         "indexed": false,
         "internalType": "bytes32",
-        "name": "verifierBadgeKey",
+        "name": "verifierAttestationKey",
         "type": "bytes32"
       }
     ],
@@ -1041,6 +1059,11 @@
       {
         "internalType": "string",
         "name": "proofMetadataURI",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "score",
         "type": "string"
       }
     ],

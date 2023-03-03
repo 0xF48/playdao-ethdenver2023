@@ -339,6 +339,7 @@ export function handleQuestCompleted(event: QuestCompletedEvent): void {
   claim.status = "completed";
   claim.verifiedBy = event.transaction.from;
   claim.proofMetadataURI = event.params.proofMetadataURI;
+  claim.score = event.params.score;
 
   claim.completedBlock = event.block.number;
   claim.completedBlockHash = event.block.hash;
@@ -360,7 +361,8 @@ export function handleQuestCompleted(event: QuestCompletedEvent): void {
     Address.fromBytes(claim.claimedBy),
     event.params.verifier,
     "contributed",
-    event.params.contributorBadgeKey,
+    event.params.attestationCreator,
+    event.params.contributorAttestationKey,
     event.transaction.hash,
     event.block.number,
     event.block.hash,
@@ -376,7 +378,8 @@ export function handleQuestCompleted(event: QuestCompletedEvent): void {
     event.params.verifier,
     event.params.verifier,
     "verified",
-    event.params.verifierBadgeKey,
+    event.params.attestationCreator,
+    event.params.verifierAttestationKey,
     event.transaction.hash,
     event.block.number,
     event.block.hash,
@@ -441,7 +444,8 @@ function createBadgeIssueHistory(
   account: Address,
   requested: Address,
   type: string,
-  hashKey: Bytes,
+  attestationCreator: Address,
+  attestationKey: Bytes,
   txHash: Bytes,
   createdBlock: BigInt,
   createdBlockHash: Bytes,
@@ -460,7 +464,11 @@ function createBadgeIssueHistory(
   badge.dao = daoID.toHex();
   badge.type = type;
   badge.requested = requested;
-  badge.hashKey = hashKey;
+
+  if (attestationKey.length > 0) {
+    badge.attestationCreator = attestationCreator;
+    badge.attestationKey = attestationKey;
+  }
 
   badge.createdBlock = createdBlock;
   badge.createdBlockHash = createdBlockHash;
@@ -486,7 +494,8 @@ export function handleBadgeGranted(event: BadgeGrantedEvent): void {
     event.params.to,
     event.params.from,
     "granted",
-    event.params.hashKey,
+    event.params.attestationCreator,
+    event.params.attestationKey,
     event.transaction.hash,
     event.block.number,
     event.block.hash,
