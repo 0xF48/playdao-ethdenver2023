@@ -1,8 +1,9 @@
-import type { NextPage } from 'next';
+
 import QuestCardAPIWrapper from '../components/QuestCardAPIWrapper'
 import { useOrganization } from '../util/hooks'
 import { useRouter } from 'next/router'
 import _ from 'lodash'
+import type { NextPage } from 'next';
 import Link from 'next/link'
 
 export default function QuestsListView() {

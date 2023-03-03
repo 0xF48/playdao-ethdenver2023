@@ -6,6 +6,7 @@ import playdaoABI from '../contracts/graph/abis/PlayDAO.json'
 import { useSigner } from 'wagmi'
 import _ from 'lodash'
 import { ethers } from 'ethers'
+import { useNetwork } from 'wagmi'
 
 export function useLocalStorage<T>(key: string, fallbackValue: T) {
 	const [value, setValue] = useState(fallbackValue);
@@ -35,6 +36,24 @@ export function extractQuestAndQuestType(questId: string, dao: any) {
 }
 
 
+export function PLAYDAOGlobals() {
+	// const { chain, chains } = useNetwork()
+	return {
+		GRAPH_API: process.env.NEXT_PUBLIC_BASE_GRAPH,
+		BADGE_CONTRACT: process.env.NEXT_PUBLIC_BASE_BADGE,
+		DAO_CONTRACT: process.env.NEXT_PUBLIC_BASE_CONTRACT,
+		// ATTESTATION: process.env.NEXT_PUBLIC_BASE_ATTESTATION,
+		chainId: 1,
+	}
+
+	// return {
+	// 	GRAPH_API: process.env.NEXT_PUBLIC_OPTIMISM_GRAPH,
+	// 	BADGE_CONTRACT: process.env.NEXT_PUBLIC_OPTIMISM_BADGE,
+	// 	DAO_CONTRACT: process.env.NEXT_PUBLIC_OPTIMISM_CONTRACT,
+	// 	ATTESTATION: process.env.NEXT_PUBLIC_OPTIMISM_ATTESTATION,
+	// 	chainId: 1,
+	// }
+}
 
 export function useClaimQuest(quest_id?: any, dao_id?: any, requiredStake?: any) {
 	// let { quest_loading, quest, quest_type, quest_error } = useQuest(quest_id)
@@ -53,7 +72,7 @@ export function useClaimQuest(quest_id?: any, dao_id?: any, requiredStake?: any)
 	// console.log(dao_id, quest_id, overrides)
 
 	const { config, error } = usePrepareContractWrite({
-		address: '0x9300aD663d441452cD12210991eF170324ECa40C',
+		address: PLAYDAOGlobals().DAO_CONTRACT,
 		abi: playdaoABI.abi,
 		functionName: 'claimQuest',
 		overrides: overrides,
@@ -95,8 +114,6 @@ export function useQuest(quest_id?: any) {
 		})
 	}
 
-
-
 	if (org_loading || isConnecting) {
 		return {
 			quest_loading: true,
@@ -106,14 +123,11 @@ export function useQuest(quest_id?: any) {
 		}
 	}
 
-
 	if (isDisconnected) {
 		return {
 			quest_error: new Error('is disconnected')
 		}
 	}
-
-
 
 	if (org_data) {
 
@@ -148,7 +162,6 @@ export function useQuest(quest_id?: any) {
 		quest_type: found_quest_type,
 		quest_error: null,
 	}
-
 
 }
 
