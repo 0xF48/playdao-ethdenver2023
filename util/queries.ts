@@ -1,6 +1,34 @@
 import { gql } from "@apollo/client";
 
 
+export const QUERY_QUEST = gql`
+  query quest($id: String!){
+    quest(id: $id) {
+      questType {
+        questTypeID
+        metadataURI
+      }
+      daoID
+      metadataURI
+      limitContributions
+      claims {
+        id
+        questID
+        questTypeID
+        score
+        status
+        claimID
+        claimedBy
+        proofMetadataURI
+        claimedBlock
+        claimedBlockHash
+      }
+      questTypeID
+      requiredStake
+    }
+  }
+`
+
 export const QUERY_DAO = gql`
 query dao($id: String!){
 	dao(id: $id){

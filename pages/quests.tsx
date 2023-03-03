@@ -1,9 +1,10 @@
+
 import type { NextPage } from 'next';
-import QuestListView from '../components/QuestListView'
+import QuestsListView from '../components/QuestsListView'
 
 
 const Main: NextPage = () => {
-	return <QuestListView />
+	return <QuestsListView />
 }
 
 export default Main;

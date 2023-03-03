@@ -9,6 +9,8 @@ export default function QuestCard({
 	requiredStakeToken,
 	details,
 	onClickClaimButton,
+	claimCount,
+	availCount,
 	claimantDependencies = [],
 	validatorDependencies = [],
 	claimantReward,
@@ -59,17 +61,12 @@ export default function QuestCard({
 			{!no_deps && <SectionLabel label='dependencies' />}
 			{claimant_deps}
 			{validator_deps}
-			{/* {onClickClaimButton && <ClaimButton
-				onClick={onClickClaimButton}
-				claimAmount={requiredStakeAmount}
-				claimToken={requiredStakeToken}
-				// claimQuest={claimQuest}
-				isClaimed={isClaimed}
-				isLocked={isLocked}>
-			</ClaimButton>} */}
 			{(validator_reward || claimant_reward) && <SectionLabel label='rewards' />}
 			{validator_reward}
 			{claimant_reward}
+			<div className="mt-3 text-md text-base-500">
+				{claimCount} / {availCount} claimed
+			</div>
 		</div>
 	</Card>
 }

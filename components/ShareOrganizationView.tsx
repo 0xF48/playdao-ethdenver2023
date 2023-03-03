@@ -17,7 +17,9 @@ export default function () {
 	if (data && data.dao) {
 		var org_qr_url = process.env.NEXT_PUBLIC_HOST + '/quests?dao_id=' + data.dao.id
 	}
-
+	if (!loading && !org_qr_url) {
+		return <div>add organization with ?dao_id=</div>
+	}
 	if (!org_qr_url) {
 		return <div>loading organization...</div>
 	}

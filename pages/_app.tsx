@@ -9,6 +9,7 @@ import { publicProvider } from 'wagmi/providers/public';
 import { ApolloProvider, ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import Head from 'next/head';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import FooterMenu from '../components/FooterMenu';
 
 
 const { chains, provider, webSocketProvider } = configureChains(
@@ -54,7 +55,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <ApolloProvider client={client}>
           <main>
             <div className=' bg-base-900 min-h-screen p-6 w-full text-base-100 text-xl flex flex-row content-center justify-center h-auto'>
-              <div className='w-8/12 flex flex-col h-auto'>
+              <div className='flex flex-col h-auto'>
                 <div className='flex flex-col items-center w-full mb-12'>
                   <ConnectButton />
                 </div>
@@ -67,6 +68,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                   <link rel="icon" href="/favicon.ico" />
                 </Head>
                 <Component {...pageProps} />
+                <FooterMenu></FooterMenu>
               </div>
             </div>
           </main>
