@@ -553,10 +553,10 @@ result example
 
 ## Deployment
 
-### Mumbai
+### Mumbai (Updated at 4pm 4th Mar)
 
-Badge:
-PlayDAO:
+Badge: 0x5F56524FcC7c03F3E3604174C712eFb19ddDA957
+PlayDAO: 0xF14af22453134C1665AA93965D0334b6128B52CD
 
 Explorer: https://mumbai.polygonscan.com/
 Graph: https://api.thegraph.com/subgraphs/name/kourin1996/playdao_mumbai_2
@@ -564,20 +564,21 @@ JSON-RPC: https://rpc-mumbai.maticvigil.com/
 
 ### Base Testnet
 
-Badge:
-PlayDAO:
+Badge: 0x6E49a917271909FD77B88c3d0c32E90716139AcB
+PlayDAO: 0x2c28C4A4aa42Ed274D11Bf9CacE2dBaBb87993a4
 
 Explorer: https://goerli.basescan.org/
-Graph: https://api.studio.thegraph.com/query/37331/playdao_base_testnet/v0.0.4
+Graph: https://api.studio.thegraph.com/query/37331/playdao_base_testnet/v0.0.5
 JSON-RPC: https://goerli.base.org
 
-### Optimism Goerli
+### Optimism Goerli (Updated at 4:30pm 4th Mar)
 
-Badge:
-PlayDAO:
+Badge: 0x2ce077794B0e37fE23ad06571839B7E89aD4c7de
+PlayDAO: 0xFB8B6DbaC1C185C78318aCa911fc349D69762EcF
+AttestationPublisher: 0xf9AB958175d907331Cfe99e98D5654f219445568
 
 Explorer: https://goerli-optimism.etherscan.io/
-Graph: https://api.studio.thegraph.com/query/37331/playdao_optimism_testnet/v0.1.4
+Graph: https://api.studio.thegraph.com/query/37331/playdao_optimism_testnet/v0.1.6
 JSON-RPC: https://goerli.optimism.io
 
 ### Scroll Testnet

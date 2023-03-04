@@ -3,6 +3,7 @@ import * as ethers from "ethers";
 const PLAY_DAO_ABI = require("../artifacts/contracts/PlayDAO.sol/PlayDAO.json");
 
 type MayNumber = ethers.BigNumber | number | string;
+const GAS_PRICE = undefined;
 
 export async function createDAO(
   signer: ethers.Signer,
@@ -18,7 +19,8 @@ export async function createDAO(
     name,
     metadataURI,
     badgeContractAddress,
-    ownerAddress
+    ownerAddress,
+    { gasPrice: GAS_PRICE }
   );
 
   const receipt = await tx.wait();
@@ -37,7 +39,9 @@ export async function createBadgeType(
 ) {
   const PlayDAO = new ethers.Contract(playDAOAddress, PLAY_DAO_ABI.abi, signer);
 
-  const tx = await PlayDAO.createBadgeType(daoID, name, metadataURI);
+  const tx = await PlayDAO.createBadgeType(daoID, name, metadataURI, {
+    gasPrice: GAS_PRICE,
+  });
 
   const receipt = await tx.wait();
 
@@ -53,15 +57,17 @@ export async function grantBadge(
   playDAOAddress: string,
   daoID: MayNumber,
   badgeTypeID: MayNumber,
-  to: string,
+  to: string
 ): Promise<void> {
   const PlayDAO = new ethers.Contract(playDAOAddress, PLAY_DAO_ABI.abi, signer);
 
-  const tx = await PlayDAO.grantBadge(daoID, badgeTypeID, to);
+  const tx = await PlayDAO.grantBadge(daoID, badgeTypeID, to, {
+    gasPrice: GAS_PRICE,
+  });
 
   const _receipt = await tx.wait();
 
-  return
+  return;
 }
 
 export async function createQuestType(
@@ -86,7 +92,8 @@ export async function createQuestType(
     verifierBadgeTypeID,
     starterDeps,
     contributorDeps,
-    verifierDeps
+    verifierDeps,
+    { gasPrice: GAS_PRICE }
   );
 
   const receipt = await tx.wait();
@@ -116,7 +123,8 @@ export async function startQuest(
     name,
     metadataURI,
     numContributors,
-    requiredStake
+    requiredStake,
+    { gasPrice: GAS_PRICE }
   );
 
   const receipt = await tx.wait();
@@ -136,7 +144,9 @@ export async function claimQuest(
 ) {
   const PlayDAO = new ethers.Contract(playDAOAddress, PLAY_DAO_ABI.abi, signer);
 
-  const tx = await PlayDAO.claimQuest(daoID, questID);
+  const tx = await PlayDAO.claimQuest(daoID, questID, {
+    gasPrice: GAS_PRICE,
+  });
 
   const receipt = await tx.wait();
 
@@ -156,7 +166,9 @@ export async function cancelClaim(
 ) {
   const PlayDAO = new ethers.Contract(playDAOAddress, PLAY_DAO_ABI.abi, signer);
 
-  const tx = await PlayDAO.cancelClaim(daoID, questID, claimID);
+  const tx = await PlayDAO.cancelClaim(daoID, questID, claimID, {
+    gasPrice: GAS_PRICE,
+  });
 
   const receipt = await tx.wait();
 
@@ -183,7 +195,8 @@ export async function completeQuest(
     questID,
     claimID,
     metadataURI,
-    score
+    score,
+    { gasPrice: GAS_PRICE }
   );
 
   const receipt = await tx.wait();

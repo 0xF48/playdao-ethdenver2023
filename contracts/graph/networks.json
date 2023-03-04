@@ -7,19 +7,19 @@
   },
   "mumbai": {
     "PlayDAO": {
-      "address": "0x9300aD663d441452cD12210991eF170324ECa40C",
+      "address": "0xF14af22453134C1665AA93965D0334b6128B52CD",
       "startBlock": 32587168
     }
   },
   "base-testnet": {
     "PlayDAO": {
-      "address": "0x4405e42b71245482FAbCf3A161f8CdeCb10dbE92",
+      "address": "0x2c28C4A4aa42Ed274D11Bf9CacE2dBaBb87993a4",
       "startBlock": 1254798
     }
   },
   "optimism-goerli": {
     "PlayDAO": {
-      "address": "0xD0C10B97a85F65B08c6F584e8B024371AC786b84",
+      "address": "0xFB8B6DbaC1C185C78318aCa911fc349D69762EcF",
       "startBlock": 6186640
     }
   }
