@@ -1,21 +1,25 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.7;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "./AttestationPublisher.sol";
 import "./Badge.sol";
 import "./AttestationPublisher.sol";
 
-contract PlayDAO is Ownable, Pausable {
+contract PlayDAO is Initializable, OwnableUpgradeable, PausableUpgradeable {
     using SafeMath for uint256;
     using Counters for Counters.Counter;
 
     address private _attestationPublisher;
 
-    constructor(address attestationPublisher) {
+    function initialize(address attestationPublisher) public initializer {
+        OwnableUpgradeable.__Ownable_init();
+        PausableUpgradeable.__Pausable_init();
+
         _attestationPublisher = attestationPublisher;
     }
 

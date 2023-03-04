@@ -1,14 +1,19 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.7;
 
-import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155URIStorage.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC1155/ERC1155Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC1155/extensions/ERC1155URIStorageUpgradeable.sol";
 
 // Simple SBT implementation based on ERC1155
-contract Badge is AccessControl, ERC1155, ERC1155URIStorage {
+contract Badge is
+    Initializable,
+    AccessControlUpgradeable,
+    ERC1155Upgradeable,
+    ERC1155URIStorageUpgradeable
+{
     using Counters for Counters.Counter;
 
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
@@ -25,15 +30,19 @@ contract Badge is AccessControl, ERC1155, ERC1155URIStorage {
 
     event Mint(address issued, address owner, uint256 tokenID, bytes data);
 
-    constructor() ERC1155("") {
+    function initialize(address minter) public initializer {
+        AccessControlUpgradeable.__AccessControl_init();
+        ERC1155Upgradeable.__ERC1155_init("");
+        ERC1155URIStorageUpgradeable.__ERC1155URIStorage_init();
+
         _setupRole(ADMIN_ROLE, msg.sender);
-        _setupRole(MINTER_ROLE, msg.sender);
+        _setupRole(MINTER_ROLE, minter);
     }
 
     function uri(uint256 id)
         public
         view
-        override(ERC1155, ERC1155URIStorage)
+        override(ERC1155Upgradeable, ERC1155URIStorageUpgradeable)
         returns (string memory)
     {
         return super.uri(id);
@@ -50,7 +59,7 @@ contract Badge is AccessControl, ERC1155, ERC1155URIStorage {
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(AccessControl, ERC1155)
+        override(AccessControlUpgradeable, ERC1155Upgradeable)
         returns (bool)
     {
         return super.supportsInterface(interfaceId);

@@ -1,4 +1,36 @@
-## Playdao Contract
+# PlayDAO Contracts
+
+PlayDAO is a contract enabling user to create a new DAO and micro tasks called `Quest`. Badges are granted to contributor and verifier once an account complete a quest.
+
+## How to deploy
+
+You can deploy contracts with several ways
+
+### 1. Hardhat script
+
+```bash
+$ npm i
+$ npx hardhat run scripts/deploy.ts --network <NETWORK>
+```
+
+### 2. Truffle Dashboard (Require Hardhat in browser)
+
+```bash
+$ npx truffle dashboard
+
+# In Other terminal
+$ npm i
+$ npx hardhat run scripts/deploy.ts --network truffle_dashboard
+```
+
+### 3. ChugSplash
+
+```bash
+$ npm i
+$ npx hardhat chugsplash-deploy --config-path chugsplash/playdao.ts
+```
+
+## Contract
 
 ### Interface
 
