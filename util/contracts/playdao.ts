@@ -127,7 +127,7 @@ export async function claimQuest(
   const PlayDAO = new ethers.Contract(playDAOAddress, PLAY_DAO_ABI.abi, signer);
   const tx = await PlayDAO.claimQuest(daoID, questID, { value: ethers.utils.parseEther(requiredStake) });
   const receipt = await tx.wait();
-
+  console.log('receipt', receipt)
   const daoCreatedEvent = receipt.events.find(
     (e: { event: string }) => e.event === "QuestClaimed"
   );

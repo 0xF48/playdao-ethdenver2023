@@ -35,14 +35,15 @@ export default function ClaimQuestView() {
 		text = 'no more claims'
 	}
 
-	let my_claim_count = 0
+	let my_claims: any = []
 	quest.claims.forEach((claim: any) => {
 		// console.log(address, claim.claimedBy)
 		if (String(claim.claimedBy).toLowerCase() === String(address).toLocaleLowerCase()) {
-			my_claim_count++
-			claim_id = claim.claimID
+			my_claims.push(claim)
 		}
 	})
+
+	claim_id = my_claims[my_claims.length - 1]?.claimID
 
 	let onClaimClick = () => {
 		claimQuest()
@@ -56,11 +57,14 @@ export default function ClaimQuestView() {
 		var claim_button = <Button colorClass='bg-base-800 text-base-500'>
 			loading...
 		</Button>
-	} else if (my_claim_count) {
+	} else if (my_claims.length) {
 		var validate_quest_url = process.env.NEXT_PUBLIC_HOST + '/validate?dao_id=' + dao_id + '&quest_id=' + quest_id + '&claim_id=' + claim_id
-		console.log(validate_quest_url)
+
 		var claim_button = <div>
 			<QR url={validate_quest_url}></QR>
+			<div className="text-center text-base-500 flex w-full items-center content-center justify-center">{
+				<Button onClick={onClaimClick}>claim again</Button>
+			}</div>
 		</div>
 	} else {
 		var claim_button = <Button onClick={onClaimClick} colorClass={can_claim && 'bg-blue-600 hover:bg-blue-500 border-3 border-blue-500 transition-all hover:scale-110 '}>
@@ -75,8 +79,11 @@ export default function ClaimQuestView() {
 
 	return <div className="flex flex-col items-center w-full justify-center pt-6">
 		<QuestCardAPIWrapper questId={quest_id} />
-		<div>claims : {quest.claims.length} / {quest.limitContributions}</div>
-		{my_claim_count && <div>my claims : {my_claim_count}</div>}
+		<div>total claims : {quest.claims.length} / {quest.limitContributions}</div>
+		<div>my claims:</div>
+		{my_claims && <div>{my_claims.map((claim: any) => {
+			return <div key={claim.claimID}>claimID: {claim.claimID}</div>
+		})}</div>}
 		<div className="mb-1 mt-10"></div>
 		{dao_data && claim_button}
 	</div>

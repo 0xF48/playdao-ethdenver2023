@@ -1,4 +1,4 @@
-import { QUERY_DAO, QUERY_QUEST } from './queries';
+import { QUERY_DAO, QUERY_QUEST, QUERY_BADGE_HISTORIES } from './queries';
 import { useQuery } from '@apollo/client'
 import { useEffect, useState } from 'react';
 import { useAccount, useContractWrite, usePrepareContractWrite } from 'wagmi'
@@ -201,6 +201,29 @@ export function useQuest(quest_id?: any) {
 		quest_error: null,
 	}
 
+}
+
+export function useMyBadges() {
+	let [stored_id, setStoredId] = useState("")
+	const { address, isConnecting, isDisconnected } = useAccount()
+
+	const { data, loading, error } = useQuery(QUERY_BADGE_HISTORIES);
+	// const { data: org_data, loading: org_loading, error: org_error } = useOrganization()
+	let badges = []
+
+	// console.log(data)
+	if (data && data.badgeIssueHistories) {
+		badges = data.badgeIssueHistories.filter((hist: any) => {
+			// console.log(String(hist.account).toLocaleLowerCase(), String(address).toLocaleLowerCase())
+			return String(hist.account).toLocaleLowerCase() == String(address).toLocaleLowerCase()
+		}).map((hist: any) => {
+			return hist.badgeType
+		})
+
+	}
+
+
+	return { badges: badges, loading, error };
 }
 
 export function useOrganization(id?: any) {

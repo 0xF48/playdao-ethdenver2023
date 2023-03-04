@@ -1,6 +1,25 @@
 import { gql } from "@apollo/client";
 
 
+export const QUERY_BADGE_HISTORIES = gql`
+  query badgeIssueHistories {
+    badgeIssueHistories{
+      attestationKey
+      badgeTypeID
+      account
+      attestationCreator
+      questID
+      type
+      requested
+      claimID
+      badgeType {
+        metadataURI
+        badgeTypeID
+      }
+    }
+  }
+`
+
 export const QUERY_QUEST = gql`
   query quest($id: String!){
     quest(id: $id) {
