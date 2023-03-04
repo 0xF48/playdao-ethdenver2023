@@ -1,12 +1,14 @@
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
-import { ethers } from "hardhat";
+import { ethers, upgrades } from "hardhat";
 
 describe("Badge", () => {
   async function deployContracts() {
     const accounts = await ethers.getSigners();
-
-    const Badge = await (await ethers.getContractFactory("Badge")).deploy();
+    const Badge = await upgrades.deployProxy(
+      await ethers.getContractFactory("Badge"),
+      [accounts[0].address]
+    );
 
     return { Badge, accounts };
   }

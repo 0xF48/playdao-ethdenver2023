@@ -1,6 +1,6 @@
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
-import { ethers } from "hardhat";
+import { ethers, upgrades } from "hardhat";
 
 const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 const NON_EXIST_ID = 100;
@@ -8,11 +8,16 @@ const NON_EXIST_ID = 100;
 describe("PlayDAO", () => {
   async function deployContracts() {
     const accounts = await ethers.getSigners();
-    const Badge = await (await ethers.getContractFactory("Badge")).deploy();
 
-    const PlayDAO = await (await ethers.getContractFactory("PlayDAO")).deploy();
+    const PlayDAO = await upgrades.deployProxy(
+      await ethers.getContractFactory("PlayDAO"),
+      [ZERO_ADDRESS]
+    );
 
-    await Badge.grantMinterRole(PlayDAO.address);
+    const Badge = await upgrades.deployProxy(
+      await ethers.getContractFactory("Badge"),
+      [PlayDAO.address]
+    );
 
     return {
       Badge,
@@ -1344,7 +1349,17 @@ describe("PlayDAO", () => {
           )
         )
           .to.emit(PlayDAO, "QuestCompleted")
-          .withArgs(daoID, 2, 1, accounts[1].address, proofMetadataURI);
+          .withArgs(
+            daoID,
+            2,
+            1,
+            accounts[1].address,
+            proofMetadataURI,
+            "good",
+            ZERO_ADDRESS,
+            `0x${"0".repeat(64)}`,
+            `0x${"0".repeat(64)}`
+          );
 
         // fill-refund
         expect(await PlayDAO.totalStaked(daoID)).to.eq(0);
@@ -1359,9 +1374,5 @@ describe("PlayDAO", () => {
         );
       });
     });
-  });
-
-  describe("e2e", () => {
-    it("", async () => {});
   });
 });

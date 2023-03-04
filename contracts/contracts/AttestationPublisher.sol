@@ -11,6 +11,13 @@ interface IAttester {
         bytes32 _key,
         bytes memory _vals
     ) external;
+
+    event AttestationCreated(
+        address indexed creator,
+        address indexed about,
+        bytes32 indexed key,
+        bytes val
+    );
 }
 
 contract AttestationPublisher is Initializable, AccessControlUpgradeable {
