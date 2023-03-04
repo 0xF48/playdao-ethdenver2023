@@ -336,6 +336,14 @@ export function handleQuestCompleted(event: QuestCompletedEvent): void {
     return;
   }
 
+  const questTypeID = `${event.params.daoID.toHex()}_${claim.questTypeID.toHex()}`;
+  const questType = QuestType.load(questTypeID);
+  if (!questType) {
+    log.warning(`Quest not found`, [questTypeID]);
+
+    return;
+  }
+
   claim.status = "completed";
   claim.verifiedBy = event.transaction.from;
   claim.proofMetadataURI = event.params.proofMetadataURI;
@@ -360,6 +368,7 @@ export function handleQuestCompleted(event: QuestCompletedEvent): void {
     claim.daoID,
     Address.fromBytes(claim.claimedBy),
     event.params.verifier,
+    questType.contributorBadgeTypeID,
     "contributed",
     event.params.attestationCreator,
     event.params.contributorAttestationKey,
@@ -377,6 +386,7 @@ export function handleQuestCompleted(event: QuestCompletedEvent): void {
     claim.daoID,
     event.params.verifier,
     event.params.verifier,
+    questType.verifierBadgeTypeID,
     "verified",
     event.params.attestationCreator,
     event.params.verifierAttestationKey,
@@ -443,6 +453,7 @@ function createBadgeIssueHistory(
   daoID: BigInt,
   account: Address,
   requested: Address,
+  badgeTypeID: BigInt,
   type: string,
   attestationCreator: Address,
   attestationKey: Bytes,
@@ -464,6 +475,8 @@ function createBadgeIssueHistory(
   badge.dao = daoID.toHex();
   badge.type = type;
   badge.requested = requested;
+  badge.badgeTypeID = badgeTypeID;
+  badge.badgeType = `${daoID.toHex()}_${badgeTypeID.toHex()}`;
 
   if (attestationKey.length > 0) {
     badge.attestationCreator = attestationCreator;
@@ -493,6 +506,7 @@ export function handleBadgeGranted(event: BadgeGrantedEvent): void {
     event.params.daoID,
     event.params.to,
     event.params.from,
+    event.params.badgeID,
     "granted",
     event.params.attestationCreator,
     event.params.attestationKey,
