@@ -7,6 +7,7 @@ import { useSigner } from 'wagmi'
 import _ from 'lodash'
 import { ethers } from 'ethers'
 import { useNetwork } from 'wagmi'
+import { claimQuest } from './contracts/playdao'
 
 export function useLocalStorage<T>(key: string, fallbackValue: T) {
 	const [value, setValue] = useState(fallbackValue);
@@ -18,6 +19,10 @@ export function useLocalStorage<T>(key: string, fallbackValue: T) {
 	return [value, setValue] as const;
 }
 
+
+function questRequirementsMet(quest: any, dao: any) {
+
+}
 
 export function extractQuestAndQuestType(questId: string, dao: any) {
 	if (!dao) return [null, null]
@@ -49,48 +54,40 @@ export function PLAYDAOGlobals() {
 	return {
 		GRAPH_API: process.env.NEXT_PUBLIC_OPTIMISM_GRAPH,
 		BADGE_CONTRACT: process.env.NEXT_PUBLIC_OPTIMISM_BADGE,
-		DAO_CONTRACT: process.env.NEXT_PUBLIC_OPTIMISM_CONTRACT,
+		DAO_CONTRACT: process.env.NEXT_PUBLIC_OPTIMISM_PLAYDAO,
 		ATTESTATION: process.env.NEXT_PUBLIC_OPTIMISM_ATTESTATION,
 		chainId: 1,
 	}
 }
 
 export function useClaimQuest(quest_id?: any, dao_id?: any, requiredStake?: any) {
-	// let { quest_loading, quest, quest_type, quest_error } = useQuest(quest_id)
-	const { data: org_data, loading: org_loading, error: org_error } = useOrganization()
+
 	const { address, isConnecting, isDisconnected } = useAccount()
+	const { data: signer } = useSigner()
 
-	var overrides = undefined
+	const [claim_id, setClaimId]: any = useState(undefined)
+	const [error, setError]: any = useState()
+	const [is_loading, setIsLoading]: any = useState(false)
 
-	if (requiredStake) {
-		overrides = {
-			from: address,
-			value: ethers.utils.parseEther(requiredStake),
-		}
-	}
-
-	// console.log(dao_id, quest_id, overrides)
-
-	const { config, error } = usePrepareContractWrite({
-		address: PLAYDAOGlobals().DAO_CONTRACT,
-		abi: playdaoABI.abi,
-		functionName: 'claimQuest',
-		overrides: overrides,
-		args: [dao_id, quest_id]
-	})
-
-	const { write } = useContractWrite(config)
-
-	if (isConnecting) {
-		return {
-			loading: true,
-			write: null
+	async function doClaimQuest() {
+		var claim_id = null
+		setIsLoading(true)
+		if (signer) {
+			try {
+				claim_id = await claimQuest(signer, String(PLAYDAOGlobals().DAO_CONTRACT), dao_id, quest_id, requiredStake)
+			} catch (error) {
+				setError(error)
+			}
+			setIsLoading(false)
+			setClaimId(claim_id)
 		}
 	}
 
 	return {
-		loading: false,
-		write: write
+		loading: is_loading,
+		claim_id: claim_id,
+		error: error,
+		claimQuest: doClaimQuest
 	}
 }
 
