@@ -4,15 +4,29 @@ PlayDAO is a contract enabling user to create a new DAO and micro tasks called `
 
 ## How to deploy
 
-You can deploy contracts using hardhat script or [ChugSplash](https://github.com/chugsplash/chugsplash/blob/develop/docs/hardhat/setup-project.md)
+You can deploy contracts with several ways
+
+### 1. Hardhat script
 
 ```bash
+$ npm i
 $ npx hardhat run scripts/deploy.ts --network <NETWORK>
 ```
 
-or
+### 2. Truffle Dashboard (Require Hardhat in browser)
 
 ```bash
+$ npx truffle dashboard
+
+# In Other terminal
+$ npm i
+$ npx hardhat run scripts/deploy.ts --network truffle_dashboard
+```
+
+### 3. ChugSplash
+
+```bash
+$ npm i
 $ npx hardhat chugsplash-deploy --config-path chugsplash/playdao.ts
 ```
 

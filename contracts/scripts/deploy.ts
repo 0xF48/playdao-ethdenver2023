@@ -1,12 +1,23 @@
 import hre, { ethers, upgrades } from "hardhat";
 
+async function obtainSigner() {
+  if (hre.network.name === "truffle_dashboard") {
+    // need to obtain network
+    await ethers.provider.send("eth_requestAccounts", []);
+  }
+
+  const signers = await ethers.getSigners();
+
+  return signers[0];
+}
+
 async function main() {
   const isOptimism = ["optimism", "optimism_goerli"].includes(
     hre.network.name!
   );
 
-  const signers = await ethers.getSigners();
-  console.log("Deploying by", signers[0].address);
+  const signer = await obtainSigner();
+  console.log("Deploying by", signer.address);
 
   let attestationPublisherAddress =
     "0x0000000000000000000000000000000000000000";
