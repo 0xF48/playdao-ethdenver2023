@@ -1484,6 +1484,15 @@ export class BadgeIssueHistory extends Entity {
     }
   }
 
+  get badgeTypeID(): BigInt {
+    let value = this.get("badgeTypeID");
+    return value!.toBigInt();
+  }
+
+  set badgeTypeID(value: BigInt) {
+    this.set("badgeTypeID", Value.fromBigInt(value));
+  }
+
   get type(): string {
     let value = this.get("type");
     return value!.toString();
@@ -1500,6 +1509,15 @@ export class BadgeIssueHistory extends Entity {
 
   set requested(value: Bytes) {
     this.set("requested", Value.fromBytes(value));
+  }
+
+  get badgeType(): string {
+    let value = this.get("badgeType");
+    return value!.toString();
+  }
+
+  set badgeType(value: string) {
+    this.set("badgeType", Value.fromString(value));
   }
 
   get questID(): BigInt | null {

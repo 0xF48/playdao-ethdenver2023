@@ -189,9 +189,11 @@ type BadgeIssueHistory @entity {
   attestationCreator: Bytes
   attestationKey: Bytes
 
+  badgeTypeID: BigInt!
   type: String!
   requested: Bytes!
 
+  badgeType: BadgeType!
   questID: BigInt
   claimID: BigInt
   quest: Quest

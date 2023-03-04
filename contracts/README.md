@@ -553,7 +553,7 @@ PlayDAO: 0x9300aD663d441452cD12210991eF170324ECa40C
 ### Base Testnet
 
 Explorer: https://goerli.basescan.org/
-Graph: https://api.studio.thegraph.com/query/37331/playdao_base_testnet/v0.0.3
+Graph: https://api.studio.thegraph.com/query/37331/playdao_base_testnet/v0.0.4
 JSON-RPC: https://goerli.base.org
 
 #### No.1 (Deployed at 1 Mar 13:40)
@@ -569,7 +569,7 @@ PlayDAO: 0x4405e42b71245482FAbCf3A161f8CdeCb10dbE92
 ### Optimism Testnet
 
 Explorer: https://goerli-optimism.etherscan.io/
-Graph: https://api.studio.thegraph.com/query/37331/playdao_optimism_testnet/v0.1.3
+Graph: https://api.studio.thegraph.com/query/37331/playdao_optimism_testnet/v0.1.4
 JSON-RPC: https://goerli.optimism.io
 
 #### No.1 (Deployed at 1 Mar 18:00)

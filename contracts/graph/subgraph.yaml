@@ -6,11 +6,11 @@ features:
 dataSources:
   - kind: ethereum
     name: PlayDAO
-    network: mumbai
+    network: optimism-goerli
     source:
       abi: PlayDAO
-      address: "0x9300aD663d441452cD12210991eF170324ECa40C"
-      startBlock: 32587168
+      address: "0xD0C10B97a85F65B08c6F584e8B024371AC786b84"
+      startBlock: 6186640
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
