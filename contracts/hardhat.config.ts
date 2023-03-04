@@ -1,6 +1,9 @@
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 import "@openzeppelin/hardhat-upgrades";
+import { ethers } from "ethers";
+import fs from "fs";
+import path from "path";
 
 require("dotenv").config();
 require("@chugsplash/plugins");
@@ -73,5 +76,35 @@ const config: HardhatUserConfig = {
     },
   },
 };
+
+task("convert_file", "Convert a file")
+.addParam("path", "File Path")
+.setAction(async (args, hre) => {
+  const filePath = args.path;
+
+  const ext = path.extname(filePath).substr(1)
+  const isImage = ['gif','jpg','jpeg','png'].includes(
+    ext
+  )
+  console.log("isImage", isImage);
+
+  const data = isImage
+  ? `data:image/${ext};base64,${fs.readFileSync(filePath, 'base64')}`
+  : fs.readFileSync(filePath);
+
+  const filename = ethers.utils.keccak256(
+    [
+      // filename
+      ...ethers.utils.toUtf8Bytes(path.basename(args.path)),
+      // timestamp
+      ...ethers.utils.toUtf8Bytes(new Date().getTime().toString())
+    ]
+  )
+
+  const tmpFilePath = `${filename}.${ext}`;
+  fs.writeFileSync(tmpFilePath, data);
+
+  console.log("converted", tmpFilePath);
+})
 
 export default config;

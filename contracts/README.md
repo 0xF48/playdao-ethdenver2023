@@ -6,6 +6,30 @@ PlayDAO is a contract enabling user to create a new DAO and micro tasks called `
 
 You can deploy contracts with several ways
 
+## How to upload file to FileStorage contract?
+
+1. Deploy a new file storage contract
+
+```bash
+$ npx ethfs-uploader --create --privateKey <PRIVATE_KEY> --chainId <CHAIN_ID> --RPC <RPC_URL>
+
+# contract address appears
+```
+
+2. Convert a file to new file with unique name
+
+```bash
+$ npx hardhat convert_file --path <FILE>
+
+# filename appears
+```
+
+3. Upload a file to FileStorage contract
+
+```bash
+$ npx ethfs-uploader <FILE> <CONTRACT_ADDRESS> --privateKey <PRIVATE_KEY> --RPC <RPC_URL>
+```
+
 ### 1. Hardhat script
 
 ```bash
