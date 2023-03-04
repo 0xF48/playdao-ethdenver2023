@@ -18,7 +18,7 @@ export default function QR({ url }: any) {
 			/>
 		</div>
 		<div className="py-3 flex w-full flex-row content-center items-center justify-center">
-			<Button>
+			<Button onClick={() => { console.log(url); navigator.clipboard.writeText(url); }}>
 				<CopyIcon />
 			</Button>
 		</div>

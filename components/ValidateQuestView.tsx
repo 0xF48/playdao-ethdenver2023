@@ -1,9 +1,10 @@
-import QuestCard from './QuestCard'
+import QuestCardAPIWrapper from './QuestCardAPIWrapper'
 import ClaimantCard from './ClaimantCard'
 import cn from 'classnames'
 import Button from './Button'
 import { useState } from 'react'
-
+import { useRouter } from 'next/router'
+import { useQuest } from '../util/hooks'
 //emoji button component
 function EmojiButtonComponent({ symbol, select, onSelect }: any) {
 	let onSelectCb = () => {
@@ -20,24 +21,34 @@ function EmojiButtonComponent({ symbol, select, onSelect }: any) {
 export default function ValidateQuestView() {
 
 	const [metaSymbol, setMetaSymbol] = useState('')
+	const router = useRouter();
+	const { dao_id, quest_id, claim_id } = router.query;
+	let { quest_loading, quest, quest_error } = useQuest(quest_id)
+
+	if (!dao_id || !quest_id || !claim_id) {
+		return <div>missing dao_id,quest_id,claim_id</div>
+	}
+	if (quest_loading) {
+		return <div>loading...</div>
+	}
+
+	var claimant_addr = ''
+
+	quest.claims.forEach((claim: any) => {
+		if (claim.id == claim_id) {
+			claimant_addr = claim.claimedBy
+		}
+	})
 
 	return <div>
 
-		<ClaimantCard address='0xc00ac0C9378c8Fc13a1136B839A7e3DC7dDd147A'></ClaimantCard>
+		<ClaimantCard address={claimant_addr}></ClaimantCard>
 
 		<div className='w-full flex items-center content-center justify-center'>
 			<div className='my-4'>wants you to validate</div>
 		</div>
 
-		<QuestCard
-			details='do 5 pushups'
-			validatorDependencies={[
-				{
-					badge_url: 'https://bafybeiblp4fqe5ctff5766k6uk4hulu2goqofcen2mtcxdb247dtghrvnm.ipfs.w3s.link/trainee.jpg',
-					badge_name: 'trainee'
-				}
-			]}
-		/>
+		<QuestCardAPIWrapper questId={quest_id} />
 
 		<div className='w-full py-3'>
 			<div className='w-full flex items-center content-center justify-center'>
@@ -48,7 +59,7 @@ export default function ValidateQuestView() {
 			</div>
 		</div>
 		<div className='w-full flex flex-row items-center content-center justify-center'>
-			<Button>validate</Button>
+			<Button onClick={ } > validate </Button>
 		</div>
 	</div>
 }

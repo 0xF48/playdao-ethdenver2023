@@ -121,12 +121,11 @@ export async function claimQuest(
   signer: ethers.Signer,
   playDAOAddress: string,
   daoID: MayNumber,
-  questID: MayNumber
+  questID: MayNumber,
+  requiredStake: string
 ): Promise<string> {
   const PlayDAO = new ethers.Contract(playDAOAddress, PLAY_DAO_ABI.abi, signer);
-
-  const tx = await PlayDAO.claimQuest(daoID, questID);
-
+  const tx = await PlayDAO.claimQuest(daoID, questID, { value: ethers.utils.parseEther(requiredStake) });
   const receipt = await tx.wait();
 
   const daoCreatedEvent = receipt.events.find(
