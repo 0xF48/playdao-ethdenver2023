@@ -38,21 +38,21 @@ export function extractQuestAndQuestType(questId: string, dao: any) {
 
 export function PLAYDAOGlobals() {
 	// const { chain, chains } = useNetwork()
-	return {
-		GRAPH_API: process.env.NEXT_PUBLIC_BASE_GRAPH,
-		BADGE_CONTRACT: process.env.NEXT_PUBLIC_BASE_BADGE,
-		DAO_CONTRACT: process.env.NEXT_PUBLIC_BASE_CONTRACT,
-		// ATTESTATION: process.env.NEXT_PUBLIC_BASE_ATTESTATION,
-		chainId: 1,
-	}
-
 	// return {
-	// 	GRAPH_API: process.env.NEXT_PUBLIC_OPTIMISM_GRAPH,
-	// 	BADGE_CONTRACT: process.env.NEXT_PUBLIC_OPTIMISM_BADGE,
-	// 	DAO_CONTRACT: process.env.NEXT_PUBLIC_OPTIMISM_CONTRACT,
-	// 	ATTESTATION: process.env.NEXT_PUBLIC_OPTIMISM_ATTESTATION,
+	// 	GRAPH_API: process.env.NEXT_PUBLIC_BASE_GRAPH,
+	// 	BADGE_CONTRACT: process.env.NEXT_PUBLIC_BASE_BADGE,
+	// 	DAO_CONTRACT: process.env.NEXT_PUBLIC_BASE_CONTRACT,
+	// 	// ATTESTATION: process.env.NEXT_PUBLIC_BASE_ATTESTATION,
 	// 	chainId: 1,
 	// }
+
+	return {
+		GRAPH_API: process.env.NEXT_PUBLIC_OPTIMISM_GRAPH,
+		BADGE_CONTRACT: process.env.NEXT_PUBLIC_OPTIMISM_BADGE,
+		DAO_CONTRACT: process.env.NEXT_PUBLIC_OPTIMISM_CONTRACT,
+		ATTESTATION: process.env.NEXT_PUBLIC_OPTIMISM_ATTESTATION,
+		chainId: 1,
+	}
 }
 
 export function useClaimQuest(quest_id?: any, dao_id?: any, requiredStake?: any) {

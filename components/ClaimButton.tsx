@@ -2,12 +2,12 @@ import Button from "./Button"
 import { useClaimQuest, useQuest } from "../util/hooks"
 
 export default function ClaimButton({ quest_id, dao_id, claimAmount, claimToken, isClaimed, isLocked }: any) {
-	console.log(quest_id, dao_id, claimAmount, claimToken, isClaimed, isLocked)
+	// console.log(quest_id, dao_id, claimAmount, claimToken, isClaimed, isLocked)
 
 	let { loading, write } = useClaimQuest(Number(quest_id) || 0, Number(dao_id) || 0, claimAmount)
 
 	let { quest_loading, quest, quest_type, quest_error } = useQuest(quest_id)
-	console.log(quest)
+	// console.log(quest)
 
 	let text = 'claim'
 
