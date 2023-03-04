@@ -5,6 +5,8 @@ import { useRouter } from 'next/router'
 import Button from './Button'
 import { useAccount } from "wagmi"
 import QR from "./QR"
+import ErrorView from "./ErrorView"
+import LoadingView from "./LoadingView"
 
 export default function ClaimQuestView() {
 
@@ -17,13 +19,9 @@ export default function ClaimQuestView() {
 		var requiredStakeAmount = quest.requiredStake
 	}
 
-	// console.log(quest)
-
-
 	let { data: dao_data } = useOrganization()
 	let dao_id = dao_data?.dao.id
 	let { loading, error, claimQuest, claim_id } = useClaimQuest(Number(quest_id) || 0, Number(dao_id) || 0, requiredStakeAmount)
-
 
 	if (quest_loading) {
 		return <div>loading...</div>
@@ -42,20 +40,16 @@ export default function ClaimQuestView() {
 		// console.log(address, claim.claimedBy)
 		if (String(claim.claimedBy).toLowerCase() === String(address).toLocaleLowerCase()) {
 			my_claim_count++
-			claim_id = claim.id
+			claim_id = claim.claimID
 		}
 	})
-
-
 
 	let onClaimClick = () => {
 		claimQuest()
 	}
 
 	if (error) {
-		return <div>
-			{error.message}
-		</div>
+		return <ErrorView error={error}></ErrorView>
 	}
 
 	if (loading) {

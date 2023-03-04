@@ -7,7 +7,7 @@ import { useSigner } from 'wagmi'
 import _ from 'lodash'
 import { ethers } from 'ethers'
 import { useNetwork } from 'wagmi'
-import { claimQuest } from './contracts/playdao'
+import { claimQuest, completeQuest } from './contracts/playdao'
 
 export function useLocalStorage<T>(key: string, fallbackValue: T) {
 	const [value, setValue] = useState(fallbackValue);
@@ -42,14 +42,14 @@ export function extractQuestAndQuestType(questId: string, dao: any) {
 
 
 export function PLAYDAOGlobals() {
-	// const { chain, chains } = useNetwork()
-	// return {
-	// 	GRAPH_API: process.env.NEXT_PUBLIC_BASE_GRAPH,
-	// 	BADGE_CONTRACT: process.env.NEXT_PUBLIC_BASE_BADGE,
-	// 	DAO_CONTRACT: process.env.NEXT_PUBLIC_BASE_CONTRACT,
-	// 	// ATTESTATION: process.env.NEXT_PUBLIC_BASE_ATTESTATION,
-	// 	chainId: 1,
-	// }
+
+	return {
+		GRAPH_API: process.env.NEXT_PUBLIC_POLYGON_GRAPH,
+		BADGE_CONTRACT: process.env.NEXT_PUBLIC_POLYGON_BADGE,
+		DAO_CONTRACT: process.env.NEXT_PUBLIC_POLYGON_PLAYDAO,
+		// ATTESTATION: process.env.NEXT_PUBLIC_OPTIMISM_ATTESTATION,
+		chainId: 1,
+	}
 
 	return {
 		GRAPH_API: process.env.NEXT_PUBLIC_OPTIMISM_GRAPH,
@@ -57,6 +57,46 @@ export function PLAYDAOGlobals() {
 		DAO_CONTRACT: process.env.NEXT_PUBLIC_OPTIMISM_PLAYDAO,
 		ATTESTATION: process.env.NEXT_PUBLIC_OPTIMISM_ATTESTATION,
 		chainId: 1,
+	}
+
+	return {
+		GRAPH_API: process.env.NEXT_PUBLIC_BASE_GRAPH,
+		BADGE_CONTRACT: process.env.NEXT_PUBLIC_BASE_BADGE,
+		DAO_CONTRACT: process.env.NEXT_PUBLIC_BASE_CONTRACT,
+		// ATTESTATION: process.env.NEXT_PUBLIC_BASE_ATTESTATION,
+		chainId: 1,
+	}
+
+
+}
+
+export function useCompleteQuest(quest_id: any, claim_id: string, metadata: string, score: string, dao_id: string) {
+	const { address, isConnecting, isDisconnected } = useAccount()
+	const { data: signer } = useSigner()
+	const [error, setError]: any = useState()
+	const [is_loading, setIsLoading]: any = useState(false)
+	const [is_done, setIsDone]: any = useState(false)
+
+	async function doCompleteQuest() {
+		setIsLoading(true)
+		if (signer) {
+			try {
+				console.log(signer, String(PLAYDAOGlobals().DAO_CONTRACT), Number(dao_id), Number(quest_id), Number(claim_id), metadata, score)
+				await completeQuest(signer, String(PLAYDAOGlobals().DAO_CONTRACT), Number(dao_id), Number(quest_id), Number(claim_id), metadata, score)
+			} catch (error) {
+				setError(error)
+				return
+			}
+			setIsLoading(false)
+			setIsDone(true)
+		}
+	}
+
+	return {
+		loading: is_loading,
+		error: error,
+		is_done: is_done,
+		completeQuest: doCompleteQuest
 	}
 }
 
@@ -77,6 +117,7 @@ export function useClaimQuest(quest_id?: any, dao_id?: any, requiredStake?: any)
 				claim_id = await claimQuest(signer, String(PLAYDAOGlobals().DAO_CONTRACT), dao_id, quest_id, requiredStake)
 			} catch (error) {
 				setError(error)
+				return
 			}
 			setIsLoading(false)
 			setClaimId(claim_id)
@@ -100,7 +141,7 @@ export function useQuest(quest_id?: any) {
 	var found_quest: any = null
 	var found_quest_type = null
 
-	if (org_data) {
+	if (org_data && org_data.dao) {
 		org_data.dao.questTypes.forEach((questType: any) => {
 			questType.quests.forEach((quest: any) => {
 				if (quest.questID == quest_id) {
@@ -126,7 +167,7 @@ export function useQuest(quest_id?: any) {
 		}
 	}
 
-	if (org_data) {
+	if (org_data && org_data.dao) {
 
 		org_data.dao.questTypes.forEach((questType: any) => {
 			questType.quests.forEach((quest: any) => {
