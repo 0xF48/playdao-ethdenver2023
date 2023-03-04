@@ -1,5 +1,7 @@
 import { ethers } from "hardhat";
 import {
+  claimQuest,
+  completeQuest,
   createBadgeType,
   createDAO,
   createQuestType,
@@ -19,7 +21,7 @@ async function main() {
     throw new Error("BADGE_CONTRACT_ADDRESS is not set in env");
   }
 
-  const [signer] = await ethers.getSigners();
+  const [signer, account] = await ethers.getSigners();
 
   const daoID = await createDAO(
     signer,
@@ -83,54 +85,26 @@ async function main() {
 
   console.log("started quest", questID.toHexString());
 
-  // const tx5 = await playDAO.claimQuest(daoID, questID);
-  // const res5 = await tx5.wait();
-  // const claimID = 1;
-  // console.log("Claimed Quest 1", claimID);
+  const claimID = await claimQuest(
+    signer,
+    PLAY_DAO_CONTRACT_ADDRESS!,
+    daoID,
+    questID
+  );
 
-  // const tx6 = await playDAO
-  //   .connect(account1)
-  //   .completeQuest(daoID, questID, claimID, "ipfs:proof", "👍");
-  // const res6 = await tx6.wait();
-  // console.log("Completed Claim 1");
+  console.log("claimed quest", claimID.toHexString());
 
-  // const tx7 = await playDAO.createQuestType(
-  //   daoID,
-  //   "QuestType2",
-  //   "ipfs:QuestType2",
-  //   badgeTypeID,
-  //   badgeTypeID,
-  //   [badgeTypeID],
-  //   [badgeTypeID],
-  //   [badgeTypeID]
-  // );
-  // await tx7.wait();
-  // const questTypeID2 = 2;
-  // console.log("Created Quest Type 2", questTypeID2);
+  await completeQuest(
+    account,
+    PLAY_DAO_CONTRACT_ADDRESS!,
+    daoID,
+    questID,
+    claimID,
+    "hoge",
+    "fuga"
+  );
 
-  // const tx8 = await playDAO
-  //   .connect(account1)
-  //   .startQuest(daoID, questTypeID2, "Quest2", "ipfs:Quest2", 1, 1);
-  // const res8 = await tx8.wait();
-  // const questID2 = 2;
-  // console.log("Started Quest 2", questID2);
-
-  // const tx9 = await playDAO
-  //   .connect(account1)
-  //   .claimQuest(daoID, questID2, { value: 1 });
-  // const res9 = await tx9.wait();
-  // const claimID2 = 1;
-  // console.log("Claimed Quest 2", claimID);
-
-  // const tx10 = await playDAO.completeQuest(
-  //   daoID,
-  //   questID2,
-  //   claimID2,
-  //   "ipfs:proof",
-  //   "👍"
-  // );
-  // const res10 = await tx10.wait();
-  // console.log("Completed Quest 2", 1);
+  console.log("claim comleted");
 }
 
 // Quests in QuestType
