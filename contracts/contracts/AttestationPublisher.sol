@@ -1,6 +1,7 @@
 pragma solidity ^0.8.16;
 
-import "@openzeppelin/contracts/access/AccessControl.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 import "solidity-json-writer/contracts/JsonWriter.sol";
 import "./PlayDAO.sol";
 
@@ -12,7 +13,7 @@ interface IAttester {
     ) external;
 }
 
-contract AttestationPublisher is AccessControl {
+contract AttestationPublisher is Initializable, AccessControlUpgradeable {
     using JsonWriter for JsonWriter.Json;
 
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
@@ -24,11 +25,13 @@ contract AttestationPublisher is AccessControl {
 
     address private _opAttestationStation;
 
-    constructor(address opAttestationStation) {
-        _opAttestationStation = opAttestationStation;
+    function initialize(address opAttestationStation) public initializer {
+        AccessControlUpgradeable.__AccessControl_init();
 
         _setupRole(ADMIN_ROLE, msg.sender);
         _setupRole(PUBLISHER_ROLE, msg.sender);
+
+        _opAttestationStation = opAttestationStation;
     }
 
     function grantPublisherRole(address to) external {

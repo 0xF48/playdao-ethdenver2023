@@ -1,6 +1,9 @@
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
+import "@openzeppelin/hardhat-upgrades";
+
 require("dotenv").config();
+require("@chugsplash/plugins");
 
 const PRIVATE_KEYS = process.env.PRIVATE_KEYS
   ? process.env.PRIVATE_KEYS.split(",")
@@ -21,6 +24,11 @@ const config: HardhatUserConfig = {
       optimizer: {
         enabled: true,
         runs: 200,
+      },
+      outputSelection: {
+        "*": {
+          "*": ["storageLayout"],
+        },
       },
     },
   },
