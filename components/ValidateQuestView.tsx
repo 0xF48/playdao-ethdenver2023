@@ -4,7 +4,11 @@ import cn from 'classnames'
 import Button from './Button'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import { useQuest } from '../util/hooks'
+import { useQuest, useCompleteQuest } from '../util/hooks'
+import ErrorView from './ErrorView'
+import LoadingView from './LoadingView'
+
+
 //emoji button component
 function EmojiButtonComponent({ symbol, select, onSelect }: any) {
 	let onSelectCb = () => {
@@ -20,9 +24,11 @@ function EmojiButtonComponent({ symbol, select, onSelect }: any) {
 
 export default function ValidateQuestView() {
 
-	const [metaSymbol, setMetaSymbol] = useState('')
+	const [metaSymbol, setMetaSymbol] = useState('') //some metadata
+	const [metadata, setMetadata] = useState('') //score
 	const router = useRouter();
 	const { dao_id, quest_id, claim_id } = router.query;
+	let { loading: complete_loading, is_done, error, completeQuest } = useCompleteQuest(quest_id, String(claim_id), metadata, String(metaSymbol), String(dao_id))
 	let { quest_loading, quest, quest_error } = useQuest(quest_id)
 
 	if (!dao_id || !quest_id || !claim_id) {
@@ -35,10 +41,30 @@ export default function ValidateQuestView() {
 	var claimant_addr = ''
 
 	quest.claims.forEach((claim: any) => {
-		if (claim.id == claim_id) {
+		if (claim.claimID == claim_id) {
 			claimant_addr = claim.claimedBy
 		}
 	})
+
+	console.log(quest)
+
+	async function validateQuest() {
+		completeQuest()
+	}
+
+	if (error) {
+		return <ErrorView error={error} />
+	}
+
+	if (complete_loading) {
+		return <LoadingView />
+	}
+
+	else if (is_done) {
+		return <div>quest is now complete and the stake has been returned to the claimant</div>
+	}
+
+
 
 	return <div>
 
@@ -59,7 +85,7 @@ export default function ValidateQuestView() {
 			</div>
 		</div>
 		<div className='w-full flex flex-row items-center content-center justify-center'>
-			<Button onClick={ } > validate </Button>
+			<Button onClick={validateQuest} > validate </Button>
 		</div>
 	</div>
 }

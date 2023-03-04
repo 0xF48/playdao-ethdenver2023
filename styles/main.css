@@ -12,3 +12,48 @@ body {
   font-family: -apple-system, Hubballi, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
+
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #ffffff #000000;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgb(27, 38, 55);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+}
+
+.search-loader-dot-active {
+  animation: loader_dot_anim 0.3s infinite;
+}
+
+.search-loader-bar {
+  transition: width 0.1s;
+}
+
+
+@keyframes loader_dot_anim {
+  0% {
+    transform: translateX(0%)
+  }
+
+  50% {
+    transform: translateX(200%)
+  }
+
+  100% {
+    transform: translateX(0%)
+  }
+}
