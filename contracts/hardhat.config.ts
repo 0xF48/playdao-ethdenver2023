@@ -92,14 +92,14 @@ task("convert_file", "Convert a file")
   ? `data:image/${ext};base64,${fs.readFileSync(filePath, 'base64')}`
   : fs.readFileSync(filePath);
 
-  const filename = ethers.utils.keccak256(
+  const filename = path.basename(args.path).split(".")[0] + "_" + ethers.utils.keccak256(
     [
       // filename
       ...ethers.utils.toUtf8Bytes(path.basename(args.path)),
       // timestamp
       ...ethers.utils.toUtf8Bytes(new Date().getTime().toString())
     ]
-  )
+  ).slice(0, 12)
 
   const tmpFilePath = `${filename}.${ext}`;
   fs.writeFileSync(tmpFilePath, data);

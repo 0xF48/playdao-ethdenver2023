@@ -1,10 +1,12 @@
-import { ethers } from "hardhat";
+import { BigNumber } from "ethers";
+import hre, { ethers } from "hardhat";
 import {
   claimQuest,
   completeQuest,
   createBadgeType,
   createDAO,
   createQuestType,
+  grantBadge,
   startQuest,
 } from "./utils";
 
@@ -12,6 +14,21 @@ require("dotenv").config();
 
 const BADGE_CONTRACT_ADDRESS = process.env.BADGE_CONTRACT_ADDRESS;
 const PLAY_DAO_CONTRACT_ADDRESS = process.env.PLAY_DAO_CONTRACT_ADDRESS;
+
+const INITIAL_BADGE_HOLDERS = [
+  "0xc00ac0C9378c8Fc13a1136B839A7e3DC7dDd147A",
+  "0xF3c4Eee95E9f948361282aAE97DBcDb94eE2c1A6"
+]
+
+const DAO_NAME = "trashDAO";
+const BADGE_TYPE_NAMES = [
+  "Trash Picker",
+  "Trash Checker",
+  "OG Member",
+  "Party Attendee",
+  "DAO Voter"
+]
+const CLAIM_LIMIT = 42;
 
 async function main() {
   if (!PLAY_DAO_CONTRACT_ADDRESS) {
@@ -21,90 +38,149 @@ async function main() {
     throw new Error("BADGE_CONTRACT_ADDRESS is not set in env");
   }
 
-  const [signer, account] = await ethers.getSigners();
+  console.log(`Setup Demo DAO in ${hre.network.name}`);
+  console.log(`PlayDAO: ${PLAY_DAO_CONTRACT_ADDRESS}`);
+  console.log(`BADGE_CONTRACT_ADDRESS: ${BADGE_CONTRACT_ADDRESS}\n`);
+
+  const [signer] = await ethers.getSigners();
+  if ((await signer.getBalance()).lt(ethers.utils.parseEther("0.005"))) {
+    console.warn("Do you have enough balance?")
+  }
 
   const daoID = await createDAO(
     signer,
     PLAY_DAO_CONTRACT_ADDRESS!,
     BADGE_CONTRACT_ADDRESS!,
-    "New DAO",
-    "ipfs:dao",
+    DAO_NAME,
+    DAO_NAME,
     signer.address
   );
 
-  console.log("dao created", daoID.toHexString());
+  console.log("DAO Created");
 
-  const contributorBadgeTypeID = await createBadgeType(
+  let badgeTypeIDs: BigNumber[] = [];
+  for(let i=0; i<BADGE_TYPE_NAMES.length;i++) {
+    const badgeTypeID = await createBadgeType(
+      signer,
+      PLAY_DAO_CONTRACT_ADDRESS!,
+      daoID,
+      BADGE_TYPE_NAMES[i],
+      BADGE_TYPE_NAMES[i]
+    );
+
+    badgeTypeIDs.push(badgeTypeID);
+
+    console.log(`Badge ${BADGE_TYPE_NAMES[i]} created`);
+
+    for(let j=0; j<INITIAL_BADGE_HOLDERS.length; j++) {
+      await grantBadge(signer, PLAY_DAO_CONTRACT_ADDRESS!, daoID, badgeTypeID, INITIAL_BADGE_HOLDERS[j]);
+
+      console.log(`Granted a badge ${BADGE_TYPE_NAMES[i]} to ${INITIAL_BADGE_HOLDERS[j]}`);
+    }
+  }
+
+  const trashTrainingQuestTypeID = await createQuestType(
     signer,
     PLAY_DAO_CONTRACT_ADDRESS!,
     daoID,
-    "contributor badge",
-    "ipfs:contributor_badge"
-  );
-
-  console.log(
-    "create contributor badge type",
-    contributorBadgeTypeID.toHexString()
-  );
-
-  const verifierBadgeTypeID = await createBadgeType(
-    signer,
-    PLAY_DAO_CONTRACT_ADDRESS!,
-    daoID,
-    "verifier badge",
-    "ipfs:verifier_badge"
-  );
-
-  console.log("create verifier badge type", verifierBadgeTypeID.toHexString());
-
-  const questTypeID = await createQuestType(
-    signer,
-    PLAY_DAO_CONTRACT_ADDRESS!,
-    daoID,
-    "quest type 1",
-    "ipfs:quest_type_1",
-    contributorBadgeTypeID,
-    verifierBadgeTypeID,
+    "Trash Training",
+    "Trash Training",
+    badgeTypeIDs[0],
+    badgeTypeIDs[2],
     [],
     [],
-    []
+    [badgeTypeIDs[0]]
   );
 
-  console.log("created quest type", questTypeID);
+  console.log("QuestType 'Trash Training' has been defined");
 
-  const questID = await startQuest(
+  const trashTrainingQuestID1 = await startQuest(
     signer,
     PLAY_DAO_CONTRACT_ADDRESS!,
     daoID,
-    questTypeID,
-    "new quest 1",
-    "ipfs:quest_1",
-    1000,
+    trashTrainingQuestTypeID,
+    "Trash Training",
+    "Trash Training",
+    CLAIM_LIMIT,
+    0
+  )
+
+  console.log("Quest 'TrashTraining' has been started");
+
+  const pickupTrashQuestTypeID = await createQuestType(
+    signer,
+    PLAY_DAO_CONTRACT_ADDRESS!,
+    daoID,
+    "Pickup Trash",
+    "Pickup Trash",
+    badgeTypeIDs[1],
+    badgeTypeIDs[2],
+    [],
+    [badgeTypeIDs[0]],
+    [badgeTypeIDs[1]]
+  );
+
+  console.log("QuestType 'Pickup Trash' has defined");
+
+  const pickupTrashQuestID1 = await startQuest(
+    signer,
+    PLAY_DAO_CONTRACT_ADDRESS!,
+    daoID,
+    pickupTrashQuestTypeID,
+    "Pickup Trash",
+    "Pickup Trash",
+    CLAIM_LIMIT,
     0
   );
 
-  console.log("started quest", questID.toHexString());
+  console.log("Quest 'Pickup Trash' has started");
 
-  const claimID = await claimQuest(
+  const secretPartyQuestTypeID = await createQuestType(
     signer,
     PLAY_DAO_CONTRACT_ADDRESS!,
     daoID,
-    questID
+    `Super Secret Party at “HERE”`,
+    "Super Secret Party at “HERE”",
+    badgeTypeIDs[3],
+    badgeTypeIDs[4],
+    [],
+    [badgeTypeIDs[2]],
+    [badgeTypeIDs[3]]
   );
 
-  console.log("claimed quest", claimID.toHexString());
+  console.log(`QuestType 'Super Secret Party at “HERE”' has been defined`);
 
-  await completeQuest(
-    account,
+  const secretPartyQuestID1 = await startQuest(
+    signer,
     PLAY_DAO_CONTRACT_ADDRESS!,
     daoID,
-    questID,
-    claimID,
-    "hoge",
-    "fuga"
+    secretPartyQuestTypeID,
+    `Super Secret Party at “HERE”`,
+    "Super Secret Party at “HERE”",
+    CLAIM_LIMIT,
+    0
   );
 
-  console.log("claim comleted");
+  console.log(`QuestType 'Super Secret Party at “HERE”' has started`);
+
+  console.log("\n\nSetup is now complete");
+  console.log(`PlayDAO: ${PLAY_DAO_CONTRACT_ADDRESS}`);
+  console.log(`Badge: ${BADGE_CONTRACT_ADDRESS}`);
+  console.log(`DAO ID: ${daoID}`);
+  console.log("Badges")
+  for(let i=0; i<BADGE_TYPE_NAMES.length;i++) {
+    console.log(`  ${BADGE_TYPE_NAMES[i]}: ${badgeTypeIDs[i]}`);
+  }
+  console.log("Quest Types")
+  console.log(`  Trash Training`);
+  console.log(`    Quest Type: ${trashTrainingQuestTypeID}`);
+  console.log(`    Quest: ${trashTrainingQuestID1}`);
+  console.log(`  Pickup Trash`);
+  console.log(`    Quest Type: ${pickupTrashQuestTypeID}`);
+  console.log(`    Quest: ${pickupTrashQuestID1}`);
+  console.log(`  Super Secret Party at “HERE”`);
+  console.log(`    Quest Type: ${secretPartyQuestTypeID}`);
+  console.log(`    Quest: ${secretPartyQuestID1}`);
 }
 
 main().catch((error) => {

@@ -48,6 +48,22 @@ export async function createBadgeType(
   return daoCreatedEvent.args["badgeTypeID"];
 }
 
+export async function grantBadge(
+  signer: ethers.Signer,
+  playDAOAddress: string,
+  daoID: MayNumber,
+  badgeTypeID: MayNumber,
+  to: string,
+): Promise<void> {
+  const PlayDAO = new ethers.Contract(playDAOAddress, PLAY_DAO_ABI.abi, signer);
+
+  const tx = await PlayDAO.grantBadge(daoID, badgeTypeID, to);
+
+  const _receipt = await tx.wait();
+
+  return
+}
+
 export async function createQuestType(
   signer: ethers.Signer,
   playDAOAddress: string,
