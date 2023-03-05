@@ -114,6 +114,7 @@ export function useClaimQuest(quest_id?: any, dao_id?: any, requiredStake?: any)
 		setIsLoading(true)
 		if (signer) {
 			try {
+				console.log(String(PLAYDAOGlobals().DAO_CONTRACT), dao_id, quest_id, requiredStake)
 				claim_id = await claimQuest(signer, String(PLAYDAOGlobals().DAO_CONTRACT), dao_id, quest_id, requiredStake)
 			} catch (error) {
 				setError(error)
