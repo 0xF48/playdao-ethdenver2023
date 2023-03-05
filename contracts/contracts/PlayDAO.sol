@@ -801,7 +801,7 @@ contract PlayDAO is Initializable, OwnableUpgradeable, PausableUpgradeable {
 
         _slash(daoID, claim.claimer, _quests[daoID][questID].requiredStake);
 
-        _userToQuestOngoing[daoID][questID][claim.claimer] = true;
+        _userToQuestOngoing[daoID][questID][claim.claimer] = false;
         quest.numCanceled++;
         quest.numOngoings--;
 
@@ -830,6 +830,7 @@ contract PlayDAO is Initializable, OwnableUpgradeable, PausableUpgradeable {
 
         _unstake(daoID_, claim.claimer, quest.requiredStake);
 
+        _userToQuestOngoing[daoID][questID][claim.claimer] = false;
         quest.numComplted++;
         quest.numOngoings--;
 
