@@ -19,6 +19,8 @@ const JSON_RPC_POLYGON_MUMBAI =
   process.env.JSON_RPC_POLYGON_MUMBAI ?? "https://rpc-mumbai.maticvigil.com/";
 const JSON_RPC_OPTIMISM_GOERLI = process.env.JSON_RPC_OPTIMISM_GOERLI ?? "";
 
+const POLYGONSCAN_API_KEY = process.env.POLYGONSCAN_API_KEY!;
+
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   solidity: {
@@ -35,13 +37,31 @@ const config: HardhatUserConfig = {
       },
     },
   },
+  etherscan: {
+    apiKey: process.env.ETHERSCAN_API_KEY!,
+    customChains: [
+      {
+        network: "optimism_goerli",
+        chainId: 420,
+        urls: {
+          apiURL: "https://api-goerli-optimism.etherscan.io/api",
+          browserURL: "https://goerli-optimism.etherscan.io",
+        },
+      },
+      {
+        network: "base_testnet",
+        chainId: 84531,
+        urls: {
+          apiURL: "https://goerli.basescan.org/api",
+          browserURL: "https://goerli.basescan.org",
+        },
+      },
+    ],
+  },
   networks: {
     local: {
       url: "http://127.0.0.1:8545",
-      accounts: [
-        "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80",
-        "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d",
-      ],
+      accounts: [],
     },
     goerli: {
       url: JSON_RPC_ETHEREUM_GOERLI,
@@ -78,33 +98,34 @@ const config: HardhatUserConfig = {
 };
 
 task("convert_file", "Convert a file")
-.addParam("path", "File Path")
-.setAction(async (args, hre) => {
-  const filePath = args.path;
+  .addParam("path", "File Path")
+  .setAction(async (args, hre) => {
+    const filePath = args.path;
 
-  const ext = path.extname(filePath).substr(1)
-  const isImage = ['gif','jpg','jpeg','png'].includes(
-    ext
-  )
-  console.log("isImage", isImage);
+    const ext = path.extname(filePath).substr(1);
+    const isImage = ["gif", "jpg", "jpeg", "png"].includes(ext);
+    console.log("isImage", isImage);
 
-  const data = isImage
-  ? `data:image/${ext};base64,${fs.readFileSync(filePath, 'base64')}`
-  : fs.readFileSync(filePath);
+    const data = isImage
+      ? `data:image/${ext};base64,${fs.readFileSync(filePath, "base64")}`
+      : fs.readFileSync(filePath);
 
-  const filename = path.basename(args.path).split(".")[0] + "_" + ethers.utils.keccak256(
-    [
-      // filename
-      ...ethers.utils.toUtf8Bytes(path.basename(args.path)),
-      // timestamp
-      ...ethers.utils.toUtf8Bytes(new Date().getTime().toString())
-    ]
-  ).slice(0, 12)
+    const filename =
+      path.basename(args.path).split(".")[0] +
+      "_" +
+      ethers.utils
+        .keccak256([
+          // filename
+          ...ethers.utils.toUtf8Bytes(path.basename(args.path)),
+          // timestamp
+          ...ethers.utils.toUtf8Bytes(new Date().getTime().toString()),
+        ])
+        .slice(0, 12);
 
-  const tmpFilePath = `${filename}.${ext}`;
-  fs.writeFileSync(tmpFilePath, data);
+    const tmpFilePath = `${filename}.${ext}`;
+    fs.writeFileSync(tmpFilePath, data);
 
-  console.log("converted", tmpFilePath);
-})
+    console.log("converted", tmpFilePath);
+  });
 
 export default config;
