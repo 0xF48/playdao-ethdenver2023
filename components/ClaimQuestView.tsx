@@ -87,12 +87,12 @@ export default function ClaimQuestView() {
 
 		var claim_button = <div>
 			<QR url={validate_quest_url}></QR>
-			<div className="text-center text-base-500 flex w-full items-center content-center justify-center">{
+			<div className="text-center text-white flex w-full items-center content-center justify-center">{
 				<Button onClick={onClaimClick}>claim again</Button>
 			}</div>
 		</div>
 	} else {
-		var claim_button = <Button onClick={onClaimClick} colorClass={can_claim && 'bg-blue-600 hover:bg-blue-500 border-3 border-blue-500 transition-all hover:scale-110 '}>
+		var claim_button = <Button onClick={onClaimClick} colorClass={can_claim && 'text-white bg-blue-600 hover:bg-blue-500 border-4 p-6 text-2xl px-8 border-blue-500 transition-all hover:scale-110 '}>
 			<div className="flex flex-row items-center">
 				<div className="mr-3">{requiredStakeAmount}</div>
 				<div>ETH</div>
