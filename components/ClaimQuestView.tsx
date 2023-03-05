@@ -118,6 +118,7 @@ export default function ClaimQuestView() {
 	}
 
 	return <div className="flex flex-col items-center w-full justify-center pt-6">
+		<div className='font-extrabold text-2xl text-black'>CLAIM QUEST</div>
 		<QuestCardAPIWrapper questId={quest_id} />
 		{/* <div>total claims : {quest.claims.length} / {quest.limitContributions}</div> */}
 		{my_claims.length && <div className="mb-2">my claims:</div> || null}

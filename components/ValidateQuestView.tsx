@@ -95,6 +95,7 @@ export default function ValidateQuestView() {
 
 
 	return <div>
+		<div className='font-extrabold text-2xl text-black'>VALIDATE QUEST</div>
 
 		<ClaimantCard address={claimant_addr}></ClaimantCard>
 
