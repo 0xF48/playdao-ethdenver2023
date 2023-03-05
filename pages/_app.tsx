@@ -14,7 +14,7 @@ import { PLAYDAOGlobals } from '../util/hooks'
 
 const { chains, provider, webSocketProvider } = configureChains(
   [
-    goerli,
+    // goerli,
     baseGoerli,
     polygonMumbai,
     optimismGoerli,
