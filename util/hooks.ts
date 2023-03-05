@@ -48,7 +48,7 @@ export function PLAYDAOGlobals() {
 		BADGE_CONTRACT: process.env.NEXT_PUBLIC_POLYGON_BADGE,
 		DAO_CONTRACT: process.env.NEXT_PUBLIC_POLYGON_PLAYDAO,
 		// ATTESTATION: process.env.NEXT_PUBLIC_OPTIMISM_ATTESTATION,
-		chainId: 1,
+		CHAIN_ID: 80001,
 	}
 
 	return {
@@ -56,7 +56,7 @@ export function PLAYDAOGlobals() {
 		BADGE_CONTRACT: process.env.NEXT_PUBLIC_OPTIMISM_BADGE,
 		DAO_CONTRACT: process.env.NEXT_PUBLIC_OPTIMISM_PLAYDAO,
 		ATTESTATION: process.env.NEXT_PUBLIC_OPTIMISM_ATTESTATION,
-		chainId: 1,
+		CHAIN_ID: 420,
 	}
 
 	return {
@@ -64,7 +64,7 @@ export function PLAYDAOGlobals() {
 		BADGE_CONTRACT: process.env.NEXT_PUBLIC_BASE_BADGE,
 		DAO_CONTRACT: process.env.NEXT_PUBLIC_BASE_CONTRACT,
 		// ATTESTATION: process.env.NEXT_PUBLIC_BASE_ATTESTATION,
-		chainId: 1,
+		CHAIN_ID: 84531,
 	}
 
 

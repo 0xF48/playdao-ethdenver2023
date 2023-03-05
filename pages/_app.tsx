@@ -56,7 +56,9 @@ function DebugHeader() {
   return <div className='w-full px-5 flex flex-col items-start content-start text-sm text-gray-500 my-3 max-w-full overflow-hidden'>
     <span className='pre whitespace-pre-wrap break-all'>{PLAYDAOGlobals().GRAPH_API}</span>
     <span>dao_id = {dao_data?.dao?.id}</span>
-
+    <span>playdao contract = {PLAYDAOGlobals().DAO_CONTRACT}</span>
+    <span>badge contract = {PLAYDAOGlobals().BADGE_CONTRACT}</span>
+    <span>chain_id = {PLAYDAOGlobals().CHAIN_ID}</span>
   </div>
 }
 
@@ -73,7 +75,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                   <img src='./logo.svg' className='m-0 h-full w-auto'></img>
                 </div>
                 {/* background: 'linear-gradient(45deg, red, #8d00ff)' */}
-                <DebugHeader />
+
                 <div className='bg-white min-h-screen relative flex flex-col h-auto p-6 rounded-2xl overflow-x-hidden z-10'>
                   <div className='flex flex-col items-center w-full mb-12'>
                     <ConnectButton />
@@ -94,6 +96,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <div style={{ width: '140%', left: '-20%', top: '20%' }} className='hidden absolute top-20 w-full h-20 left-0 z-0'>
                   <img src='./side-goo.svg' className='m-0 w-full h-auto'></img>
                 </div>
+                <DebugHeader />
               </div>
 
             </div>
