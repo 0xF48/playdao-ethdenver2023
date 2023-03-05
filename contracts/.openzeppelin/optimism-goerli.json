@@ -1,0 +1,1827 @@
+{
+  "manifestVersion": "3.2",
+  "admin": {
+    "address": "0x085540ca92Fa1A8577aEa1dB2358aBfbC7d302BF",
+    "txHash": "0xf2f975b73c6bec03d046e16e228dfffa948c7e73792682dd1aa8a3c719580044"
+  },
+  "proxies": [
+    {
+      "address": "0xc398Adc07358DFB88210532A3e35CC40F09EE0a4",
+      "txHash": "0x1c7f72676623f662c561dfaeb317bbe9a3fe5f8662ad5d3152b5cd6d5568be67",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xAa2e9e8E7f384a83727fBCd422d2031CcB2104E2",
+      "txHash": "0x8337f75b26003041fc7e9d9f47b7ab9d71c37513604f7f8d2c4d8d4c20a38333",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x5ecFd8CCaa7e4b6C7E70C7BF06f7B7cE8C8562a5",
+      "txHash": "0xbb65209bb9841880f4aec19bec2cfba0a89f2effc15c26bcd9892e0e9945af39",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xB91993c7D69ad04D1cE56d470CABF7d45bbb854E",
+      "txHash": "0xa5b62065b97f659d475967c85f46307cb5170e6438ee37d99bdaeca5712f7d44",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x417e8ac0969eC38420efC2fDDD432F74534E78f0",
+      "txHash": "0x9ae9cd7b87ebe914d111157d56e43c5cea04250636f4b067308c6a22113e0e3e",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xf9AB958175d907331Cfe99e98D5654f219445568",
+      "txHash": "0x356db5a06b2e8de4c8b6b9865d5960fb5fa9adad86af297fa83617dad30d53a9",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xFB8B6DbaC1C185C78318aCa911fc349D69762EcF",
+      "txHash": "0xa6db08fb179795a2171e758672074af221ff90438a774926cd5dec34b3642182",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x2ce077794B0e37fE23ad06571839B7E89aD4c7de",
+      "txHash": "0xd179459d818d7c1db1ee27378fb238b37038391a5c6266ee83634506d667df37",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x08131e8FffD67960D18Ddb31AACC308674F0Ca81",
+      "txHash": "0x085065db8bc12416f203890e40003246789d6e57db0df6db6e3502a83bb24ad1",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xb56D50cb2a98DBaeA5e055bC09bEc9E31bAE6C9a",
+      "txHash": "0xd6dab8b68f78a1439adb56d12fe5e506ad1b2870c43c7f8b88c92976b9f75ad3",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x20c72945dBf631A04DC3F5548C18158B0A5Ed4D1",
+      "txHash": "0xe54e4e5550e156d16f79181ed90bdee122deac467502044c43681505e47bf4bd",
+      "kind": "transparent"
+    }
+  ],
+  "impls": {
+    "708562c6531daad1314ec4f3972752312c581a7faa915cd1eba5df455209a7d2": {
+      "address": "0x7185F42e51AF101f4E4457b870EB70E467c6A622",
+      "txHash": "0xc9bcd91a2506d980959c5ed10ef43b91fdc835780cb620767c3abeeb3cbfda45",
+      "layout": {
+        "solcVersion": "0.8.17",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:62",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:67"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_address",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:22"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:94"
+          },
+          {
+            "label": "_paused",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_bool",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol:29"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol:116"
+          },
+          {
+            "label": "_attestationPublisher",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_address",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:17"
+          },
+          {
+            "label": "_nonce",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_struct(Counter)3801_storage",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:214"
+          },
+          {
+            "label": "_countDAO",
+            "offset": 0,
+            "slot": "153",
+            "type": "t_struct(Counter)3801_storage",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:216"
+          },
+          {
+            "label": "_DAOs",
+            "offset": 0,
+            "slot": "154",
+            "type": "t_mapping(t_uint256,t_struct(DAO)5185_storage)",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:217"
+          },
+          {
+            "label": "_countQuestType",
+            "offset": 0,
+            "slot": "155",
+            "type": "t_mapping(t_uint256,t_struct(Counter)3801_storage)",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:219"
+          },
+          {
+            "label": "_questTypes",
+            "offset": 0,
+            "slot": "156",
+            "type": "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(QuestType)5208_storage))",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:220"
+          },
+          {
+            "label": "_countQuest",
+            "offset": 0,
+            "slot": "157",
+            "type": "t_mapping(t_uint256,t_struct(Counter)3801_storage)",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:222"
+          },
+          {
+            "label": "_quests",
+            "offset": 0,
+            "slot": "158",
+            "type": "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(Quest)5225_storage))",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:223"
+          },
+          {
+            "label": "_countClaims",
+            "offset": 0,
+            "slot": "159",
+            "type": "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(Counter)3801_storage))",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:225"
+          },
+          {
+            "label": "_claims",
+            "offset": 0,
+            "slot": "160",
+            "type": "t_mapping(t_uint256,t_mapping(t_uint256,t_mapping(t_uint256,t_struct(Claim)5239_storage)))",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:227"
+          },
+          {
+            "label": "_userToQuestOngoing",
+            "offset": 0,
+            "slot": "161",
+            "type": "t_mapping(t_uint256,t_mapping(t_uint256,t_mapping(t_address,t_bool)))",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:228"
+          },
+          {
+            "label": "_badgeTypeIDToDAO",
+            "offset": 0,
+            "slot": "162",
+            "type": "t_mapping(t_uint256,t_uint256)",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:230"
+          },
+          {
+            "label": "_deposited",
+            "offset": 0,
+            "slot": "163",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:235"
+          },
+          {
+            "label": "_staked",
+            "offset": 0,
+            "slot": "164",
+            "type": "t_mapping(t_uint256,t_mapping(t_address,t_uint256))",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:236"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]",
+            "numberOfBytes": "32"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_enum(ClaimStatus)5229": {
+            "label": "enum PlayDAO.ClaimStatus",
+            "members": [
+              "OnGoing",
+              "Completed",
+              "Canceled"
+            ],
+            "numberOfBytes": "1"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_address,t_bool))": {
+            "label": "mapping(uint256 => mapping(address => bool))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_address,t_uint256))": {
+            "label": "mapping(uint256 => mapping(address => uint256))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_uint256,t_mapping(t_address,t_bool)))": {
+            "label": "mapping(uint256 => mapping(uint256 => mapping(address => bool)))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_uint256,t_mapping(t_uint256,t_struct(Claim)5239_storage)))": {
+            "label": "mapping(uint256 => mapping(uint256 => mapping(uint256 => struct PlayDAO.Claim)))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(Claim)5239_storage))": {
+            "label": "mapping(uint256 => mapping(uint256 => struct PlayDAO.Claim))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(Counter)3801_storage))": {
+            "label": "mapping(uint256 => mapping(uint256 => struct Counters.Counter))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(Quest)5225_storage))": {
+            "label": "mapping(uint256 => mapping(uint256 => struct PlayDAO.Quest))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(QuestType)5208_storage))": {
+            "label": "mapping(uint256 => mapping(uint256 => struct PlayDAO.QuestType))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(Claim)5239_storage)": {
+            "label": "mapping(uint256 => struct PlayDAO.Claim)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(Counter)3801_storage)": {
+            "label": "mapping(uint256 => struct Counters.Counter)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(DAO)5185_storage)": {
+            "label": "mapping(uint256 => struct PlayDAO.DAO)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(Quest)5225_storage)": {
+            "label": "mapping(uint256 => struct PlayDAO.Quest)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(QuestType)5208_storage)": {
+            "label": "mapping(uint256 => struct PlayDAO.QuestType)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_uint256)": {
+            "label": "mapping(uint256 => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Claim)5239_storage": {
+            "label": "struct PlayDAO.Claim",
+            "members": [
+              {
+                "label": "claimer",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "verifier",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "status",
+                "type": "t_enum(ClaimStatus)5229",
+                "offset": 20,
+                "slot": "1"
+              },
+              {
+                "label": "proofMetadataURI",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "2"
+              }
+            ],
+            "numberOfBytes": "96"
+          },
+          "t_struct(Counter)3801_storage": {
+            "label": "struct Counters.Counter",
+            "members": [
+              {
+                "label": "_value",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "32"
+          },
+          "t_struct(DAO)5185_storage": {
+            "label": "struct PlayDAO.DAO",
+            "members": [
+              {
+                "label": "name",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "metadataURI",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "badgeContract",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "owner",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "totalStaked",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "balance",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              }
+            ],
+            "numberOfBytes": "192"
+          },
+          "t_struct(Quest)5225_storage": {
+            "label": "struct PlayDAO.Quest",
+            "members": [
+              {
+                "label": "questTypeID",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "name",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "metadataURI",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "limitContributors",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "numOngoings",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "numComplted",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "numCanceled",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "6"
+              },
+              {
+                "label": "requiredStake",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "7"
+              }
+            ],
+            "numberOfBytes": "256"
+          },
+          "t_struct(QuestType)5208_storage": {
+            "label": "struct PlayDAO.QuestType",
+            "members": [
+              {
+                "label": "name",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "metadataURI",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "contributorBadgeTypeID",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "verifierBadgeTypeID",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "starterDeps",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "contributorDeps",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "verifierDeps",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "6"
+              }
+            ],
+            "numberOfBytes": "224"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    },
+    "3bf3eefb84ded9b4a19862c8d537fddcf4a480fc64c6fac249bef4702a7b4a02": {
+      "address": "0xA5e10113545631eFe49a5122A75B6B80d03EaF88",
+      "txHash": "0x63c6f2847f5294370cc82a6872fd82eb6ab6dab5cf75dea8b6d9881ce3fd5a26",
+      "layout": {
+        "solcVersion": "0.8.17",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:62",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:67"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC165Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol:41"
+          },
+          {
+            "label": "_roles",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)34_storage)",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:61"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:259"
+          },
+          {
+            "label": "_balances",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_mapping(t_uint256,t_mapping(t_address,t_uint256))",
+            "contract": "ERC1155Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/token/ERC1155/ERC1155Upgradeable.sol:25"
+          },
+          {
+            "label": "_operatorApprovals",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_mapping(t_address,t_mapping(t_address,t_bool))",
+            "contract": "ERC1155Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/token/ERC1155/ERC1155Upgradeable.sol:28"
+          },
+          {
+            "label": "_uri",
+            "offset": 0,
+            "slot": "153",
+            "type": "t_string_storage",
+            "contract": "ERC1155Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/token/ERC1155/ERC1155Upgradeable.sol:31"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "154",
+            "type": "t_array(t_uint256)47_storage",
+            "contract": "ERC1155Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/token/ERC1155/ERC1155Upgradeable.sol:528"
+          },
+          {
+            "label": "_baseURI",
+            "offset": 0,
+            "slot": "201",
+            "type": "t_string_storage",
+            "contract": "ERC1155URIStorageUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/token/ERC1155/extensions/ERC1155URIStorageUpgradeable.sol:27"
+          },
+          {
+            "label": "_tokenURIs",
+            "offset": 0,
+            "slot": "202",
+            "type": "t_mapping(t_uint256,t_string_storage)",
+            "contract": "ERC1155URIStorageUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/token/ERC1155/extensions/ERC1155URIStorageUpgradeable.sol:30"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "203",
+            "type": "t_array(t_uint256)48_storage",
+            "contract": "ERC1155URIStorageUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/token/ERC1155/extensions/ERC1155URIStorageUpgradeable.sol:77"
+          },
+          {
+            "label": "_badgeIDCounter",
+            "offset": 0,
+            "slot": "251",
+            "type": "t_struct(Counter)3801_storage",
+            "contract": "Badge",
+            "src": "contracts/Badge.sol:28"
+          },
+          {
+            "label": "_badgeNames",
+            "offset": 0,
+            "slot": "252",
+            "type": "t_mapping(t_uint256,t_string_storage)",
+            "contract": "Badge",
+            "src": "contracts/Badge.sol:29"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_uint256)47_storage": {
+            "label": "uint256[47]",
+            "numberOfBytes": "1504"
+          },
+          "t_array(t_uint256)48_storage": {
+            "label": "uint256[48]",
+            "numberOfBytes": "1536"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_address,t_bool))": {
+            "label": "mapping(address => mapping(address => bool))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)34_storage)": {
+            "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_address,t_uint256))": {
+            "label": "mapping(uint256 => mapping(address => uint256))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_string_storage)": {
+            "label": "mapping(uint256 => string)",
+            "numberOfBytes": "32"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Counter)3801_storage": {
+            "label": "struct Counters.Counter",
+            "members": [
+              {
+                "label": "_value",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "32"
+          },
+          "t_struct(RoleData)34_storage": {
+            "label": "struct AccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    },
+    "45dd3fe9977e4b1167bec8f274f61979bf2f1429c85962ef4386af11d0c2c780": {
+      "address": "0x66D0c436eB6E72A3625D8f91d372cb7B34F0cc2e",
+      "txHash": "0x9a73e8097c133867db3d5f12f2ad83bb0c766708f6e6fcd05870736fcfc05d56",
+      "layout": {
+        "solcVersion": "0.8.17",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:62",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:67"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC165Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol:41"
+          },
+          {
+            "label": "_roles",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)34_storage)",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:61"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:259"
+          },
+          {
+            "label": "_opAttestationStation",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_address",
+            "contract": "AttestationPublisher",
+            "src": "contracts/AttestationPublisher.sol:33"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)34_storage)": {
+            "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(RoleData)34_storage": {
+            "label": "struct AccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    },
+    "92e5d0b72d2f5f7d462294806a70e036a5cdff68d96b1399d7fd4a4612d39500": {
+      "address": "0xBf404C036c51322Bb4a9b7b98fE96C3DaB5D1cbF",
+      "txHash": "0x022519f2cfe7279b8a063a75d47c1747c9ebb0728ea46e7e41810cc55b732aac",
+      "layout": {
+        "solcVersion": "0.8.17",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:62",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:67"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_address",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:22"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:94"
+          },
+          {
+            "label": "_paused",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_bool",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol:29"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol:116"
+          },
+          {
+            "label": "_attestationPublisher",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_address",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:17"
+          },
+          {
+            "label": "_nonce",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_struct(Counter)3801_storage",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:214"
+          },
+          {
+            "label": "_countDAO",
+            "offset": 0,
+            "slot": "153",
+            "type": "t_struct(Counter)3801_storage",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:216"
+          },
+          {
+            "label": "_DAOs",
+            "offset": 0,
+            "slot": "154",
+            "type": "t_mapping(t_uint256,t_struct(DAO)5260_storage)",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:217"
+          },
+          {
+            "label": "_countQuestType",
+            "offset": 0,
+            "slot": "155",
+            "type": "t_mapping(t_uint256,t_struct(Counter)3801_storage)",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:219"
+          },
+          {
+            "label": "_questTypes",
+            "offset": 0,
+            "slot": "156",
+            "type": "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(QuestType)5283_storage))",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:220"
+          },
+          {
+            "label": "_countQuest",
+            "offset": 0,
+            "slot": "157",
+            "type": "t_mapping(t_uint256,t_struct(Counter)3801_storage)",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:222"
+          },
+          {
+            "label": "_quests",
+            "offset": 0,
+            "slot": "158",
+            "type": "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(Quest)5300_storage))",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:223"
+          },
+          {
+            "label": "_countClaims",
+            "offset": 0,
+            "slot": "159",
+            "type": "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(Counter)3801_storage))",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:225"
+          },
+          {
+            "label": "_claims",
+            "offset": 0,
+            "slot": "160",
+            "type": "t_mapping(t_uint256,t_mapping(t_uint256,t_mapping(t_uint256,t_struct(Claim)5314_storage)))",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:227"
+          },
+          {
+            "label": "_userToQuestOngoing",
+            "offset": 0,
+            "slot": "161",
+            "type": "t_mapping(t_uint256,t_mapping(t_uint256,t_mapping(t_address,t_bool)))",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:228"
+          },
+          {
+            "label": "_badgeTypeIDToDAO",
+            "offset": 0,
+            "slot": "162",
+            "type": "t_mapping(t_uint256,t_uint256)",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:230"
+          },
+          {
+            "label": "_deposited",
+            "offset": 0,
+            "slot": "163",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:235"
+          },
+          {
+            "label": "_staked",
+            "offset": 0,
+            "slot": "164",
+            "type": "t_mapping(t_uint256,t_mapping(t_address,t_uint256))",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:236"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]",
+            "numberOfBytes": "32"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_enum(ClaimStatus)5304": {
+            "label": "enum PlayDAO.ClaimStatus",
+            "members": [
+              "OnGoing",
+              "Completed",
+              "Canceled"
+            ],
+            "numberOfBytes": "1"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_address,t_bool))": {
+            "label": "mapping(uint256 => mapping(address => bool))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_address,t_uint256))": {
+            "label": "mapping(uint256 => mapping(address => uint256))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_uint256,t_mapping(t_address,t_bool)))": {
+            "label": "mapping(uint256 => mapping(uint256 => mapping(address => bool)))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_uint256,t_mapping(t_uint256,t_struct(Claim)5314_storage)))": {
+            "label": "mapping(uint256 => mapping(uint256 => mapping(uint256 => struct PlayDAO.Claim)))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(Claim)5314_storage))": {
+            "label": "mapping(uint256 => mapping(uint256 => struct PlayDAO.Claim))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(Counter)3801_storage))": {
+            "label": "mapping(uint256 => mapping(uint256 => struct Counters.Counter))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(Quest)5300_storage))": {
+            "label": "mapping(uint256 => mapping(uint256 => struct PlayDAO.Quest))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(QuestType)5283_storage))": {
+            "label": "mapping(uint256 => mapping(uint256 => struct PlayDAO.QuestType))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(Claim)5314_storage)": {
+            "label": "mapping(uint256 => struct PlayDAO.Claim)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(Counter)3801_storage)": {
+            "label": "mapping(uint256 => struct Counters.Counter)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(DAO)5260_storage)": {
+            "label": "mapping(uint256 => struct PlayDAO.DAO)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(Quest)5300_storage)": {
+            "label": "mapping(uint256 => struct PlayDAO.Quest)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(QuestType)5283_storage)": {
+            "label": "mapping(uint256 => struct PlayDAO.QuestType)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_uint256)": {
+            "label": "mapping(uint256 => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Claim)5314_storage": {
+            "label": "struct PlayDAO.Claim",
+            "members": [
+              {
+                "label": "claimer",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "verifier",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "status",
+                "type": "t_enum(ClaimStatus)5304",
+                "offset": 20,
+                "slot": "1"
+              },
+              {
+                "label": "proofMetadataURI",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "2"
+              }
+            ],
+            "numberOfBytes": "96"
+          },
+          "t_struct(Counter)3801_storage": {
+            "label": "struct Counters.Counter",
+            "members": [
+              {
+                "label": "_value",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "32"
+          },
+          "t_struct(DAO)5260_storage": {
+            "label": "struct PlayDAO.DAO",
+            "members": [
+              {
+                "label": "name",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "metadataURI",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "badgeContract",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "owner",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "totalStaked",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "balance",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              }
+            ],
+            "numberOfBytes": "192"
+          },
+          "t_struct(Quest)5300_storage": {
+            "label": "struct PlayDAO.Quest",
+            "members": [
+              {
+                "label": "questTypeID",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "name",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "metadataURI",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "limitContributors",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "numOngoings",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "numComplted",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "numCanceled",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "6"
+              },
+              {
+                "label": "requiredStake",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "7"
+              }
+            ],
+            "numberOfBytes": "256"
+          },
+          "t_struct(QuestType)5283_storage": {
+            "label": "struct PlayDAO.QuestType",
+            "members": [
+              {
+                "label": "name",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "metadataURI",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "contributorBadgeTypeID",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "verifierBadgeTypeID",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "starterDeps",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "contributorDeps",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "verifierDeps",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "6"
+              }
+            ],
+            "numberOfBytes": "224"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    },
+    "71ad642be3cd094f1d1011109eae63a9b73afece9e4714175b5393d3445c499d": {
+      "address": "0xe628F5f18370793166162401C9bcB04D2fE66107",
+      "txHash": "0xb02e90fc93fa935c3cb7beba9808f2a0d1a49d6a4355335cee83b5f3bba14570",
+      "layout": {
+        "solcVersion": "0.8.17",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:62",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:67"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_address",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:22"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:94"
+          },
+          {
+            "label": "_paused",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_bool",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol:29"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol:116"
+          },
+          {
+            "label": "_attestationPublisher",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_address",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:17"
+          },
+          {
+            "label": "_nonce",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_struct(Counter)3801_storage",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:214"
+          },
+          {
+            "label": "_countDAO",
+            "offset": 0,
+            "slot": "153",
+            "type": "t_struct(Counter)3801_storage",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:216"
+          },
+          {
+            "label": "_DAOs",
+            "offset": 0,
+            "slot": "154",
+            "type": "t_mapping(t_uint256,t_struct(DAO)5260_storage)",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:217"
+          },
+          {
+            "label": "_countQuestType",
+            "offset": 0,
+            "slot": "155",
+            "type": "t_mapping(t_uint256,t_struct(Counter)3801_storage)",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:219"
+          },
+          {
+            "label": "_questTypes",
+            "offset": 0,
+            "slot": "156",
+            "type": "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(QuestType)5283_storage))",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:220"
+          },
+          {
+            "label": "_countQuest",
+            "offset": 0,
+            "slot": "157",
+            "type": "t_mapping(t_uint256,t_struct(Counter)3801_storage)",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:222"
+          },
+          {
+            "label": "_quests",
+            "offset": 0,
+            "slot": "158",
+            "type": "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(Quest)5300_storage))",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:223"
+          },
+          {
+            "label": "_countClaims",
+            "offset": 0,
+            "slot": "159",
+            "type": "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(Counter)3801_storage))",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:225"
+          },
+          {
+            "label": "_claims",
+            "offset": 0,
+            "slot": "160",
+            "type": "t_mapping(t_uint256,t_mapping(t_uint256,t_mapping(t_uint256,t_struct(Claim)5314_storage)))",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:227"
+          },
+          {
+            "label": "_userToQuestOngoing",
+            "offset": 0,
+            "slot": "161",
+            "type": "t_mapping(t_uint256,t_mapping(t_uint256,t_mapping(t_address,t_bool)))",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:228"
+          },
+          {
+            "label": "_badgeTypeIDToDAO",
+            "offset": 0,
+            "slot": "162",
+            "type": "t_mapping(t_uint256,t_uint256)",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:230"
+          },
+          {
+            "label": "_deposited",
+            "offset": 0,
+            "slot": "163",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:235"
+          },
+          {
+            "label": "_staked",
+            "offset": 0,
+            "slot": "164",
+            "type": "t_mapping(t_uint256,t_mapping(t_address,t_uint256))",
+            "contract": "PlayDAO",
+            "src": "contracts/PlayDAO.sol:236"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]",
+            "numberOfBytes": "32"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_enum(ClaimStatus)5304": {
+            "label": "enum PlayDAO.ClaimStatus",
+            "members": [
+              "OnGoing",
+              "Completed",
+              "Canceled"
+            ],
+            "numberOfBytes": "1"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_address,t_bool))": {
+            "label": "mapping(uint256 => mapping(address => bool))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_address,t_uint256))": {
+            "label": "mapping(uint256 => mapping(address => uint256))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_uint256,t_mapping(t_address,t_bool)))": {
+            "label": "mapping(uint256 => mapping(uint256 => mapping(address => bool)))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_uint256,t_mapping(t_uint256,t_struct(Claim)5314_storage)))": {
+            "label": "mapping(uint256 => mapping(uint256 => mapping(uint256 => struct PlayDAO.Claim)))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(Claim)5314_storage))": {
+            "label": "mapping(uint256 => mapping(uint256 => struct PlayDAO.Claim))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(Counter)3801_storage))": {
+            "label": "mapping(uint256 => mapping(uint256 => struct Counters.Counter))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(Quest)5300_storage))": {
+            "label": "mapping(uint256 => mapping(uint256 => struct PlayDAO.Quest))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(QuestType)5283_storage))": {
+            "label": "mapping(uint256 => mapping(uint256 => struct PlayDAO.QuestType))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(Claim)5314_storage)": {
+            "label": "mapping(uint256 => struct PlayDAO.Claim)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(Counter)3801_storage)": {
+            "label": "mapping(uint256 => struct Counters.Counter)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(DAO)5260_storage)": {
+            "label": "mapping(uint256 => struct PlayDAO.DAO)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(Quest)5300_storage)": {
+            "label": "mapping(uint256 => struct PlayDAO.Quest)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(QuestType)5283_storage)": {
+            "label": "mapping(uint256 => struct PlayDAO.QuestType)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_uint256)": {
+            "label": "mapping(uint256 => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Claim)5314_storage": {
+            "label": "struct PlayDAO.Claim",
+            "members": [
+              {
+                "label": "claimer",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "verifier",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "status",
+                "type": "t_enum(ClaimStatus)5304",
+                "offset": 20,
+                "slot": "1"
+              },
+              {
+                "label": "proofMetadataURI",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "2"
+              }
+            ],
+            "numberOfBytes": "96"
+          },
+          "t_struct(Counter)3801_storage": {
+            "label": "struct Counters.Counter",
+            "members": [
+              {
+                "label": "_value",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "32"
+          },
+          "t_struct(DAO)5260_storage": {
+            "label": "struct PlayDAO.DAO",
+            "members": [
+              {
+                "label": "name",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "metadataURI",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "badgeContract",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "owner",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "totalStaked",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "balance",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              }
+            ],
+            "numberOfBytes": "192"
+          },
+          "t_struct(Quest)5300_storage": {
+            "label": "struct PlayDAO.Quest",
+            "members": [
+              {
+                "label": "questTypeID",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "name",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "metadataURI",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "limitContributors",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "numOngoings",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "numComplted",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "numCanceled",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "6"
+              },
+              {
+                "label": "requiredStake",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "7"
+              }
+            ],
+            "numberOfBytes": "256"
+          },
+          "t_struct(QuestType)5283_storage": {
+            "label": "struct PlayDAO.QuestType",
+            "members": [
+              {
+                "label": "name",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "metadataURI",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "contributorBadgeTypeID",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "verifierBadgeTypeID",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "starterDeps",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "contributorDeps",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "verifierDeps",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "6"
+              }
+            ],
+            "numberOfBytes": "224"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    }
+  }
+}

@@ -9,7 +9,7 @@ dataSources:
     network: base-testnet
     source:
       abi: PlayDAO
-      address: "0x2c28C4A4aa42Ed274D11Bf9CacE2dBaBb87993a4"
+      address: "0x74C708AAB2b1761795fe75535EeF79Adf9b8d1cF"
       startBlock: 1254798
     mapping:
       kind: ethereum/events
