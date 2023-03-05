@@ -38,8 +38,8 @@ export default function () {
 		<OrganizationCard
 			name='workoutDAO'
 			badge_url={'https://bafybeiblp4fqe5ctff5766k6uk4hulu2goqofcen2mtcxdb247dtghrvnm.ipfs.w3s.link/trainee.jpg'} />
-		<div className='p-5'>
-			Share Your Organization QR Code for {dao_id}
+		<div className='p-5 text-2xl'>
+			Share Your ORG "{data?.dao?.daoID}"
 		</div>
 		<QR url={org_qr_url}></QR>
 	</div>

@@ -10,9 +10,11 @@ function CopyIcon() {
 
 export default function QR({ url }: any) {
 	return <div className="flex flex-col">
-		<div className="rounded-3xl bg-white p-5">
+		<div className="rounded-3xl bg-black p-5">
 			<QRCode
 				value={url}
+				fgColor={'white'}
+				bgColor={'black'}
 				style={{ height: "auto", maxWidth: "100%", width: "100%" }}
 				viewBox={`0 0 256 256`}
 			/>
