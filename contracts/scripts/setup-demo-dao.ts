@@ -20,6 +20,16 @@ const INITIAL_BADGE_HOLDERS = [
   "0xF3c4Eee95E9f948361282aAE97DBcDb94eE2c1A6",
 ];
 
+const BADGE_ICONS = [
+  'https://bafybeiftfu3y2pyj6azt777352i2bkbbye63ts7erphlrkvcf7lnmqjkcq.ipfs.w3s.link/1-trash-picker.jpg',
+  'https://bafybeic73fzrvimuj4n6ytygmopiul7sdw75r2qto26uhlpszm2g2f7p4e.ipfs.w3s.link/2-trash-checker.jpg',
+  'https://bafybeihabxr2ewvoxllg2xamd3x7ctf7swkm3maqw33ebp7aeaowpibz5y.ipfs.w3s.link/3-og-member.jpg',
+  'https://bafybeif4qklty5wems46lya5qwryzynfuzifvjuwtuo4jtg6znoyj47jya.ipfs.w3s.link/4-party-attendee.jpg',
+  'https://bafybeie3b74bnjou4wkeaeawaih3ri7yyahpj7acnil5uyzrxtgwutq3ru.ipfs.w3s.link/5-dao-voter.jpg',
+]
+
+const DAO_ICON = 'https://bafybeibop5xqs2hxmamwocxdwa5h2ygynlnyih75r3wofhm4sr26ig7a7a.ipfs.w3s.link/trashdao.jpg'
+
 const DAO_NAME = "trashDAO";
 const BADGE_TYPE_NAMES = [
   "Trash Picker",
@@ -56,7 +66,7 @@ async function main() {
     PLAY_DAO_CONTRACT_ADDRESS!,
     BADGE_CONTRACT_ADDRESS!,
     DAO_NAME,
-    DAO_NAME,
+    DAO_ICON,
     signer.address
   );
 
@@ -70,7 +80,7 @@ async function main() {
       PLAY_DAO_CONTRACT_ADDRESS!,
       daoID,
       BADGE_TYPE_NAMES[i],
-      BADGE_TYPE_NAMES[i]
+      BADGE_ICONS[i]
     );
 
     badgeTypeIDs.push(badgeTypeID);

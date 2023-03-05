@@ -12,7 +12,7 @@ export default function QuestsListView() {
 	const { dao_id } = router.query;
 	let { loading, data, error } = useOrganization(dao_id)
 	let { loading: badges_loading, badges, error: badges_error } = useMyBadges()
-	console.log(badges)
+	// console.log(badges)
 
 	if (loading) {
 		return <div>loading...</div>
@@ -37,7 +37,7 @@ export default function QuestsListView() {
 	}
 
 	return <div className="flex flex-col items-center w-full justify-center">
-		<div style={{ fontFamily: 'Tilt Warp' }} className='font-extrabold text-2xl text-base-200'>quest feed</div>
+		<div className='font-extrabold text-2xl text-black'>QUEST FEED</div>
 		{quests}
 	</div>
 }
