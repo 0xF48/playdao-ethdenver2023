@@ -15,6 +15,7 @@ export const QUERY_BADGE_HISTORIES = gql`
       badgeType {
         metadataURI
         badgeTypeID
+        name
       }
     }
   }

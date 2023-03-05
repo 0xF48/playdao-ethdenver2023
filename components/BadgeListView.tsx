@@ -10,11 +10,11 @@ export default function BadgeListView() {
 	let { loading, data, error } = useOrganization(dao_id)
 	let { badges, loading: badges_loading, error: badges_error } = useMyBadges()
 
-	console.log(badges, badges_loading, badges_error)
+	// console.log(badges, badges_loading, badges_error)
 
 	if (badges) {
 		badges = badges.map((badge: any) => {
-			return <BadgeCard key={badge.metadataURI} badge_name={badge.metadataURI}></BadgeCard>
+			return <BadgeCard key={badge.metadataURI} badge_name={badge.name}></BadgeCard>
 		})
 	}
 
