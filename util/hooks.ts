@@ -242,7 +242,7 @@ export function useMyBadges() {
 			// console.log(String(hist.account).toLocaleLowerCase(), String(address).toLocaleLowerCase())
 			return String(hist.account).toLocaleLowerCase() == String(address).toLocaleLowerCase()
 		}).map((hist: any) => {
-			return hist.badgeType
+			return Object.assign({}, hist.badgeType, { hist: hist })
 		})
 
 	}

@@ -14,7 +14,8 @@ export default function BadgeListView() {
 
 	if (badges) {
 		badges = badges.map((badge: any) => {
-			return <BadgeCard key={badge.metadataURI} badge_name={badge.name}></BadgeCard>
+			// console.log(badge.attestationKey)
+			return <BadgeCard claimID={badge.hist.claimID} attestation={badge.hist.attestationKey} key={badge.metadataURI} badge_url={badge.metadataURI} badge_name={badge.name}></BadgeCard>
 		})
 	}
 
@@ -45,6 +46,4 @@ export default function BadgeListView() {
 			{badges}
 		</div>
 	</div>
-
-
 }
