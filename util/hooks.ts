@@ -8,6 +8,7 @@ import _ from 'lodash'
 import { ethers } from 'ethers'
 import { useNetwork } from 'wagmi'
 import { claimQuest, completeQuest } from './contracts/playdao'
+import { GET_CURRENT_CHAIN } from './globals'
 
 export function useLocalStorage<T>(key: string, fallbackValue: T) {
 	const [value, setValue] = useState(fallbackValue);
@@ -40,34 +41,45 @@ export function extractQuestAndQuestType(questId: string, dao: any) {
 	return [found_quest, found_quest_type]
 }
 
+export function usePLAYDAOGlobals() {
+	const { chain, chains } = useNetwork()
+}
+
+
 
 export function PLAYDAOGlobals() {
 
+	let chain_id = GET_CURRENT_CHAIN()
+
+	if (chain_id == 80001)
+		return {
+			GRAPH_API: process.env.NEXT_PUBLIC_POLYGON_GRAPH,
+			BADGE_CONTRACT: process.env.NEXT_PUBLIC_POLYGON_BADGE,
+			DAO_CONTRACT: process.env.NEXT_PUBLIC_POLYGON_PLAYDAO,
+			CHAIN_ID: 80001,
+		}
+	else if (chain_id == 420) {
+		return {
+			GRAPH_API: process.env.NEXT_PUBLIC_OPTIMISM_GRAPH,
+			BADGE_CONTRACT: process.env.NEXT_PUBLIC_OPTIMISM_BADGE,
+			DAO_CONTRACT: process.env.NEXT_PUBLIC_OPTIMISM_PLAYDAO,
+			ATTESTATION: process.env.NEXT_PUBLIC_OPTIMISM_ATTESTATION,
+			CHAIN_ID: 420,
+		}
+	} else if (chain_id == 84531) {
+		return {
+			GRAPH_API: process.env.NEXT_PUBLIC_BASE_GRAPH,
+			BADGE_CONTRACT: process.env.NEXT_PUBLIC_BASE_BADGE,
+			DAO_CONTRACT: process.env.NEXT_PUBLIC_BASE_CONTRACT,
+			CHAIN_ID: 84531,
+		}
+	}
 	return {
 		GRAPH_API: process.env.NEXT_PUBLIC_POLYGON_GRAPH,
 		BADGE_CONTRACT: process.env.NEXT_PUBLIC_POLYGON_BADGE,
 		DAO_CONTRACT: process.env.NEXT_PUBLIC_POLYGON_PLAYDAO,
-		// ATTESTATION: process.env.NEXT_PUBLIC_OPTIMISM_ATTESTATION,
 		CHAIN_ID: 80001,
 	}
-
-	return {
-		GRAPH_API: process.env.NEXT_PUBLIC_OPTIMISM_GRAPH,
-		BADGE_CONTRACT: process.env.NEXT_PUBLIC_OPTIMISM_BADGE,
-		DAO_CONTRACT: process.env.NEXT_PUBLIC_OPTIMISM_PLAYDAO,
-		ATTESTATION: process.env.NEXT_PUBLIC_OPTIMISM_ATTESTATION,
-		CHAIN_ID: 420,
-	}
-
-	return {
-		GRAPH_API: process.env.NEXT_PUBLIC_BASE_GRAPH,
-		BADGE_CONTRACT: process.env.NEXT_PUBLIC_BASE_BADGE,
-		DAO_CONTRACT: process.env.NEXT_PUBLIC_BASE_CONTRACT,
-		// ATTESTATION: process.env.NEXT_PUBLIC_BASE_ATTESTATION,
-		CHAIN_ID: 84531,
-	}
-
-
 }
 
 export function useCompleteQuest(quest_id: any, claim_id: string, metadata: string, score: string, dao_id: string) {

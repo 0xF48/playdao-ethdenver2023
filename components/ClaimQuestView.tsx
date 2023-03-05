@@ -77,7 +77,7 @@ export default function ClaimQuestView() {
 		await claimQuest()
 		console.log("DONE")
 		client.refetchQueries({
-			include: [QUERY_DAO],
+			include: "all",
 		});
 	}
 
