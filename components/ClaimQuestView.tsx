@@ -42,6 +42,7 @@ export default function ClaimQuestView() {
 	}
 
 	let my_claims: any = []
+	let ongoing_claim = undefined
 	quest?.claims.forEach((claim: any) => {
 		// console.log(address, claim.claimedBy)
 		if (String(claim.claimedBy).toLowerCase() === String(address).toLocaleLowerCase()) {
@@ -49,9 +50,20 @@ export default function ClaimQuestView() {
 		}
 	})
 
-	console.log(my_claims)
+	my_claims.forEach((my_claim: any) => {
+		if (my_claim.status == 'ongoing') {
+			can_claim = false
+			ongoing_claim = my_claim
+		}
+	})
 
-	claim_id = my_claims[my_claims.length - 1]?.claimID
+	// console.log(my_claims)
+	console.log(my_claims)
+	if (ongoing_claim) {
+		claim_id = ongoing_claim.claimID
+	}
+
+
 
 	// useEffect(() => {
 	// 	console.log('refetch')
@@ -84,7 +96,7 @@ export default function ClaimQuestView() {
 		var claim_button = <Button colorClass='bg-base-800 text-base-500'>
 			loading...
 		</Button>
-	} else if (my_claims.length) {
+	} else if (claim_id) {
 		var validate_quest_url = process.env.NEXT_PUBLIC_HOST + '/validate?dao_id=' + dao_id + '&quest_id=' + quest_id + '&claim_id=' + claim_id
 
 		var claim_button = <div>
@@ -106,10 +118,10 @@ export default function ClaimQuestView() {
 
 	return <div className="flex flex-col items-center w-full justify-center pt-6">
 		<QuestCardAPIWrapper questId={quest_id} />
-		<div>total claims : {quest.claims.length} / {quest.limitContributions}</div>
+		{/* <div>total claims : {quest.claims.length} / {quest.limitContributions}</div> */}
 		{my_claims.length && <div>my claims:</div> || null}
 		{my_claims.length && <div>{my_claims.map((claim: any) => {
-			return <div key={claim.claimID}>claimID: {claim.claimID}</div>
+			return <span className='bg-gray-200 p-2 rounded-xl m-3' key={claim.claimID}>claimID: {claim.claimID}</span>
 		})}</div> || null}
 		<div className="mb-1 mt-10"></div>
 		{dao_data && claim_button}
