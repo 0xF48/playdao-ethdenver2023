@@ -58,7 +58,7 @@ export default function () {
 	// console.log(router.pathname)
 
 	return <div className="w-full p-4 flex items-center content-center justify-center fixed bottom-0 left-0 pointer-events-none">
-		<div className='gradient-bg transition-transform transform-gpu pointer-events-auto scale-1 cursor-pointer border-2	 border-black w-auto h-16 bg-black rounded-2xl text-white flex flex-row relative px-0'>
+		<div className='gradient-bg transition-transform transform-gpu pointer-events-auto scale-1 cursor-pointer border-4	 border-black w-auto h-16 bg-black rounded-2xl text-white flex flex-row relative px-0'>
 			<Link href="/"><div className="h-full px-6 flex items-center content-center justify-center hover:color-red-500">
 				<ScanIcon sel={router.pathname == '/'}></ScanIcon>
 			</div></Link>
@@ -69,7 +69,7 @@ export default function () {
 				<BadgeIcon sel={router.pathname == '/badges'} ></BadgeIcon>
 			</div>
 			</Link>
-			<div className={"transition-all transform-gpu ease-out absolute h-2 -bottom-1 rounded-full bg-black " + cn({
+			<div className={"transition-all transform-gpu ease absolute h-4 -bottom-2 rounded-full bg-black " + cn({
 				"left-1/2 w-2 -translate-x-1/2": router.pathname != '/' && router.pathname != '/quests' && router.pathname != '/badges',
 				"animate-position": true,
 				"left-5 w-8": router.pathname == '/',
