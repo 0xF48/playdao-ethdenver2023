@@ -14,7 +14,7 @@ export default function QuestsListView() {
 	let { loading, data, error } = useOrganization(dao_id)
 	let { loading: badges_loading, badges, error: badges_error } = useMyBadges()
 
-	console.log(data)
+	// console.log(data)
 
 	if (loading || badges_loading) {
 		return <div>loading...</div>
@@ -55,7 +55,7 @@ export default function QuestsListView() {
 	}
 
 	return <div className="flex flex-col items-center w-full justify-center">
-		<div className='font-extrabold text-2xl text-black'>QUEST FEED</div>
+		<div className='font-extrabold text-2xl text-black w-full flex items-center flex-row content-center justify-center'>QUEST FEED</div>
 		{quests}
 	</div>
 }

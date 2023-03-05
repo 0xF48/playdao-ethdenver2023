@@ -41,7 +41,7 @@ export default function BadgeListView() {
 	// })
 
 	return <div className='w-full'>
-		<div className='font-extrabold text-2xl text-black'>MY BADGES</div>
+		<div className='font-extrabold text-2xl text-black w-full flex items-center flex-row content-center justify-center'>MY BADGES</div>
 		<div className="w-full grid grid-cols-2 col-span-2">
 			{badges}
 		</div>
