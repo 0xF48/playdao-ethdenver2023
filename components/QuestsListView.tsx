@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import _ from 'lodash'
 import type { NextPage } from 'next';
 import Link from 'next/link'
+import ErrorView from './LoadingView';
 
 export default function QuestsListView() {
 
@@ -12,13 +13,13 @@ export default function QuestsListView() {
 	const { dao_id } = router.query;
 	let { loading, data, error } = useOrganization(dao_id)
 	let { loading: badges_loading, badges, error: badges_error } = useMyBadges()
-	// console.log(badges)
 
-	if (loading) {
+
+	if (loading || badges_loading) {
 		return <div>loading...</div>
 	}
 	if (error) {
-		return <div>{error.message}</div>
+		return <ErrorView error={error}></ErrorView>
 	}
 
 	var quests = []
@@ -27,6 +28,22 @@ export default function QuestsListView() {
 		let dao = data.dao
 
 		quests = data.dao.questTypes.map((quest_type: any) => {
+			let badge_ok = false
+			if (!quest_type.contributorDeps.length) {
+				badge_ok = true
+			}
+
+			quest_type.contributorDeps.forEach((badge: any) => {
+				// console.log(badge)
+				badges.forEach((my_badge: any) => {
+					if (badge.badgeType.badgeTypeID == my_badge.badgeTypeID) {
+						badge_ok = true
+					}
+				})
+			})
+			if (!badge_ok) {
+				return undefined
+			}
 			return <div key={quest_type.questTypeID}>
 				{quest_type.quests.map((quest: any) => {
 

@@ -2,11 +2,12 @@ import QuestCardAPIWrapper from './QuestCardAPIWrapper'
 import ClaimantCard from './ClaimantCard'
 import cn from 'classnames'
 import Button from './Button'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { useQuest, useCompleteQuest } from '../util/hooks'
+import { useQuest, useCompleteQuest, useOrganization } from '../util/hooks'
 import ErrorView from './ErrorView'
 import LoadingView from './LoadingView'
+import BadgeCard from './BadgeCard'
 
 
 //emoji button component
@@ -29,14 +30,18 @@ export default function ValidateQuestView() {
 	const router = useRouter();
 	const { dao_id, quest_id, claim_id } = router.query;
 	let { loading: complete_loading, is_done, error, completeQuest } = useCompleteQuest(quest_id, String(claim_id), metadata, String(metaSymbol), String(dao_id))
-	let { quest_loading, quest, quest_error } = useQuest(quest_id)
+	let { quest_loading, quest, quest_type, quest_error } = useQuest(quest_id)
+	let { loading, data, error: dao_error } = useOrganization(dao_id)
 
-	if (!dao_id || !quest_id || !claim_id) {
-		return <div>missing dao_id,quest_id,claim_id</div>
-	}
-	if (quest_loading) {
+
+	if (quest_loading || loading) {
 		return <div>loading...</div>
 	}
+
+	if (!dao_id || !quest_id || !claim_id || !quest_type) {
+		return <div>missing dao_id,quest_id,claim_id</div>
+	}
+
 
 	var claimant_addr = ''
 
@@ -46,7 +51,20 @@ export default function ValidateQuestView() {
 		}
 	})
 
-	console.log(quest)
+	let earned_contributor_badge = undefined
+	if (data && data.dao) {
+		earned_contributor_badge = data.dao.badgeTypes.find((badge_type: any) => {
+			if (badge_type.badgeTypeID == quest_type.verifierBadgeTypeID) {
+				return true
+			}
+			return false
+		})
+	}
+
+
+
+
+	// console.log(quest)
 
 	async function validateQuest() {
 		completeQuest()
@@ -61,8 +79,17 @@ export default function ValidateQuestView() {
 	}
 
 	else if (is_done) {
-		return <div>quest is now complete and the stake has been returned to the claimant</div>
+		return <div className='flex flex-col items-center content-center justify-center'>
+			<div>the quest is now complete and the stake has been returned to the claimant</div>
+			<div>thanks for validating, you earned a badge!!</div>
+			<div><BadgeCard badge_url={earned_contributor_badge.metadataURI} badge_name={earned_contributor_badge.name}></BadgeCard></div>
+		</div>
+
 	}
+
+	// useEffect(() => {
+
+	// }, [is_done])
 
 
 

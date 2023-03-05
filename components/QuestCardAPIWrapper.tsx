@@ -38,7 +38,7 @@ export default function QuestCardAPIWrapper({ questId }: any) {
 		let badge_type_data = _.find(dao.badgeTypes, { badgeTypeID: dep_badge_id })
 		return {
 			badge_name: badge_type_data.name,
-			badge_url: ''
+			badge_url: badge_type_data.metadataURI
 		}
 	})
 
@@ -47,7 +47,7 @@ export default function QuestCardAPIWrapper({ questId }: any) {
 		let badge_type_data = _.find(dao.badgeTypes, { badgeTypeID: dep_badge_id })
 		return {
 			badge_name: badge_type_data.name,
-			badge_url: ''
+			badge_url: badge_type_data.metadataURI
 		}
 	})
 
@@ -57,14 +57,14 @@ export default function QuestCardAPIWrapper({ questId }: any) {
 	if (claim_reward) {
 		claim_reward = {
 			badge_name: claim_reward.name,
-			badge_url: ''
+			badge_url: claim_reward.metadataURI
 		}
 	}
 
 	if (validator_reward) {
 		validator_reward = {
 			badge_name: validator_reward.name,
-			badge_url: ''
+			badge_url: validator_reward.metadataURI
 		}
 	}
 

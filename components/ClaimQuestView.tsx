@@ -7,36 +7,42 @@ import { useAccount } from "wagmi"
 import QR from "./QR"
 import ErrorView from "./ErrorView"
 import LoadingView from "./LoadingView"
+import { useApolloClient } from "@apollo/client"
+import { useEffect } from "react"
+import { QUERY_DAO } from "../util/queries"
 
 export default function ClaimQuestView() {
 
 	const router = useRouter();
 	const { address, isConnected, isConnecting } = useAccount();
 	const { quest_id } = router.query;
+	const client = useApolloClient()
 
 	let { quest_loading, quest, quest_error } = useQuest(quest_id)
 	if (quest) {
 		var requiredStakeAmount = quest.requiredStake
 	}
 
+
+
 	let { data: dao_data } = useOrganization()
-	let dao_id = dao_data?.dao.id
+	let dao_id = dao_data?.dao?.id
+
 	let { loading, error, claimQuest, claim_id } = useClaimQuest(Number(quest_id) || 0, Number(dao_id) || 0, requiredStakeAmount)
 
-	if (quest_loading) {
-		return <div>loading...</div>
-	}
+
+
 
 	var can_claim = false
 	let text = 'claim'
-	if (quest.claims.length < quest.limitContributions) {
+	if (quest && quest.claims.length < quest.limitContributions) {
 		var can_claim = true
 	} else {
 		text = 'no more claims'
 	}
 
 	let my_claims: any = []
-	quest.claims.forEach((claim: any) => {
+	quest?.claims.forEach((claim: any) => {
 		// console.log(address, claim.claimedBy)
 		if (String(claim.claimedBy).toLowerCase() === String(address).toLocaleLowerCase()) {
 			my_claims.push(claim)
@@ -45,8 +51,27 @@ export default function ClaimQuestView() {
 
 	claim_id = my_claims[my_claims.length - 1]?.claimID
 
-	let onClaimClick = () => {
-		claimQuest()
+	// useEffect(() => {
+	// 	console.log('refetch')
+	// 	client.refetchQueries({
+	// 		include: [QUERY_DAO],
+	// 	});
+	// }, [claim_id])
+
+	let onClaimClick = async () => {
+		await claimQuest()
+		console.log("DONE")
+		client.refetchQueries({
+			include: [QUERY_DAO],
+		});
+	}
+
+
+
+	if (quest_loading) {
+		return <div>loading...</div>
+	} else if (claim_id) {
+
 	}
 
 	if (error) {
@@ -80,10 +105,10 @@ export default function ClaimQuestView() {
 	return <div className="flex flex-col items-center w-full justify-center pt-6">
 		<QuestCardAPIWrapper questId={quest_id} />
 		<div>total claims : {quest.claims.length} / {quest.limitContributions}</div>
-		<div>my claims:</div>
-		{my_claims && <div>{my_claims.map((claim: any) => {
+		{my_claims.length && <div>my claims:</div> || null}
+		{my_claims.length && <div>{my_claims.map((claim: any) => {
 			return <div key={claim.claimID}>claimID: {claim.claimID}</div>
-		})}</div>}
+		})}</div> || null}
 		<div className="mb-1 mt-10"></div>
 		{dao_data && claim_button}
 	</div>

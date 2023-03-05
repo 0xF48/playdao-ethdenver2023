@@ -122,6 +122,7 @@ export function useClaimQuest(quest_id?: any, dao_id?: any, requiredStake?: any)
 			setIsLoading(false)
 			setClaimId(claim_id)
 		}
+		return
 	}
 
 	return {
