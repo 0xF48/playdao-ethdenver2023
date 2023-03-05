@@ -2,16 +2,16 @@ import '../styles/main.css';
 import '@rainbow-me/rainbowkit/styles.css';
 import type { AppProps } from 'next/app';
 import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit';
-import { configureChains, createClient, useAccount, WagmiConfig } from 'wagmi';
+import { configureChains, createClient, useAccount, useNetwork, WagmiConfig } from 'wagmi';
 import { mainnet, polygon, optimism, baseGoerli, optimismGoerli, arbitrum, goerli, polygonMumbai } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
-import { ApolloProvider, ApolloClient, InMemoryCache, gql } from '@apollo/client';
+import { HttpLink, ApolloProvider, ApolloClient, InMemoryCache, gql, useApolloClient } from '@apollo/client';
 import Head from 'next/head';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import FooterMenu from '../components/FooterMenu';
 import { PLAYDAOGlobals, useOrganization } from '../util/hooks'
-
+import { useEffect } from 'react';
 
 const { chains, provider, webSocketProvider } = configureChains(
   [
@@ -46,9 +46,17 @@ const wagmiClient = createClient({
 });
 
 
+//@ts-ignore
+const customFetch = (uri, options) => {
+  return fetch(String(PLAYDAOGlobals().GRAPH_API), options)
+};
+
+const link = new HttpLink({ fetch: customFetch });
+
+
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  uri: PLAYDAOGlobals().GRAPH_API
+  link: link
 });
 
 function DebugHeader() {
@@ -62,12 +70,31 @@ function DebugHeader() {
   </div>
 }
 
+import { GET_CURRENT_CHAIN, SET_CURRENT_CHAIN } from '../util/globals'
+
+function ChainUpdater() {
+  let { chain, chains } = useNetwork()
+  let client = useApolloClient()
+
+  useEffect(() => {
+    console.log('switched chains', chain)
+    if (chain) {
+      SET_CURRENT_CHAIN(chain.id)
+      client.refetchQueries({
+        include: "all",
+      });
+    }
+  }, [chain])
+  return <></>
+}
+
 function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
         <ApolloProvider client={client}>
+          <ChainUpdater />
           <main className='w-full h-auto bg-black'>
             <div className='w-auto max-w-lg  mx-auto relative '>
               <div className='relative z-10 min-h-screen w-full text-black text-xl flex flex-col content-center justify-center h-auto pb-24'>
