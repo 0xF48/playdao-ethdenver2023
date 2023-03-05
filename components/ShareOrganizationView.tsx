@@ -15,7 +15,7 @@ export default function () {
 
 	var org_qr_url = ""
 	if (data && data.dao) {
-		var org_qr_url = process.env.NEXT_PUBLIC_HOST + '/quests?dao_id=' + data.dao.daoID
+		var org_qr_url = process.env.NEXT_PUBLIC_HOST + '/quests?dao_id=' + data.dao.id
 	}
 	if (!loading && !org_qr_url) {
 		// return <div className='w-full flex flex-col items-center content-center justify-center'>
@@ -37,7 +37,7 @@ export default function () {
 	return <div className="flex flex-col items-center w-full justify-center">
 		<OrganizationCard
 			name='workoutDAO'
-			badge_url={'https://bafybeiblp4fqe5ctff5766k6uk4hulu2goqofcen2mtcxdb247dtghrvnm.ipfs.w3s.link/trainee.jpg'} />
+			badge_url={data?.dao?.metadataURI} />
 		<div className='p-5 text-2xl'>
 			Share Your ORG "{data?.dao?.daoID}"
 		</div>

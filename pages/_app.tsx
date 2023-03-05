@@ -79,7 +79,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                   <Component {...pageProps} />
                   <FooterMenu></FooterMenu>
                 </div>
-                <div style={{ width: '140%', left: '-20%', top: '20%' }} className='absolute top-20 w-full h-20 left-0 z-0'>
+                <div style={{ width: '140%', left: '-20%', top: '20%' }} className='hidden absolute top-20 w-full h-20 left-0 z-0'>
                   <img src='./side-goo.svg' className='m-0 w-full h-auto'></img>
                 </div>
               </div>
