@@ -60,6 +60,7 @@ export default function ClaimQuestView() {
 	// console.log(my_claims)
 	console.log(my_claims)
 	if (ongoing_claim) {
+		//@ts-ignore
 		claim_id = ongoing_claim.claimID
 	}
 
