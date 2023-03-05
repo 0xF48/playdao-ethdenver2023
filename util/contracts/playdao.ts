@@ -1,7 +1,9 @@
 import * as ethers from "ethers";
 
+//@ts-ignore
 const PLAY_DAO_ABI = require("../../contracts/artifacts/contracts/PlayDAO.sol/PlayDAO.json");
 
+// import PLAY_DAO_ABI from '../../contracts/graph/abis/PlayDAO.json'
 type MayNumber = ethers.BigNumber | number | string;
 
 // returns DAO ID in hex
@@ -23,7 +25,7 @@ export async function createDAO(
   );
 
   const receipt = await tx.wait();
-
+  // @ts-ignore
   const daoCreatedEvent = receipt.events.find((e) => e.event === "DAOCreated");
 
   return daoCreatedEvent.args["daoID"].toHexString();

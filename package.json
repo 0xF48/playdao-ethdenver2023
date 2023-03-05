@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.9",
+    "@graphprotocol/graph-ts": "^0.29.3",
     "@rainbow-me/rainbowkit": "^0.11.0",
     "@web3auth/modal": "^4.6.2",
     "classnames": "^2.3.2",

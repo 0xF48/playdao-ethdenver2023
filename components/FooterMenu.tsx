@@ -52,7 +52,7 @@ function BadgeIcon({ sel }: any) {
 }
 
 
-export default function () {
+export default function FooterMenu() {
 
 	let router = useRouter()
 	// console.log(router.pathname)

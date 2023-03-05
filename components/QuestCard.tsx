@@ -1,6 +1,5 @@
 import BadgeMiniComponent from "./BadgeMiniComponent"
 import Card from './Card'
-import ClaimButton from "./ClaimButton"
 import QuestDetails from './QuestDetails'
 import SectionLabel from './SectionLabel'
 

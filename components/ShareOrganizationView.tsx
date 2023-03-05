@@ -4,7 +4,7 @@ import Button from './Button'
 import { useRouter } from 'next/router'
 import { useOrganization } from '../util/hooks'
 
-export default function () {
+export default function ShareOrganizationView() {
 	const router = useRouter();
 	const { dao_id } = router.query;
 	let { loading, data, error } = useOrganization(dao_id)
@@ -39,7 +39,7 @@ export default function () {
 			name='workoutDAO'
 			badge_url={data?.dao?.metadataURI} />
 		<div className='p-5 text-2xl'>
-			Share Your ORG "{data?.dao?.daoID}"
+			Share Your ORG :{data?.dao?.daoID}
 		</div>
 		<QR url={org_qr_url}></QR>
 	</div>

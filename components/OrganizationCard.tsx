@@ -1,7 +1,7 @@
 import Card from './Card'
 import Badge from './Badge'
 
-export default function ({ name, badge_url }: any) {
+export default function OrganizationCard({ name, badge_url }: any) {
 	return <Card>
 		<div className="flex flex-row items-center">
 			<Badge size={2} img={badge_url}></Badge>

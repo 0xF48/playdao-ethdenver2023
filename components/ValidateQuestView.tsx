@@ -54,6 +54,7 @@ export default function ValidateQuestView() {
 	let earned_contributor_badge = undefined
 	if (data && data.dao) {
 		earned_contributor_badge = data.dao.badgeTypes.find((badge_type: any) => {
+			//@ts-ignore
 			if (badge_type.badgeTypeID == quest_type.verifierBadgeTypeID) {
 				return true
 			}
