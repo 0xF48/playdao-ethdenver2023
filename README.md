@@ -1,29 +1,18 @@
-This is a [RainbowKit](https://rainbowkit.com) + [wagmi](https://wagmi.sh) + [Next.js](https://nextjs.org/) project bootstrapped with [`create-rainbowkit`](https://github.com/rainbow-me/rainbowkit/tree/main/packages/create-rainbowkit).
+### PLAYDAO.ai
+Inefficient education, bureaucracy, corruption, zero-sum markets, hyper-fi, environmental destruction, and homelessness — these are all challenges we believe modern blockchain primitives can solve.
 
-## Getting Started
+We’re working to fix these problems with our interoperable, no-code protocol dapp. PLAYDAO facilitates positive community impact through gamified, merit-based reward structures in the form of chained quests and badges. 
 
-First, run the development server:
+There’s so much imperative work that’s not getting done because existing tools for hiring are too cumbersome. People have qualifications with too few ways to actually prove them. Work doesn’t get done because that work is boring and tedious. PLAYDAO adds more play into work. 
 
-```bash
-npm run dev
-```
+It lowers barriers to entry, which opens opportunities for those more disadvantaged, and increases the amount of work accomplished. This is crucial since most agencies have rising costs from deferred maintenance and are underfunded, leading to unmet needs.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+We’ve created simple primitives applying Ethereum attestations and sybil-resistant trust networks. As you complete quests, become more educated and earn trust, you unlock higher permissions, exclusive events, games, and prizes. Sponsors provide monetary awards. AI analyzes profiles to match the most suitable quests with actors, based on their skills and interests. It also matches people with similar profiles so they can work together. 
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+PLAYDAO is privacy native — we’re exploring zero-knowledge proofs so members have the freedom to reveal their contributions if they choose to. 
 
-## Learn More
+PLAYDAO strengthens organizations and communities by enabling increasingly efficient and effective structures, to create a more healthy and fair world.
 
-To learn more about this stack, take a look at the following resources:
 
-- [RainbowKit Documentation](https://rainbowkit.com) - Learn how to customize your wallet connection flow.
-- [wagmi Documentation](https://wagmi.sh) - Learn how to interact with Ethereum.
-- [Next.js Documentation](https://nextjs.org/docs) - Learn how to build a Next.js application.
-
-You can check out [the RainbowKit GitHub repository](https://github.com/rainbow-me/rainbowkit) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out the [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### deployments
+playdao is currently deployed on `optimism goerli`, `base goerli`, and `polygon mumbai`
