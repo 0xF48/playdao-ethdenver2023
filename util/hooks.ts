@@ -48,7 +48,7 @@ export function PLAYDAOGlobals() {
 		BADGE_CONTRACT: process.env.NEXT_PUBLIC_POLYGON_BADGE,
 		DAO_CONTRACT: process.env.NEXT_PUBLIC_POLYGON_PLAYDAO,
 		// ATTESTATION: process.env.NEXT_PUBLIC_OPTIMISM_ATTESTATION,
-		chainId: 1,
+		CHAIN_ID: 80001,
 	}
 
 	return {
@@ -56,7 +56,7 @@ export function PLAYDAOGlobals() {
 		BADGE_CONTRACT: process.env.NEXT_PUBLIC_OPTIMISM_BADGE,
 		DAO_CONTRACT: process.env.NEXT_PUBLIC_OPTIMISM_PLAYDAO,
 		ATTESTATION: process.env.NEXT_PUBLIC_OPTIMISM_ATTESTATION,
-		chainId: 1,
+		CHAIN_ID: 420,
 	}
 
 	return {
@@ -64,7 +64,7 @@ export function PLAYDAOGlobals() {
 		BADGE_CONTRACT: process.env.NEXT_PUBLIC_BASE_BADGE,
 		DAO_CONTRACT: process.env.NEXT_PUBLIC_BASE_CONTRACT,
 		// ATTESTATION: process.env.NEXT_PUBLIC_BASE_ATTESTATION,
-		chainId: 1,
+		CHAIN_ID: 84531,
 	}
 
 
@@ -114,6 +114,7 @@ export function useClaimQuest(quest_id?: any, dao_id?: any, requiredStake?: any)
 		setIsLoading(true)
 		if (signer) {
 			try {
+				console.log(String(PLAYDAOGlobals().DAO_CONTRACT), dao_id, quest_id, requiredStake)
 				claim_id = await claimQuest(signer, String(PLAYDAOGlobals().DAO_CONTRACT), dao_id, quest_id, requiredStake)
 			} catch (error) {
 				setError(error)
@@ -241,7 +242,7 @@ export function useMyBadges() {
 			// console.log(String(hist.account).toLocaleLowerCase(), String(address).toLocaleLowerCase())
 			return String(hist.account).toLocaleLowerCase() == String(address).toLocaleLowerCase()
 		}).map((hist: any) => {
-			return hist.badgeType
+			return Object.assign({}, hist.badgeType, { hist: hist })
 		})
 
 	}

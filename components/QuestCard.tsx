@@ -55,7 +55,7 @@ export default function QuestCard({
 	/>
 
 	return <Card>
-		<div className="flex flex-col items-start">
+		<div className="flex flex-col items-start content-start">
 			<QuestDetails colorClass='bg-red-500' details={details} />
 			{!no_deps && <SectionLabel label='dependencies' />}
 			{claimant_deps}

@@ -58,8 +58,9 @@ export default function ClaimQuestView() {
 	})
 
 	// console.log(my_claims)
-	console.log(my_claims)
+	// console.log(my_claims)
 	if (ongoing_claim) {
+		//@ts-ignore
 		claim_id = ongoing_claim.claimID
 	}
 
@@ -101,9 +102,9 @@ export default function ClaimQuestView() {
 
 		var claim_button = <div>
 			<QR url={validate_quest_url}></QR>
-			<div className="text-center text-white flex w-full items-center content-center justify-center">{
+			{/* <div className="text-center text-white flex w-full items-center content-center justify-center">{
 				<Button onClick={onClaimClick}>claim again</Button>
-			}</div>
+			}</div> */}
 		</div>
 	} else {
 		var claim_button = <Button onClick={onClaimClick} colorClass={can_claim && 'text-white bg-blue-600 hover:bg-blue-500 border-4 p-6 text-2xl px-8 border-blue-500 transition-all hover:scale-110 '}>
@@ -117,11 +118,12 @@ export default function ClaimQuestView() {
 	}
 
 	return <div className="flex flex-col items-center w-full justify-center pt-6">
+		<div className='font-extrabold text-2xl text-black'>CLAIM QUEST</div>
 		<QuestCardAPIWrapper questId={quest_id} />
 		{/* <div>total claims : {quest.claims.length} / {quest.limitContributions}</div> */}
-		{my_claims.length && <div>my claims:</div> || null}
+		{my_claims.length && <div className="mb-2">my claims:</div> || null}
 		{my_claims.length && <div>{my_claims.map((claim: any) => {
-			return <span className='bg-gray-200 p-2 rounded-xl m-3' key={claim.claimID}>claimID: {claim.claimID}</span>
+			return <span className='bg-gray-200 p-2 rounded-xl m-1' key={claim.claimID}>#{claim.claimID}</span>
 		})}</div> || null}
 		<div className="mb-1 mt-10"></div>
 		{dao_data && claim_button}

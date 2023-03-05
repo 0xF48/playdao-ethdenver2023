@@ -6,7 +6,7 @@ function DownArrowIcon() {
 }
 
 export default function SectionLabel({ label, details }: any) {
-	return <div className="flex flex-row text-slate-400 my-3 w-full items-center content-center justify-center">
+	return <div className="flex flex-row text-gray-600 my-3 w-full items-center content-center justify-start">
 		<DownArrowIcon></DownArrowIcon>
 		<div className="ml-2">{label}</div>
 	</div>

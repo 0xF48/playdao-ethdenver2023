@@ -14,7 +14,8 @@ export default function BadgeListView() {
 
 	if (badges) {
 		badges = badges.map((badge: any) => {
-			return <BadgeCard key={badge.metadataURI} badge_name={badge.name}></BadgeCard>
+			// console.log(badge.attestationKey)
+			return <BadgeCard claimID={badge.hist.claimID} attestation={badge.hist.attestationKey} key={badge.metadataURI} badge_url={badge.metadataURI} badge_name={badge.name}></BadgeCard>
 		})
 	}
 
@@ -40,11 +41,9 @@ export default function BadgeListView() {
 	// })
 
 	return <div className='w-full'>
-		<div className='flex flex-row items-center justify-center my-4'>my badges</div>
+		<div className='font-extrabold text-2xl text-black w-full flex items-center flex-row content-center justify-center'>MY BADGES</div>
 		<div className="w-full grid grid-cols-2 col-span-2">
 			{badges}
 		</div>
 	</div>
-
-
 }
