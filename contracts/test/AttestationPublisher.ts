@@ -1,7 +1,6 @@
 import { expect } from "chai";
 import { ethers, upgrades } from "hardhat";
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
-import { keccak256 } from "ethers/lib/utils";
 
 describe("AttestationPublisher", () => {
   async function deployContracts() {

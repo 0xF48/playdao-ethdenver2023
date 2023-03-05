@@ -42,6 +42,15 @@ async function main() {
     attestationPublisherAddress,
   ]);
 
+  if (isOptimism) {
+    const AttestationPublisher = (
+      await ethers.getContractFactory("AttestationPublisher")
+    ).attach(attestationPublisherAddress);
+
+    const tx = await AttestationPublisher.grantPublisherRole(playDAO.address);
+    await tx.wait();
+  }
+
   console.log("\nDeploying Badge...");
   const BadgeFactory = await ethers.getContractFactory("Badge");
   const badge = await upgrades.deployProxy(BadgeFactory, [playDAO.address]);
