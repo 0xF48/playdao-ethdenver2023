@@ -21,14 +21,15 @@ const INITIAL_BADGE_HOLDERS = [
 ];
 
 const BADGE_ICONS = [
-  'https://bafybeiftfu3y2pyj6azt777352i2bkbbye63ts7erphlrkvcf7lnmqjkcq.ipfs.w3s.link/1-trash-picker.jpg',
-  'https://bafybeic73fzrvimuj4n6ytygmopiul7sdw75r2qto26uhlpszm2g2f7p4e.ipfs.w3s.link/2-trash-checker.jpg',
-  'https://bafybeihabxr2ewvoxllg2xamd3x7ctf7swkm3maqw33ebp7aeaowpibz5y.ipfs.w3s.link/3-og-member.jpg',
-  'https://bafybeif4qklty5wems46lya5qwryzynfuzifvjuwtuo4jtg6znoyj47jya.ipfs.w3s.link/4-party-attendee.jpg',
-  'https://bafybeie3b74bnjou4wkeaeawaih3ri7yyahpj7acnil5uyzrxtgwutq3ru.ipfs.w3s.link/5-dao-voter.jpg',
-]
+  "https://bafybeiftfu3y2pyj6azt777352i2bkbbye63ts7erphlrkvcf7lnmqjkcq.ipfs.w3s.link/1-trash-picker.jpg",
+  "https://bafybeic73fzrvimuj4n6ytygmopiul7sdw75r2qto26uhlpszm2g2f7p4e.ipfs.w3s.link/2-trash-checker.jpg",
+  "https://bafybeihabxr2ewvoxllg2xamd3x7ctf7swkm3maqw33ebp7aeaowpibz5y.ipfs.w3s.link/3-og-member.jpg",
+  "https://bafybeif4qklty5wems46lya5qwryzynfuzifvjuwtuo4jtg6znoyj47jya.ipfs.w3s.link/4-party-attendee.jpg",
+  "https://bafybeie3b74bnjou4wkeaeawaih3ri7yyahpj7acnil5uyzrxtgwutq3ru.ipfs.w3s.link/5-dao-voter.jpg",
+];
 
-const DAO_ICON = 'https://bafybeibop5xqs2hxmamwocxdwa5h2ygynlnyih75r3wofhm4sr26ig7a7a.ipfs.w3s.link/trashdao.jpg'
+const DAO_ICON =
+  "https://bafybeibop5xqs2hxmamwocxdwa5h2ygynlnyih75r3wofhm4sr26ig7a7a.ipfs.w3s.link/trashdao.jpg";
 
 const DAO_NAME = "trashDAO";
 const BADGE_TYPE_NAMES = [
@@ -131,7 +132,7 @@ async function main() {
     0
   );
 
-  console.log("Quest 'TrashTraining' has been started");
+  console.log("Quest 'TrashTraining' has started");
   await sleep(SLEEP);
 
   const pickupTrashQuestTypeID = await createQuestType(
@@ -147,7 +148,7 @@ async function main() {
     [badgeTypeIDs[1]]
   );
 
-  console.log("QuestType 'Pickup Trash' has defined");
+  console.log("QuestType 'Pickup Trash' has been defined");
   await sleep(SLEEP);
 
   const pickupTrashQuestID1 = await startQuest(
