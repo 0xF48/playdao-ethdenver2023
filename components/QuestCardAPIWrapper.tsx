@@ -51,8 +51,9 @@ export default function QuestCardAPIWrapper({ questId }: any) {
 		}
 	})
 
+	console.log(quest_type)
 	let claim_reward: any = _.find(dao.badgeTypes, { badgeTypeID: quest_type.contributorBadgeTypeID })
-	let validator_reward: any = _.find(dao.badgeTypes, { badgeTypeID: quest_type.validatorBadgeTypeID })
+	let validator_reward: any = _.find(dao.badgeTypes, { badgeTypeID: quest_type.verifierBadgeTypeID })
 
 	if (claim_reward) {
 		claim_reward = {

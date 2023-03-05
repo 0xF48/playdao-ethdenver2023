@@ -14,6 +14,7 @@ export default function QuestsListView() {
 	let { loading, data, error } = useOrganization(dao_id)
 	let { loading: badges_loading, badges, error: badges_error } = useMyBadges()
 
+	console.log(data)
 
 	if (loading || badges_loading) {
 		return <div>loading...</div>
