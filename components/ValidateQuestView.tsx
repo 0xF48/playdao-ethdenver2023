@@ -68,7 +68,7 @@ export default function ValidateQuestView() {
 	// console.log(quest)
 
 	async function validateQuest() {
-		completeQuest()
+		await completeQuest()
 	}
 
 	if (error) {

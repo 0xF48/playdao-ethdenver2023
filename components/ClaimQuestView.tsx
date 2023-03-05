@@ -49,6 +49,8 @@ export default function ClaimQuestView() {
 		}
 	})
 
+	console.log(my_claims)
+
 	claim_id = my_claims[my_claims.length - 1]?.claimID
 
 	// useEffect(() => {
